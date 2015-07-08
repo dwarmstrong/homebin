@@ -2,7 +2,7 @@
 scriptName="paVolume"
 scriptBlurb="pulseaudio volume control"
 scriptProject="https://github.com/vonbrownie/homebin"
-scriptSrc="${scriptProject}/blob/master/scripts/${scriptName}"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
 # REQUIRES: pulseaudio, pulseaudio-utils, pamixer, volnoti
 # pactl - control a running pulseaudio server                                      
