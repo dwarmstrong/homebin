@@ -10,7 +10,7 @@ scriptSrc="${scriptProject}/blob/master/${scriptName}"
 # pamixer - pulseaudio command line mixer
 sinkMute="pactl set-sink-mute @DEFAULT_SINK@"
 sinkVol="pactl set-sink-volume @DEFAULT_SINK@"
-getVol="volnoti-show $(pamixer --get-volume)"
+showVol="volnoti-show $(pamixer --get-volume)"
 
 scriptDetails() {
 echo "NAME"
@@ -26,17 +26,23 @@ echo "SOURCE"
 echo -e "\t<${scriptSrc}>"
 }
 
+notExceed() {
+# Max volume not to exceed 100%
+# ('volnoti-show' breaks if <volume> not range 0-100)
+if (("$(pamixer --get-volume)" > "100")); then $sinkVol -- 100%; fi
+}
+
 volMute() {
 $sinkMute toggle; [[ $(pamixer --get-mute) = true ]] \
-    && volnoti-show -m || $getVol
+    && volnoti-show -m || $showVol
 }
 
 volUp() {
-$sinkVol -- +10%; $getVol
+$sinkVol -- +10%; notExceed; $showVol
 }
 
 volDown() {
-$sinkVol -- -10%; $getVol
+$sinkVol -- -10%; $showVol
 }
 
 runOptions() {
