@@ -14,7 +14,7 @@ showVol="volnoti-show $(pamixer --get-volume)"
 
 scriptDetails() {
 echo "NAME"
-echo -e "\t$scriptName - $scriptBlurb :."
+echo -e "\t$scriptName - $scriptBlurb"
 echo "USAGE"
 echo -e "\t$scriptName [OPTION]"
 echo "OPTIONS"
