@@ -1,0 +1,16 @@
+#!/bin/bash
+
+scriptName="vboxshot"
+scriptBlurb="capture screenshot of a virtualbox session"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/scripts/${scriptName}"
+
+vboxBin="/usr/bin/VBoxManage"
+vboxSave="$HOME/Downloads"
+vboxDate="vbox.$(date +%FT%H:%M:%S.png)"
+# Find out the unique identifier (UUID) of the running VM; this assumes that
+# only a single VM is running
+vboxName="$($vboxBin \
+    list runningvms --long | grep -m 1 "UUID:" | awk '{print $2}')"
+
+$vboxBin controlvm $vboxName screenshotpng ${vboxSave}/${vboxDate}
