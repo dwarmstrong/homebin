@@ -1,0 +1,40 @@
+#!/bin/bash
+
+scriptName="startxX"
+scriptBlurb="'startx' extras"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+tpKb() {
+# TP keyboard + TrackPoint: "Device Accel Constant Deceleration" configures the
+# sensitivity of the trackpoint. Find <id> with 'xinput list | grep pointer' and
+# <id> properties with 'xinput list-props <id>'
+if [[ $(lsusb | grep -i TrackPoint) ]]; then \
+    { xinput set-prop 10 "Device Accel Constant Deceleration" 0.50; }; fi
+}
+
+autoStart() {
+    $HOME/bin/dlDsply
+    volnoti -t 2
+    urxvt &
+}
+
+janitor() {
+rm -rf $HOME/.local/share/Trash
+}
+
+startHost() {
+if [[ $HOSTNAME = "sum"* ]]
+then
+    xset r 66 # Caps_Lock modified to Backspace... make it a repeating key
+    tpKb
+elif [[ $HOSTNAME = "cru"* ]]
+then
+    :
+fi
+autoStart
+janitor
+}
+
+#: START
+startHost
