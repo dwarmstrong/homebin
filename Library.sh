@@ -104,7 +104,6 @@ fi
 auRevoir() {                                                                    
 local message="All done!"
 local cowsay="/usr/games/cowsay"                                      
-clear
 if [ -x $cowsay ]                                                     
 then                                                                            
     echoGreen "$($cowsay $message)"                                            
