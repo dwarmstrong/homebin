@@ -1,0 +1,112 @@
+#!/bin/bash
+set -eu
+
+scriptName="myRsync"
+scriptBlurb="sync SOURCE to DESTINATION"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+syncOpt="--verbose"
+syncExc="--exclude=*[Cc]ache* --exclude=*[Tt]humbnail* --exclude=*[Tt]rash*"
+syncSrc="${@: -2:1}"
+syncDes="${@: -1}"
+
+echoRed() {
+echo -e "\E[1;31m$1"
+echo -e '\e[0m'
+}
+
+echoGreen() {
+echo -e "\E[1;32m$1"
+echo -e '\e[0m'
+}
+
+penguinista() {
+cat << _EOF_
+
+(O<
+(/)_
+_EOF_
+}
+
+scriptDetails() {
+echo "$( penguinista ) .: $scriptName -- $scriptBlurb :."
+echo "USAGE"
+echo -e "\t$scriptName [OPTION] [SOURCE] [DESTINATION]"
+echo "OPTIONS"
+echo -e "\t-h\tdescription and options"
+echo -e "\t-d\tdelete extraneous files from destination"
+echo -e "\t-e\texclude PATTERN"
+echo -e "\t-n\tperform a trial run with no changes made"
+echo -e "\t-W\tcompare mod-times with reduced accuracy (useful for transfers"`
+    `"to FAT32)"
+echo "EXAMPLE"
+echo -e "\tPerform a sample run and view the changes that would be made:"
+echo -e "\t\t$scriptName -nd ${HOME}/ remote:~/backup/"
+echo -e "\tExclude 'old_photo' directories:"
+echo -e "\t\t$scriptName -e old_photo ${HOME}/ /media/sdb1/"
+echo "SOURCE"
+echo -e "\t<${scriptSrc}>"
+}
+
+runOptions() {
+while getopts ":hde:nW:" OPT
+do
+    case $OPT in
+        h)
+            scriptDetails
+            exit 0
+            ;;
+        d)
+            syncOpt="${syncOpt} --delete"
+            ;;
+        e)
+            syncExc="${syncExc} --exclude=${OPTARG}"
+            ;;
+        n)
+            syncOpt="${syncOpt} --dry-run"
+            ;;
+        W)
+            # See http://rsync.samba.org/FAQ.html#2 about using the
+            # "--modify-window=1" script_opts to better manage
+            # modification times when using rsync between Linux
+            # and FAT32 filesystems
+            syncOpt="${syncOpt} --modify-window=1"
+            ;;
+        :)
+            echoRed "$( penguinista ) .: Option '-$OPTARG' missing argument."
+            exit 1
+            ;;
+        *)
+            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'"
+            exit 1
+            ;;
+    esac
+done
+}
+
+sync() {
+if [[ $syncOpt == *modify-window* ]]
+then
+    syncOpt="${syncOpt} --recursive --links --times"
+else
+    syncOpt="${syncOpt} --archive"
+fi
+rsync $syncOpt $syncExc ${syncSrc}/ ${syncDes}/
+}
+
+auRevoir() {                                                                    
+local message="All done!"
+local cowsay="/usr/games/cowsay"                                      
+if [ -x $cowsay ]                                                     
+then                                                                            
+    echoGreen "$($cowsay $message)"                                            
+else                                                                            
+    echoGreen "$message"                                                        
+fi                                                                              
+}
+ 
+#: START
+runOptions "$@"
+sync
+auRevoir
