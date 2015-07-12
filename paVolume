@@ -23,7 +23,17 @@ echo -e "\tpactl - control a running pulseaudio server"
 echo -e "\tpamixer - pulseaudio command line mixer"
 echo -e "\tvolnoti - lightweight sound notification"
 echo "SOURCE"
-echo -e "\t<${scriptSrc}>"
+echo -e "\t<${scriptSrc}>\n"
+}
+
+testPath() {
+local require=(pactl pamixer volnoti)
+for i in ${require[@]}
+do
+    hash $i 2>/dev/null || \
+        { echo -e >&2 "I require '$i' but it's not installed.\n"; \
+            scriptDetails; exit 1; }
+done
 }
 
 notExceed() {
@@ -74,4 +84,5 @@ done
 }
 
 #: START
+testPath
 runOptions "$@"
