@@ -11,22 +11,21 @@ syncExc="--exclude=*[Cc]ache* --exclude=*[Tt]humbnail* --exclude=*[Tt]rash*"
 syncSrc="${@: -2:1}"
 syncDes="${@: -1}"
 
-echoRed() {
-echo -e "\E[1;31m$1"
-echo -e '\e[0m'
-}
-
-echoGreen() {
-echo -e "\E[1;32m$1"
-echo -e '\e[0m'
-}
-
-penguinista() {
-cat << _EOF_
-
-(O<
-(/)_
-_EOF_
+testLibrary() {
+# A library of functions for shell scripts
+local libName="Library.sh"
+local libSrc="${scriptProject}/blob/master/${libName}"
+local lib="$HOME/bin/${libName}"
+if [[ -e $lib ]]
+then
+    . $lib
+else
+    echo -e "\nI require '$lib' to do my magic."
+    echo "SOURCE"
+    echo -e "\t$libSrc"
+    echo -e "Download script from above link and place in $HOME/bin.\n"
+    exit 1
+fi
 }
 
 scriptDetails() {
@@ -46,7 +45,7 @@ echo -e "\t\t$scriptName -nd ${HOME}/ remote:~/backup/"
 echo -e "\tExclude 'old_photo' directories:"
 echo -e "\t\t$scriptName -e old_photo ${HOME}/ /media/sdb1/"
 echo "SOURCE"
-echo -e "\t<${scriptSrc}>"
+echo -e "\t<${scriptSrc}>\n"
 }
 
 runOptions() {
@@ -95,18 +94,8 @@ fi
 rsync $syncOpt $syncExc ${syncSrc}/ ${syncDes}/
 }
 
-auRevoir() {                                                                    
-local message="All done!"
-local cowsay="/usr/games/cowsay"                                      
-if [ -x $cowsay ]                                                     
-then                                                                            
-    echoGreen "$($cowsay $message)"                                            
-else                                                                            
-    echoGreen "$message"                                                        
-fi                                                                              
-}
- 
 #: START
+testLibrary
 runOptions "$@"
 sync
 auRevoir
