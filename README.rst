@@ -2,7 +2,7 @@
 **homebin**
 ===========
 
-Some helper scripts I wrote and store in **~/bin**. Most rely on `Library.sh <https://github.com/vonbrownie/homebin/blob/master/Library.sh>`_ being present to run.
+Some helper scripts I wrote and store in **$HOME/bin**. Most rely on `Library.sh <https://github.com/vonbrownie/homebin/blob/master/Library.sh>`_ being present to run.
 
 See: `A library for shell scripts <http://www.circuidipity.com/shell-script-library.html>`_
 
