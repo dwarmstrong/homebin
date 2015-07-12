@@ -1,0 +1,66 @@
+#!/bin/bash
+scriptName="dlDsply"
+scriptBlurb="enable|disable extended desktop using XRandR"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+dsply1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
+dsply2=$(xrandr | grep " connected" | awk 'FNR == 2 {print $1}')
+configDsply="xrandr --output $dsply1 --auto --output $dsply2 --primary"
+
+testLibrary() {
+# A library of functions for shell scripts
+local libName="Library.sh"
+local libSrc="${scriptProject}/blob/master/${libName}"
+local lib="$HOME/bin/${libName}"
+if [[ -e $lib ]]
+then
+    . $lib
+else
+    echo -e "\nI require '$lib' to do my magic."
+    echo "SOURCE"
+    echo -e "\t$libSrc"
+    echo -e "Download script from above link and place in $HOME/bin.\n"
+    exit 1
+fi
+}
+
+scriptDetails() {
+echo "$( penguinista ) .: $scriptName -- $scriptBlurb :."
+echo "USAGE"
+echo -e "\t$scriptName [OPTION]"
+echo "OPTIONS"
+echo -e "\t-h\tdescription and options"
+echo -e "\t-q\tdisable extended desktop"
+echo "SOURCE"
+echo -e "\t<${scriptSrc}>\n"
+}
+
+runOptions() {
+while getopts ":hq" OPT
+do
+    case $OPT in
+        h)
+            scriptDetails
+            exit 0
+            ;;
+        q)
+            $configDsply --off
+            exit
+            ;;
+        *)
+            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'."
+            exit 1
+            ;;
+    esac
+done
+}
+
+configDsktp() {
+if [[ -n $dsply2 ]]; then $configDsply --auto --right-of $dsply1; fi
+}
+
+#: START
+testLibrary
+runOptions "$@"
+configDsktp
