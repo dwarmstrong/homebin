@@ -7,7 +7,7 @@ Some helper scripts I wrote and store in **$HOME/bin**. Most rely on `Library.sh
 Scripts
 =======
 Library.sh
-    library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_
+    library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
 dlDsply
     enable|disable extended desktop using XRandR
 dmenu-run.sh
@@ -21,7 +21,7 @@ startxX
 vboxshot
     capture screenshot of a virtualbox session
 yt-audio
-    download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_
+    download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 
 Author
 ======
