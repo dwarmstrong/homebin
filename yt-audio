@@ -1,0 +1,84 @@
+#!/bin/bash
+set -eu
+
+scriptName="yt-audio"
+scriptBlurb="download online video and convert to audio"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+ytOpt="--extract-audio --audio-format mp3 --audio-quality 0"
+videoURL="${@: -1}"
+
+testLibrary() {
+# A library of functions for shell scripts
+local libName="Library.sh"
+local libSrc="${scriptProject}/blob/master/${libName}"
+local lib="$HOME/bin/${libName}"
+if [[ -e $lib ]]
+then
+    . $lib
+else
+    echo -e "\nI require '$lib' to do my magic."
+    echo "SOURCE"
+    echo -e "\t$libSrc"
+    echo -e "Download script from above link and place in $HOME/bin.\n"
+    exit 1
+fi
+}
+
+scriptDetails() {
+echo "$( penguinista ) .: $scriptName -- $scriptBlurb :."
+echo "USAGE"
+echo -e "\t$scriptName [OPTION] URL"
+echo "OPTIONS"
+echo -e "\t-h\tdescription and options"
+echo -e "\t-k\tkeep video after converting to audio"
+echo "SOURCE"
+echo -e "\t<${scriptSrc}>\n"
+}
+
+runOptions() {
+while getopts ":hk" OPT
+do
+    case $OPT in
+        h)
+            scriptDetails
+            exit 0
+            ;;
+        k)
+            ytOpt="${ytOpt} --keep-video"
+            break
+            ;;
+        *)
+            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'"
+            exit 1
+            ;;
+    esac
+done
+}
+
+testPath() {
+local require=(youtube-dl avconv)
+for i in ${require[@]}
+do
+    hash $i 2>/dev/null || \
+        { echo -e >&2 "I require '$i' but it's not installed.\n"; \
+            scriptDetails; exit 1; }
+done
+}
+
+testURL() {
+if [[ ! $videoURL == http* ]]; then \
+    echoRed "$( penguinista ) .: No video URL specified."; exit 1; fi
+}
+
+makeAudio() {
+local title="%(title)s-%(upload_date)s.%(ext)s"
+testPath && testURL && \
+    youtube-dl --restrict-filenames $ytOpt --output $title $videoURL && auRevoir
+}
+
+#: START
+testLibrary
+runOptions "$@"
+makeAudio
