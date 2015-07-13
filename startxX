@@ -5,7 +5,7 @@ scriptBlurb="'startx' extras"
 scriptProject="https://github.com/vonbrownie/homebin"
 scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
-tpKb() {
+tpKeyboard() {
 # TP keyboard + TrackPoint: "Device Accel Constant Deceleration" configures the
 # sensitivity of the trackpoint. Find <id> with 'xinput list | grep pointer' and
 # <id> properties with 'xinput list-props <id>'
@@ -23,15 +23,15 @@ rm -rf $HOME/.local/share/Trash
 }
 
 startHost() {
-autoStart
 if [[ $HOSTNAME = sum* ]]
 then
     xset r 66 # Caps_Lock modified to Backspace... make it a repeating key
-    tpKb
+    tpKeyboard
 elif [[ $HOSTNAME = cru* ]]
 then
-    :
+    nm-applet &
 fi
+autoStart
 janitor
 }
 
