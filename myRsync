@@ -84,6 +84,11 @@ do
 done
 }
 
+addKey() {
+local key="${HOME}/.keychain/${HOSTNAME}-sh"
+if [ -e $key ]; then . $key; fi
+}
+
 sync() {
 if [[ $syncOpt == *modify-window* ]]
 then
@@ -91,11 +96,12 @@ then
 else
     syncOpt="${syncOpt} --archive"
 fi
+addKey
 rsync $syncOpt $syncExc ${syncSrc}/ ${syncDes}/
+auRevoir
 }
 
 #: START
 testLibrary
 runOptions "$@"
 sync
-auRevoir
