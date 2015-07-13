@@ -14,9 +14,8 @@ if [[ $(lsusb | grep -i TrackPoint) ]]; then \
 }
 
 autoStart() {
-    $HOME/bin/dlDsply
     volnoti -t 2
-    urxvt &
+    urxvt 
 }
 
 janitor() {
@@ -24,15 +23,15 @@ rm -rf $HOME/.local/share/Trash
 }
 
 startHost() {
-if [[ $HOSTNAME = "sum"* ]]
+autoStart
+if [[ $HOSTNAME = sum* ]]
 then
     xset r 66 # Caps_Lock modified to Backspace... make it a repeating key
     tpKb
-elif [[ $HOSTNAME = "cru"* ]]
+elif [[ $HOSTNAME = cru* ]]
 then
     :
 fi
-autoStart
 janitor
 }
 
