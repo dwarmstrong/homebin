@@ -27,6 +27,7 @@ if [[ $HOSTNAME = sum* ]]
 then
     xset r 66 # Caps_Lock modified to Backspace... make it a repeating key
     xset dpms 1800 1800 1800 # Standby/Suspend/Off
+    xset s off
     tpKeyboard
 elif [[ $HOSTNAME = cru* ]]
 then
