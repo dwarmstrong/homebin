@@ -37,6 +37,7 @@ echo -e "\t-h\tdescription and options"
 echo -e "\t-d\tdelete extraneous files from destination"
 echo -e "\t-e\texclude PATTERN"
 echo -e "\t-n\tperform a trial run with no changes made"
+echo -e "\t-p\tshow progress during transfer"
 echo -e "\t-W\tcompare mod-times with reduced accuracy (useful for transfers"`
     `"to FAT32)"
 echo "EXAMPLE"
@@ -49,7 +50,7 @@ echo -e "\t<${scriptSrc}>\n"
 }
 
 runOptions() {
-while getopts ":hde:nW:" OPT
+while getopts ":hde:npW:" OPT
 do
     case $OPT in
         h)
@@ -64,6 +65,9 @@ do
             ;;
         n)
             syncOpt="$syncOpt --dry-run"
+            ;;
+        p)
+            syncOpt="$syncOpt --human-readable --progress"
             ;;
         W)
             # See http://rsync.samba.org/FAQ.html#2 about using the
