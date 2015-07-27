@@ -7,7 +7,7 @@ scriptProject="https://github.com/vonbrownie/homebin"
 scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
 syncOpt="--verbose"
-syncExc="--exclude-from=$HOME/.rsyncExclude"
+syncExc=""
 syncSrc="${@: -2:1}"
 syncDes="${@: -1}"
 
@@ -57,13 +57,13 @@ do
             exit 0
             ;;
         d)
-            syncOpt="${syncOpt} --delete"
+            syncOpt="$syncOpt --delete"
             ;;
         e)
-            syncExc="${syncExc} --exclude=${OPTARG}"
+            syncExc="$syncExc --exclude=${OPTARG}"
             ;;
         n)
-            syncOpt="${syncOpt} --dry-run"
+            syncOpt="$syncOpt --dry-run"
             ;;
         W)
             # See http://rsync.samba.org/FAQ.html#2 about using the
@@ -89,6 +89,11 @@ local key="${HOME}/.keychain/${HOSTNAME}-sh"
 if [ -e $key ]; then . $key; fi
 }
 
+excludeFrom() {
+local exclude="$HOME/.rsyncExclude"
+if [ -e $exclude ]; then syncExc="--exclude-from=$exclude $syncExc"; fi
+}
+
 sync() {
 if [[ $syncOpt == *modify-window* ]]
 then
@@ -97,7 +102,8 @@ else
     syncOpt="${syncOpt} --archive"
 fi
 addKey
-rsync $syncOpt $syncExc ${syncSrc}/ ${syncDes}/
+excludeFrom
+rsync $syncOpt $syncExc $syncSrc $syncDes
 auRevoir
 }
 
