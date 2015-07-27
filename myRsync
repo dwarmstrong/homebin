@@ -7,7 +7,7 @@ scriptProject="https://github.com/vonbrownie/homebin"
 scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
 syncOpt="--verbose"
-syncExc="--exclude=*[Cc]ache* --exclude=*[Tt]humbnail* --exclude=*[Tt]rash*"
+syncExc="--exclude-from=$HOME/.rsyncExclude"
 syncSrc="${@: -2:1}"
 syncDes="${@: -1}"
 
