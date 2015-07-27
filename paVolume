@@ -39,7 +39,8 @@ done
 notExceed() {
 # Max volume not to exceed 100%
 # ('volnoti-show' breaks if <volume> not range 0-100)
-if (("$(pamixer --get-volume)" > "100")); then $sinkVol -- 100%; fi
+#if (("$(pamixer --get-volume)" > "100")); then $sinkVol -- 100%; fi
+if (("$(pamixer --get-volume)" > "100")); then $sinkVol 100%; fi
 }
 
 volMute() {
@@ -48,11 +49,14 @@ $sinkMute toggle; [[ $(pamixer --get-mute) = true ]] \
 }
 
 volUp() {
-$sinkVol -- +10%; notExceed; $showVol
+# '--' no longer used in recent versions
+#$sinkVol -- +10%; notExceed; $showVol
+$sinkVol +10%; notExceed; $showVol
 }
 
 volDown() {
-$sinkVol -- -10%; $showVol
+#$sinkVol -- -10%; $showVol
+$sinkVol -10%; $showVol
 }
 
 runOptions() {
