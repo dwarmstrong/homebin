@@ -19,7 +19,7 @@ autoStart() {
 }
 
 janitor() {
-rm -rf $HOME/.local/share/Trash
+rm -rf $HOME/.local/share/Trash/*
 }
 
 startHost() {
