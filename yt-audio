@@ -58,7 +58,7 @@ done
 }
 
 testPath() {
-local require=(youtube-dl avconv)
+local require=( youtube-dl ffmpeg )
 for i in ${require[@]}
 do
     hash $i 2>/dev/null || \
