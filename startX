@@ -1,0 +1,53 @@
+#!/bin/bash
+
+scriptName="startX"
+scriptBlurb="'startx' eXtras"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+displayConf() {
+    # Configure secondary display if present
+    local dsply2=$(xrandr | grep "connected" | awk 'FNR == 2 {print $1}')
+    $HOME/bin/dldsply
+    # My 28" monitor makes a strange noise if brightness is set below 100... so
+    # I set display to max brightness and adjust with xrandr
+    if [[ $dsply2 ]]; then { xrandr --output $dsply2 --brightness 0.80; }; fi
+    # Standby/Suspend/Off
+    xset dpms 1800 1800 1800
+    xset s off
+}
+
+keyboardConf() {
+    # TP keyboard + TrackPoint: "Device Accel Constant Deceleration" configures
+    # the sensitivity of the trackpoint. Find <id> with 'xinput list | grep pointer'
+    # and <id> properties with 'xinput list-props <id>'
+    local tpPointer=$(xinput list | grep "TrackPoint.*pointer")
+    local tpID=$(echo $tpPointer | awk '{print $11}' | cut -d'=' -f2)
+    if [[ $tpPointer ]]; then \
+        { xinput set-prop $tpID "Device Accel Constant Deceleration" 0.40; }; fi
+    # Caps_Lock modified to Backspace... make it a repeating key
+    xset r 66
+}
+
+hostConf() {
+    if [[ $HOSTNAME = cru* ]]
+    then
+        nm-applet &
+    fi
+}
+
+autoStart() {
+    volnoti -t 2
+    urxvt 
+}
+
+janitor() {
+rm -rf $HOME/.local/share/Trash/*
+}
+
+#: START
+displayConf
+keyboardConf
+hostConf
+autoStart
+janitor
