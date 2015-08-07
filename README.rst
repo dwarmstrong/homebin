@@ -16,8 +16,8 @@ myRsync
     sync SOURCE to DESTINATION (more: `"Backup home" <http://www.circuidipity.com/backup-home.html>`_)
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
-startxX
-    ``startx`` extras
+startX
+    ``startx`` eXtras
 vboxshot
     capture screenshot of a virtualbox session
 yt-audio
