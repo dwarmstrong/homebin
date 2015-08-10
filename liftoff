@@ -1,0 +1,131 @@
+#!/bin/bash
+set -eu
+
+scriptName="liftoff"
+scriptBlurb="things to do before chromebook leaves home"
+scriptProject="https://github.com/vonbrownie/homebin"
+scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+mc="summanus.local" # 'mission control' 
+
+testLibrary() {
+# A library of functions for shell scripts
+local libName="Library.sh"
+local libSrc="${scriptProject}/blob/master/${libName}"
+local lib="$HOME/bin/${libName}"
+if [[ -e $lib ]]
+then
+    . $lib
+else
+    echo -e "\nI require '$lib' to do my magic."
+    echo "SOURCE"
+    echo -e "\t$libSrc"
+    echo -e "Download script from above link and place in $HOME/bin.\n"
+    exit 1
+fi
+}
+
+scriptDetails() {
+echo "$( penguinista ) .: $scriptName -- $scriptBlurb :."
+echo "USAGE"
+echo -e "\t$scriptName [OPTION]"
+echo "OPTIONS"
+echo -e "\t-h\tdescription and options"
+echo -e "\t-m\t'mission control'"
+echo "EXAMPLE"
+echo -e "\tMission control has moved to alternate location:"
+echo -e "\t\ttminus -m area51"
+echo "SOURCE"
+echo -e "\t<${scriptSrc}>\n"
+}
+
+runOptions() {
+while getopts ":hm:" OPT
+do
+    case $OPT in
+        h)
+            scriptDetails
+            exit 0
+            ;;
+        m)
+            mc="$OPTARG"
+            break
+            ;;
+        :)
+            echoRed "$( penguinista ) .: Option '-$OPTARG' missing argument."
+            exit 1
+            ;;
+        *)
+            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'."
+            exit 1
+            ;;
+    esac
+done
+}
+
+testPath() {
+local require=(cryptsetup rsync myRsync ssh)
+for i in ${require[@]}
+do
+    hash $i 2>/dev/null || \
+        { echo -e >&2 "I require '$i' but it's not installed.\n"; \
+            scriptDetails; exit 1; }
+done
+}
+
+testMnt() {
+local sdX="sdb1"
+local crypt="${sdX}_crypt"
+local map="/dev/mapper/$crypt"
+local mnt="$HOME/USB"
+if [[ ! -e $map ]]
+then
+    echoYellow "$( penguinista ) .: Setup $map ..."
+    sudo cryptsetup luksOpen /dev/$sdX $crypt && mount $mnt
+fi
+if [[ ! $( mount | grep $mnt ) ]]; then mount $mnt; fi
+}
+
+showFS() {
+echoYellow "$( penguinista ) .: Filesystems ..." && df -h
+}
+
+detachNAS() {
+local mnt="$HOME/NAS"
+if [[ $( mount | grep $mnt ) ]]
+then
+    echoYellow "$( penguinista ) .: Detaching NAS ..." && fusermount -u $mnt \
+        && echoGreen "\nDone!" && sleep 4
+fi
+}
+
+syncToDevice() {
+local sync="$HOME/bin/myRsync -d"
+local device="$mc:$HOME"
+local path="$HOME/USB"
+local dwnld="$path/Downloads"
+local code="$path/code"
+local doc="$path/doc"
+local image="$path/image"
+local share="$HOME/share"
+echoYellow "$( penguinista ) .: Prepare for liftoff!" && sleep 4
+echoYellow "$( penguinista ) .: Sync $device to $dwnld ..." && \
+    $sync $device/Downloads/ $dwnld/ && sync
+echoYellow "$( penguinista ) .: Sync $device to $code ..." && \
+    $sync $device/code/ $code/ && sync
+echoYellow "$( penguinista ) .: Sync $device to $doc ..." && \
+    $sync -e unsorted/ $device/doc/ $doc/ && sync
+echoYellow "$( penguinista ) .: Sync $device to $image ..." && \
+    $sync $device/image/ $image/ && sync
+}
+
+#: START
+testLibrary
+runOptions "$@"
+testPath
+testMnt
+testConnect
+detachNAS
+syncToDevice
+showFS
+auRevoir
