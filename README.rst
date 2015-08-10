@@ -12,6 +12,8 @@ dlDsply
     enable|disable extended desktop using XRandR
 dmenu-run.sh
     ``dmenu`` configuration
+liftoff/splashdown
+    configure a Debian-powered Chromebook when it leaves and returns home (more: `"Chromebook liftoff and splashdown" <http://www.circuidipity.com/chromebook-liftoff-splashdown.html>`_)
 myRsync
     sync SOURCE to DESTINATION (more: `"Backup home" <http://www.circuidipity.com/backup-home.html>`_)
 paVolume
