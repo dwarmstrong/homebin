@@ -13,7 +13,7 @@ dlDsply
 dmenu-run.sh
     ``dmenu`` configuration
 liftoff/splashdown
-    configure (Linux) Chromebook when it leaves/returns home (more: `"Chromebook liftoff and splashdown" <http://www.circuidipity.com/chromebook-liftoff-splashdown.html>`_)
+    configure Chromebook when it leaves/returns home (more: `"Chromebook liftoff and splashdown" <http://www.circuidipity.com/chromebook-liftoff-splashdown.html>`_)
 myRsync
     sync SOURCE to DESTINATION (more: `"Backup home" <http://www.circuidipity.com/backup-home.html>`_)
 paVolume
