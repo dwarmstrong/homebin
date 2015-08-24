@@ -107,14 +107,13 @@ local dwnld="$path/Downloads"
 local code="$path/code"
 local doc="$path/doc"
 local image="$path/image"
-local share="$HOME/share"
 echoYellow "$( penguinista ) .: Prepare for liftoff!" && sleep 4
 echoYellow "$( penguinista ) .: Sync $device to $dwnld ..." && \
-    $sync $device/Downloads/ $dwnld/ && sync
+    $sync $device/Downloads/ $dwnld/
 echoYellow "$( penguinista ) .: Sync $device to $code ..." && \
-    $sync $device/code/ $code/ && sync
+    $sync $device/code/ $code/ 
 echoYellow "$( penguinista ) .: Sync $device to $doc ..." && \
-    $sync -e unsorted/ $device/doc/ $doc/ && sync
+    $sync -e unsorted/ $device/doc/ $doc/
 echoYellow "$( penguinista ) .: Sync $device to $image ..." && \
     $sync $device/image/ $image/ && sync
 }

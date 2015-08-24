@@ -102,17 +102,17 @@ local share="$HOME/share"
 echoYellow "$( penguinista ) .: Welcome home!" && sleep 4
 echoYellow "$( penguinista ) .: Sync $HOME to $device ..." && \
     $sync -e Downloads/ -e NAS/ -e USB/ -e local/ -e share/ \
-    $HOME/ $device/backup/$HOSTNAME/ && sync
+    $HOME/ $device/backup/$HOSTNAME/
 echoYellow "$( penguinista ) .: Sync $dwnld to $device ..." && \
-    $sync $dwnld/ $device/Downloads/ && sync
+    $sync $dwnld/ $device/Downloads/
 echoYellow "$( penguinista ) .: Sync $code to $device ..." && \
-    $sync $code/ $device/code/ && sync
+    $sync $code/ $device/code/
 echoYellow "$( penguinista ) .: Sync $doc to $device ..." && \
-    $sync -e unsorted/ $doc/ $device/doc/ && sync
+    $sync -e unsorted/ $doc/ $device/doc/
 echoYellow "$( penguinista ) .: Sync $image to $device ..." && \
-    $sync $image/ $device/image/ && sync
+    $sync $image/ $device/image/
 echoYellow "$( penguinista ) .: Sync $share to $device ..." && \
-    $sync $share/ $device/share/ && sync
+    $sync $share/ $device/share/ 
 }
 
 configNAS() {

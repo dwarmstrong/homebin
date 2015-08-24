@@ -24,7 +24,7 @@ keyboardConf() {
     local tpPointer=$(xinput list | grep "TrackPoint.*pointer")
     local tpID=$(echo $tpPointer | awk '{print $11}' | cut -d'=' -f2)
     if [[ $tpPointer ]]; then \
-        { xinput set-prop $tpID "Device Accel Constant Deceleration" 0.40; }; fi
+        { xinput set-prop $tpID "Device Accel Constant Deceleration" 0.30; }; fi
     # Caps_Lock modified to Backspace... make it a repeating key
     xset r 66
 }
