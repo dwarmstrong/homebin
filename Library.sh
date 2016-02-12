@@ -50,12 +50,26 @@ cat << _EOF_
 _EOF_
 }
 
-invalidReply() {
-echoRed "\n'$REPLY' is invalid input...\n"
-}
-
-invalidReplyYN() {
-echoRed "\n'$REPLY' is invalid input. Please select 'Y(es)' or 'N(o)'...\n"
+header() {
+echoCyan "$( penguinista ) .: $top ..."                                            
+}                                                                                  
+                                                                                   
+footer() {
+echoGreen "\n\nOK ... $bottom ..."
+sleep 4                                                                            
+}                                                                                  
+                                                                                   
+exitOK() {
+echoGreen "\n$( penguinista ) .: Exiting ... Have a good day!"
+exit                                                                               
+}                                                                                  
+                                                                                   
+badRep() {
+echoRed "\n'$REPLY' is invalid input ...\n"                                        
+}                                                                                  
+                                                                                   
+badRepYN() {
+echoRed "\n'$REPLY' is invalid input. Please select 'Y(es)' or 'N(o)' ...\n"       
 }
 
 confirmStart() {
@@ -72,7 +86,7 @@ do
         penguinista
         exit
     else
-        invalidReplyYN
+        badRepYN
     fi
 done
 }
@@ -86,29 +100,12 @@ then
 fi
 }
 
-interfaceFound() {
-    ip link | awk '/mtu/ {gsub(":",""); printf "\t%s", $2} END {printf "\n"}'
-}
-
 testConnect() {
-local message="$scriptName requires an active network interface."
-if ! $(ip addr show | grep "state UP" &>/dev/null)
-then
-    echoRed "\n$( penguinista ) .: $message"
-    echo -e "\nINTERFACES FOUND\n"
-    interfaceFound
+local message="$NAME requires an active network interface."
+if ! $(ip addr show | grep "state UP" &>/dev/null); then
+    echoRed "$( penguinista ) .: $message"
+    echo "INTERFACES FOUND"
+    ip link
     exit 1
 fi
 }
-
-auRevoir() {                                                                    
-local message="All done!"
-local cowsay="/usr/games/cowsay"                                      
-if [ -x $cowsay ]                                                     
-then                                                                            
-    echoGreen "$($cowsay $message)"                                            
-else                                                                            
-    echoGreen "$message"                                                        
-fi                                                                              
-}
- 

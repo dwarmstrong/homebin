@@ -1,17 +1,17 @@
 #!/bin/bash
-scriptName="dlDsply"
-scriptBlurb="enable|disable extended desktop using XRandR"
-scriptProject="https://github.com/vonbrownie/homebin"
-scriptSrc="${scriptProject}/blob/master/${scriptName}"
+
+NAME="dldsply"
+BLURB="enable|disable extended desktop using XRandR"
+GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/dldsply"
 
 dsply1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
 dsply2=$(xrandr | grep " connected" | awk 'FNR == 2 {print $1}')
-configDsply="xrandr --output $dsply1 --auto --output $dsply2 --primary"
+confDsply="xrandr --output $dsply1 --auto --output $dsply2 --primary"
 
-testLibrary() {
+testLib() {
 # A library of functions for shell scripts
 local libName="Library.sh"
-local libSrc="${scriptProject}/blob/master/${libName}"
+local libSrc="https://github.com/vonbrownie/homebin/blob/master/${libName}"
 local lib="$HOME/bin/${libName}"
 if [[ -e $lib ]]
 then
@@ -25,27 +25,27 @@ else
 fi
 }
 
-scriptDetails() {
-echo "$( penguinista ) .: $scriptName -- $scriptBlurb :."
+shDetails() {
+echo "$( penguinista ) .: $NAME -- $BLURB :."
 echo "USAGE"
-echo -e "\t$scriptName [OPTION]"
+echo -e "\t$NAME [OPTION]"
 echo "OPTIONS"
 echo -e "\t-h\tdescription and options"
 echo -e "\t-q\tdisable extended desktop"
 echo "SOURCE"
-echo -e "\t<${scriptSrc}>\n"
+echo -e "\t<${GIT_SRC}>\n"
 }
 
-runOptions() {
+runOpt() {
 while getopts ":hq" OPT
 do
     case $OPT in
         h)
-            scriptDetails
-            exit 0
+            shDetails
+            exit
             ;;
         q)
-            $configDsply --off
+            $confDsply --off
             exit
             ;;
         *)
@@ -56,11 +56,11 @@ do
 done
 }
 
-configDsktp() {
-if [[ -n $dsply2 ]]; then $configDsply --auto --right-of $dsply1; fi
+confDesk() {
+if [[ -n $dsply2 ]]; then $confDsply --auto --right-of $dsply1; fi
 }
 
 #: START
-testLibrary
-runOptions "$@"
-configDsktp
+testLib
+runOpt "$@"
+confDesk
