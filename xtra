@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# xinit extra config
+
+confDP() {
+    # Standby/Suspend/Off
+    xset dpms 1800 1800 1800
+    xset s off
+}
+
+confKB() {
+    #
+    # TP keyboard + TrackPoint: "Device Accel Constant Deceleration" configures
+    # the sensitivity of the trackpoint. Find <id> with ...
+    #   xinput list | grep pointer
+    # ... and <id> properties with ...
+    #   xinput list-props <id>
+    #
+    local tpPointer=$(xinput list | grep "TrackPoint.*pointer")
+    local tpID=$(echo $tpPointer | awk '{print $11}' | cut -d'=' -f2)
+    if [[ $tpPointer ]]; then
+        { xinput set-prop $tpID "Device Accel Constant Deceleration" 0.30; }
+    fi
+    # Caps_Lock modified to Backspace... make it a repeating key
+    #xset r 66
+}
+
+confHost() {
+    if [[ $HOSTNAME = cru* ]]; then
+        volnoti -t 2
+    fi
+}
+
+#: START
+#confDP
+confKB
+confHost
