@@ -8,22 +8,20 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
-dlDsply
+dldsply
     enable|disable extended desktop using XRandR
 dmenu-run.sh
     ``dmenu`` configuration
 liftoff/splashdown
     configure Chromebook when it leaves/returns home (more: `"Chromebook liftoff and splashdown" <http://www.circuidipity.com/chromebook-liftoff-splashdown.html>`_)
-myRsync
-    sync SOURCE to DESTINATION (more: `"Backup home" <http://www.circuidipity.com/backup-home.html>`_)
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
-startX
-    ``startx`` eXtras
 vboxshot
     capture screenshot of a virtualbox session
 yt-audio
     download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
+xtra
+    ``xinit`` extra config
 
 Author
 ======
