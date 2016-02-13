@@ -50,13 +50,13 @@ $sinkMute toggle; [[ $(pamixer --get-mute) = true ]] \
 
 volUp() {
 # '--' no longer used in recent versions
-$sinkVol -- +10%; notExceed; $showVol
-#$sinkVol +10%; notExceed; $showVol
+#$sinkVol -- +10%; notExceed; $showVol
+$sinkVol +10%; notExceed; $showVol
 }
 
 volDown() {
-$sinkVol -- -10%; $showVol
-#$sinkVol -10%; $showVol
+#$sinkVol -- -10%; $showVol
+$sinkVol -10%; $showVol
 }
 
 runOptions() {

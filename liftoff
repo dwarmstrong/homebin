@@ -6,7 +6,7 @@ scriptBlurb="things to do before chromebook leaves home"
 scriptProject="https://github.com/vonbrownie/homebin"
 scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
-mc="summanus.local" # 'mission control' 
+mc="summanus.lan" # 'mission control' 
 
 testLibrary() {
 # A library of functions for shell scripts
@@ -34,7 +34,7 @@ echo -e "\t-h\tdescription and options"
 echo -e "\t-m\t'mission control'"
 echo "EXAMPLE"
 echo -e "\tMission control has moved to alternate location:"
-echo -e "\t\ttminus -m area51"
+echo -e "\t\t$scriptName -m area51"
 echo "SOURCE"
 echo -e "\t<${scriptSrc}>\n"
 }
@@ -102,12 +102,15 @@ fi
 syncToDevice() {
 local sync="$HOME/bin/myRsync -d"
 local device="$mc:$HOME"
+local share="$HOME/share"
 local path="$HOME/USB"
 local dwnld="$path/Downloads"
 local code="$path/code"
 local doc="$path/doc"
 local image="$path/image"
 echoYellow "$( penguinista ) .: Prepare for liftoff!" && sleep 4
+echoYellow "$( penguinista ) .: Sync $device to $share ..." && \
+    $sync $device/share/ $share/
 echoYellow "$( penguinista ) .: Sync $device to $dwnld ..." && \
     $sync $device/Downloads/ $dwnld/
 echoYellow "$( penguinista ) .: Sync $device to $code ..." && \

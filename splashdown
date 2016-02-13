@@ -6,7 +6,7 @@ scriptBlurb="things to do when chromebook returns home"
 scriptProject="https://github.com/vonbrownie/homebin"
 scriptSrc="${scriptProject}/blob/master/${scriptName}"
 
-mc="summanus.local" # 'mission control' 
+mc="summanus.lan" # 'mission control' 
 
 testLibrary() {
 # A library of functions for shell scripts
@@ -100,9 +100,6 @@ local doc="$path/doc"
 local image="$path/image"
 local share="$HOME/share"
 echoYellow "$( penguinista ) .: Welcome home!" && sleep 4
-echoYellow "$( penguinista ) .: Sync $HOME to $device ..." && \
-    $sync -e Downloads/ -e NAS/ -e USB/ -e local/ -e share/ \
-    $HOME/ $device/backup/$HOSTNAME/
 echoYellow "$( penguinista ) .: Sync $dwnld to $device ..." && \
     $sync $dwnld/ $device/Downloads/
 echoYellow "$( penguinista ) .: Sync $code to $device ..." && \
@@ -117,7 +114,7 @@ echoYellow "$( penguinista ) .: Sync $share to $device ..." && \
 
 configNAS() {
 local client="sshfs -o idmap=user"
-local nas="$mc:/media/crypt/dwa"
+local nas="$mc:/home/dwa"
 local mnt="$HOME/NAS"
 echoYellow "$( penguinista ) .: Network Attached Storage ..."
 if [[ ! $( mount | grep $mnt ) ]]

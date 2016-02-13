@@ -92,7 +92,7 @@ done
 }
 
 testRoot() {
-local message="$scriptName requires ROOT privileges to do its job."
+local message="$NAME requires ROOT privileges to do its job."
 if [[ $UID -ne 0 ]]
 then
     echoRed "\n$( penguinista ) .: $message\n"
