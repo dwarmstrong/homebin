@@ -27,7 +27,7 @@ confKB() {
 
 confHost() {
     if [[ $HOSTNAME = cru* ]]; then
-        volnoti -t 2
+        :
     fi
 }
 
