@@ -57,7 +57,12 @@ done
 }
 
 h2default() {
-rsync $R_EXCLUDE $R_OPT $HOME/ $R_DEST
+if [[ -d "$R_DEST" ]]; then
+    rsync $R_EXCLUDE $R_OPT $HOME/ $R_DEST
+else
+    echoRed "$( penguinista ) .: '$R_DEST' does not exist."
+    exit 1
+fi
 }
 
 h2partial() {
