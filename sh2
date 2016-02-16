@@ -25,6 +25,33 @@ else
 fi
 }
 
+testDest() {
+# Confirm DESTINATION exists ...
+#
+# ... on remote devices ...
+if [[ $R_DEST == *:* ]]; then
+    remoteDest=$(echo "$R_DEST" | cut -f1 -d":")
+    remoteDir=$(echo "$R_DEST" | rev | cut -f1 -d":" | rev)
+    # partial sync of $HOME (h2partial)
+    if [[ $R_DEST == cru* ]] || [[ $R_DEST == sum* ]]; then
+        testDir="ssh $remoteDest test -d ${remoteDir}${i}"
+        destination="${R_DEST}${i}"
+        # full sync of $HOME (h2 (h2default)
+    else
+        testDir="ssh $remoteDest test -d $remoteDir"
+        destination="$R_DEST"
+    fi
+# ... on local devices ...
+else
+    testDir="test -d $R_DEST"
+    destination="$R_DEST"
+fi
+if ! $testDir; then
+    echoRed "$( penguinista ) .: '$destination' does not exist."
+    exit 1
+fi
+}
+
 runOpt() {
 while getopts ":npve:d:" OPT
 do
@@ -57,30 +84,24 @@ done
 }
 
 h2default() {
-if [[ -d "$R_DEST" ]]; then
-    rsync $R_EXCLUDE $R_OPT $HOME/ $R_DEST
-else
-    echoRed "$( penguinista ) .: '$R_DEST' does not exist."
-    exit 1
-fi
+testDest && rsync $R_EXCLUDE $R_OPT ${HOME}/ $R_DEST
 }
 
 h2partial() {
 rsyncDir=( Downloads code doc image jukebox share video )
 for i in "${rsyncDir[@]}"
 do
-    rsync $R_EXCLUDE $R_OPT $HOME/$i/ ${R_DEST}${i}/
+    testDest && rsync $R_EXCLUDE $R_OPT ${HOME}/${i}/ ${R_DEST}${i}/
 done
 }
 
 h2d() {
-if [[ $R_DEST == "cruithne.lan:~/" ]] || [[ $R_DEST == "summanus.lan:~/" ]]; then
+if [[ $R_DEST == cru* ]] || [[ $R_DEST == sum* ]]; then
     h2partial
 else
     h2default
 fi
 }
-
 
 #: START
 testLib
