@@ -27,7 +27,7 @@ confKB() {
 
 confHost() {
     if [[ $HOSTNAME = cru* ]]; then
-        :
+        nm-applet
     fi
 }
 
