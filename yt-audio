@@ -75,7 +75,7 @@ if [[ ! $videoURL == http* ]]; then \
 makeAudio() {
 local title="%(title)s-%(upload_date)s.%(ext)s"
 testPath && testURL && \
-    youtube-dl --restrict-filenames $ytOpt --output $title $videoURL && auRevoir
+    youtube-dl --restrict-filenames $ytOpt --output $title $videoURL
 }
 
 #: START
