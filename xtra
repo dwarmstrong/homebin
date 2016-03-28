@@ -4,7 +4,9 @@
 
 confDP() {
     # Standby/Suspend/Off
-    xset dpms 1800 1800 1800
+    #xset dpms 1800 1800 1800
+    xset -dpms
+    xset s noblank
     xset s off
 }
 
@@ -32,6 +34,6 @@ confHost() {
 }
 
 #: START
-#confDP
+confDP
 confKB
 confHost
