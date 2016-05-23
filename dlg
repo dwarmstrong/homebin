@@ -1,0 +1,14 @@
+#!/bin/bash
+set -eu
+
+NAME="dlg"
+BLURB="daily log + git"
+GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/dlg"
+LOG_D="$HOME/share/log"
+LOG="daily.log"
+
+if [[ $(git -C $LOG_D status --porcelain -- $LOG) ]]; then
+    git -C $LOG_D add $LOG && git -C $LOG_D commit -m 'save'
+fi
+    
+vim ${LOG_D}/${LOG}
