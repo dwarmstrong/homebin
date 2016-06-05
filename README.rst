@@ -2,7 +2,7 @@
 **homebin**
 ===========
 
-Some helper scripts I wrote and store in **$HOME/bin**. Most rely on `Library.sh <https://github.com/vonbrownie/homebin/blob/master/Library.sh>`_ being present to run.
+Some helper scripts and programming experiments I create and store in **$HOME/bin**.
 
 Scripts
 =======
@@ -10,6 +10,8 @@ Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
 dldsply
     enable|disable extended desktop using XRandR
+dlg
+    daily activity log + git commits
 dmenu-run.sh
     ``dmenu`` configuration
 liftoff/splashdown
