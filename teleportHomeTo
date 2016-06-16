@@ -1,0 +1,34 @@
+#!/bin/bash
+set -eu
+
+NAME="teleportHomeTo"
+BLURB="sync $HOME to DESTINATION:$HOME"
+GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/teleportHomeTo"
+LIST="$HOME/.teleportHomeTo" # list of items to include (and exclude) from sync
+DESTINATION="$1"
+
+testLib() {                                                                    
+# A library of functions for shell scripts
+local libName="Library.sh"
+local libSrc="https://github.com/vonbrownie/homebin/blob/master/${libName}"
+local lib="$HOME/bin/${libName}"
+if [[ -e $lib ]]; then
+    . $lib
+else
+    echo -e "\nI require '$libName' to do my magic."
+    echo "SOURCE"
+    echo -e "\t$libSrc"
+    echo -e "Download script from above link and place in $HOME/bin.\n"
+    exit 1
+fi
+}
+
+teleport() {
+rsync -av --delete --include-from=$LIST $HOME/ $DESTINATION
+}
+
+#: START
+testLib
+testConnect
+teleport
+penguinista
