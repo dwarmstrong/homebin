@@ -8,6 +8,8 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
+debtBuster.py
+    find the smallest monthly payment to the cent such that we can pay off a debt within *n* months
 dldsply
     enable|disable extended desktop using XRandR
 dlg
