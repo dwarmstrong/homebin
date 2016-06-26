@@ -20,6 +20,8 @@ paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
 teleportHomeTo
     sync $HOME to DESTINATION
+timeToCount.py
+    measure clock time for a device to count from 0 to *x* in increments of 1
 vboxshot
     capture screenshot of a virtualbox session
 yt-audio
