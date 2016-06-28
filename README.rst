@@ -8,6 +8,8 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
+collatz.py
+    explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 daysUntil.py
     how many days until: yyyy mm dd
 debtBuster.py
