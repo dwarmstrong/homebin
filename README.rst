@@ -20,6 +20,8 @@ dlg
     daily activity log + git commits
 dmenu-run.sh
     ``dmenu`` configuration
+magic8ball.py
+    Magic 8 Ball peers into the future and retrieves the answer to your questions
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
 teleportHomeTo
