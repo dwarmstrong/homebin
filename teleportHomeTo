@@ -4,8 +4,10 @@ set -eu
 NAME="teleportHomeTo"
 BLURB="sync $HOME to DESTINATION:$HOME"
 GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/teleportHomeTo"
+SYNC_OPT="--archive --verbose --delete"
+INCLUDE_ALL="0"
 LIST="$HOME/.teleportHomeTo" # list of items to include (and exclude) from sync
-DESTINATION="$1"
+DESTINATION="${!#}"
 
 testLib() {                                                                    
 # A library of functions for shell scripts
@@ -23,12 +25,35 @@ else
 fi
 }
 
+runOpt() {
+while getopts ":ane:" OPT
+do
+    case $OPT in
+        a)
+            INCLUDE_ALL="1"
+            ;;
+        n)
+            SYNC_OPT="$SYNC_OPT --dry-run"
+            ;;
+        *)
+            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'."
+            exit 1
+            ;;
+    esac
+done
+}
+
 teleport() {
-rsync -av --delete --include-from=$LIST $HOME/ $DESTINATION
+if [[ $INCLUDE_ALL == "1" ]]; then
+    rsync $SYNC_OPT $HOME/ $DESTINATION
+else
+    rsync $SYNC_OPT --include-from=$LIST $HOME/ $DESTINATION
+fi
 }
 
 #: START
 testLib
 testConnect
+runOpt "$@"
 teleport
 penguinista
