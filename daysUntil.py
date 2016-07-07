@@ -4,7 +4,7 @@
 from datetime import datetime, date
 
 msg = """
-(O< .: How many days until: yyyy mm dd
+(O< .: How many days until ...
 (/)_
 """
 print(msg)
@@ -16,8 +16,7 @@ def days_until(year, month, day):
     num = d1 - d0
     return num.days
 
-yyyy = int(raw_input('Enter yyyy > '))
-mm = int(raw_input('Enter mm > '))
-dd = int(raw_input('Enter dd > '))
-targetDate = date(yyyy, mm, dd).strftime("%A %B %d %Y")
-print('{} days until {}.').format(days_until(yyyy, mm, dd), targetDate)
+futureDate = raw_input('Enter future date YYYY-MM-DD > ').split('-')
+yyyy, mm, dd = int(futureDate[0]), int(futureDate[1]), int(futureDate[2])
+dateCalc = date(yyyy, mm, dd).strftime("%A %B %d %Y")
+print('{} days until {}.').format(days_until(yyyy, mm, dd), dateCalc)
