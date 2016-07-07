@@ -44,8 +44,9 @@ done
 }
 
 teleport() {
+local EXCLUDE="--exclude=*[Cc]ache/ --exclude=*[Tt]rash"
 if [[ $INCLUDE_ALL == "1" ]]; then
-    rsync $SYNC_OPT $HOME/ $DESTINATION
+    rsync $SYNC_OPT $EXCLUDE $HOME/ $DESTINATION
 else
     rsync $SYNC_OPT --include-from=$LIST $HOME/ $DESTINATION
 fi
