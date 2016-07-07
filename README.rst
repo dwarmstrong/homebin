@@ -24,6 +24,8 @@ magic8ball.py
     Magic 8 Ball peers into the future and retrieves the answer to your questions
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
+rePhoneAndEmail.py
+    find and extract phone numbers and email addresses on the clipboard
 teleportHomeTo
     sync $HOME to DESTINATION
 timeToCount.py
