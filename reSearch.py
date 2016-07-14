@@ -6,7 +6,6 @@ msg = '''
 (/)_
 '''
 
-# Get command-line arguments
 parser = argparse.ArgumentParser(description=msg, 
                                 formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("REGEX", nargs="+", help="search for REGEX pattern")
@@ -16,41 +15,49 @@ parser.add_argument("-q", "--quiet", help="no output to console",
                     action="store_true")
 args = parser.parse_args()
 
-pattern = args.REGEX
-source = args.SOURCE
-resultTxt = ""
+print("Regex patterns to match: " + str(args.REGEX))
+print("Source to search is " + str(args.SOURCE))
 
-if args.output:
-    resultTxt= args.output
-    print("Save regex matches to " + resultTxt)
-if args.quiet:
-    print("quiet turned on")
-print("Regex patterns to match: " + str(pattern))
-print("Source to search is " + source)
+def compile_regex(items):
+    """Create regex object"""
+    searchFor = ""
+    for i in items:
+        searchFor += "|" + i
+    regexObj = re.compile(r'{}'.format(searchFor[1:]))
+    return regexObj
 
-# Create regex
-def searchable(items):
-    lookFor = ""
-    for r in items:
-        lookFor += "|" + r
-    lookFor = lookFor[1:]
-    return lookFor
 
-# Find matches
-if os.path.exists(source):
-    #print('Source ' + str(source) + ' exists.')
-    #searchFile = open('{}'.format(source), 'r')
-    f = open("{}".format(source), "r")
-    lines = []
-    for line in f:
-        lines.append(line)
-    f.close()
-    someRegex = re.compile(r'{}'.format(searchable(pattern)))
+def search_space(source):
+    """Create list of items to search"""
+    if os.path.exists(source):
+        f = open("{}".format(source), "r")
+        lines = []
+        for line in f:
+            lines.append(line)
+        f.close()
+        return lines
+    else:
+        return None
+
+def find_match(regex, source):
+    someRegex = compile_regex(regex)
+    lines = search_space(source)
+    if lines == None:
+        print('Source not found.')
+        exit()
     for match in lines:
         if someRegex.search(match) == None:
             pass
         else:
             mo = someRegex.search(match)
-            print(mo.group())
-else:
-    print('Not found')
+            if args.output:
+                resultTxt= args.output
+                o = open("{}".format(resultTxt), "a")
+                o.write(mo.group() + "\n")
+                o.close
+            if args.quiet:
+                pass
+            else:
+                print(mo.group())
+
+find_match(args.REGEX, args.SOURCE)
