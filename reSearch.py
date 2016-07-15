@@ -38,6 +38,7 @@ def search_list(source):
         return None
 
 def find_match(regex, source):
+    """Process regex match to output"""
     findObj = compile_regex(regex)
     lines = search_list(source)
     str_regex = ("Regex patterns to match: " + str(args.REGEX) + "\n")
@@ -81,6 +82,6 @@ def regex_space(search_here, things_of_interest):
             if not is_binary(f):
                 find_match(t, f)
     else:
-        print("Source '" + search_here + "' not found.")
+        raise Exception("Source '" + search_here + "' not found.")
 
 regex_space(args.SOURCE, args.REGEX)
