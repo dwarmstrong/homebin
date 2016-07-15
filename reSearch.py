@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
-import argparse, re, os
-from binaryornot.check import is_binary # sudo apt install python3-binaryornot
+import argparse, re, os, logging
+from binaryornot.check import is_binary # apt install python3-binaryornot
+
+logging.basicConfig(level=logging.DEBUG, 
+        format=' %(asctime)s - %(levelname)s - %(message)s')
+logging.disable(logging.CRITICAL)
+logging.debug('Start of program')
 
 msg = '''
 (O< .: Find matches for REGEX(s) in SOURCE
@@ -8,37 +13,43 @@ msg = '''
 '''
 
 parser = argparse.ArgumentParser(description=msg, 
-                                formatter_class=argparse.RawTextHelpFormatter)
+        formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("REGEX", nargs="+", help="search for REGEX pattern")
 parser.add_argument("SOURCE", help="file(s) to search")
 parser.add_argument("-o", "--output", help="save results to file OUTPUT")
-parser.add_argument("-q", "--quiet", help="no output to console",
-                    action="store_true")
+parser.add_argument("-q", "--quiet", help="no output to console", 
+        action="store_true")
 args = parser.parse_args()
 
 def compile_regex(items):
     """Create regex object"""
+    logging.debug('Start of compile_regex({})'.format(items))
     searchFor = ""
     for i in items:
         searchFor += "|" + i
     regexObj = re.compile(r'{}'.format(searchFor[1:]))
+    logging.debug('End of compile_regex({})'.format(items))
     return regexObj
 
 
 def search_list(source):
     """Create list of items to search"""
+    logging.debug('Start of search_list({})'.format(source))
     if os.path.exists(source):
         f = open("{}".format(source), "r")
         lines = []
         for line in f:
             lines.append(line)
         f.close()
+        logging.debug('End of search_list({})'.format(source))
         return lines
     else:
+        logging.debug('End of search_list({})'.format(source))
         return None
 
 def find_match(regex, source):
     """Process regex match to output"""
+    logging.debug('Start of find_match({}, {})'.format(regex, source))
     findObj = compile_regex(regex)
     lines = search_list(source)
     str_regex = ("Regex patterns to match: " + str(args.REGEX) + "\n")
@@ -63,9 +74,12 @@ def find_match(regex, source):
                 pass
             else:
                 print(mo.group())
+    logging.debug('End of find_match({}, {})'.format(regex, source))
 
 def regex_space(search_here, things_of_interest):
     """Search file(s) for regex matches"""
+    logging.debug('Start of regex_space({}, {})'.format(search_here, 
+        things_of_interest))
     s = search_here
     t = things_of_interest
     if os.path.exists(s):
@@ -83,5 +97,12 @@ def regex_space(search_here, things_of_interest):
                 find_match(t, f)
     else:
         raise Exception("Source '" + search_here + "' not found.")
+    logging.debug('End of regex_space({}, {})'.format(search_here, 
+        things_of_interest))
 
-regex_space(args.SOURCE, args.REGEX)
+try:
+    regex_space(args.SOURCE, args.REGEX)
+except Exception as err:
+    print('Arrgh...an exception: ' + str(err))
+
+logging.debug('End of program')
