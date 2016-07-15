@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse, re, os
+from binaryornot.check import is_binary # sudo apt install python3-binaryornot
 
 msg = '''
 (O< .: Find matches for REGEX(s) in SOURCE
@@ -71,11 +72,14 @@ def regex_space(search_here, things_of_interest):
             directory = s
             files = os.listdir(s)
             for i in files:
-                f = os.path.abspath(os.path.join(directory, i))
-                find_match(t, f)
+                if os.path.isfile(i):
+                    f = os.path.abspath(os.path.join(directory, i))
+                    if not is_binary(f):
+                        find_match(t, f)
         else:
             f = os.path.abspath(s)
-            find_match(t, f)
+            if not is_binary(f):
+                find_match(t, f)
     else:
         print("Source '" + search_here + "' not found.")
 
