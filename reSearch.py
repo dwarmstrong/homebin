@@ -15,9 +15,6 @@ parser.add_argument("-q", "--quiet", help="no output to console",
                     action="store_true")
 args = parser.parse_args()
 
-print("Regex patterns to match: " + str(args.REGEX))
-print("Source to search is " + str(args.SOURCE))
-
 def compile_regex(items):
     """Create regex object"""
     searchFor = ""
@@ -27,7 +24,7 @@ def compile_regex(items):
     return regexObj
 
 
-def search_space(source):
+def search_list(source):
     """Create list of items to search"""
     if os.path.exists(source):
         f = open("{}".format(source), "r")
@@ -40,19 +37,24 @@ def search_space(source):
         return None
 
 def find_match(regex, source):
-    someRegex = compile_regex(regex)
-    lines = search_space(source)
-    if lines == None:
-        print('Source not found.')
-        exit()
+    findObj = compile_regex(regex)
+    lines = search_list(source)
+    str_regex = ("Regex patterns to match: " + str(args.REGEX) + "\n")
+    str_source = ("Match results for \'" + source + "\':\n")
+    print(str_regex + str_source)
+    if args.output:
+        results = args.output
+        o = open("{}".format(results), "a")
+        o.write(str_regex)
+        o.write(str_source)
+        o.close
     for match in lines:
-        if someRegex.search(match) == None:
+        if findObj.search(match) == None:
             pass
         else:
-            mo = someRegex.search(match)
+            mo = findObj.search(match)
             if args.output:
-                resultTxt= args.output
-                o = open("{}".format(resultTxt), "a")
+                o = open("{}".format(results), "a")
                 o.write(mo.group() + "\n")
                 o.close
             if args.quiet:
@@ -60,4 +62,21 @@ def find_match(regex, source):
             else:
                 print(mo.group())
 
-find_match(args.REGEX, args.SOURCE)
+def regex_space(search_here, things_of_interest):
+    """Search file(s) for regex matches"""
+    s = search_here
+    t = things_of_interest
+    if os.path.exists(s):
+        if os.path.isdir(s):
+            directory = s
+            files = os.listdir(s)
+            for i in files:
+                f = os.path.abspath(os.path.join(directory, i))
+                find_match(t, f)
+        else:
+            f = os.path.abspath(s)
+            find_match(t, f)
+    else:
+        print("Source '" + search_here + "' not found.")
+
+regex_space(args.SOURCE, args.REGEX)
