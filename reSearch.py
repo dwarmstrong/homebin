@@ -12,7 +12,13 @@ msg = '''
 (/)_
 '''
 
-parser = argparse.ArgumentParser(description=msg, 
+use_example = '''
+example: reSearch.py -q -o dates.txt '^201[4-9]' ~/daily.log
+            Search file ~/daily.log for all lines that start with
+            2014 to 2019 and output results to dates.txt
+'''
+
+parser = argparse.ArgumentParser(description=msg, epilog=use_example, 
         formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("REGEX", nargs="+", help="search for REGEX pattern")
 parser.add_argument("SOURCE", help="file(s) to search")
