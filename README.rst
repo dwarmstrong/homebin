@@ -26,6 +26,8 @@ paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
 rePhoneAndEmail.py
     find and extract phone numbers and email addresses on the clipboard
+reSearch.py
+    find matches for regex patterns in file(s)
 teleportHomeTo
     sync $HOME to DESTINATION
 timeToCount.py
