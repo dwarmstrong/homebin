@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import argparse, re, os, logging
+import argparse, re, os, logging, shutil, datetime
 from binaryornot.check import is_binary # apt install python3-binaryornot
 
 logging.basicConfig(level=logging.DEBUG, 
         format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -25,6 +25,7 @@ parser.add_argument("SOURCE", help="file(s) to search")
 parser.add_argument("-o", "--output", help="save results to file OUTPUT")
 parser.add_argument("-q", "--quiet", help="no output to console", 
         action="store_true")
+parser.add_argument("-s", "--sub", help="substitute")
 args = parser.parse_args()
 
 def compile_regex(items):
@@ -53,6 +54,29 @@ def search_list(source):
         logging.debug('End of search_list({})'.format(source))
         return None
 
+def switcheroo(pattern, source):
+    """Replace pattern with new_pattern"""
+    # Create backup
+    t = datetime.datetime.today()
+    bak = (source + '.' + t.strftime("%Y-%m-%dT%H.%M.%S.%f") + '.bak')
+    shutil.copyfile(source, bak)
+    logging.debug("Backup " + source + " to " + bak)
+    # Open and read source file
+    f = open(source, 'r')
+    subject = f.read()
+    logging.debug('Load and read ' + source)
+    f.close()
+    # Make changes
+    replace = (r'{}'.format(args.sub))
+    result = pattern.sub(replace, subject)
+    logging.debug("Replace '{}' with '{}' in "
+            .format(args.REGEX, args.sub) + source)
+    # Write file
+    f_out = open(source, 'w')
+    f_out.write(result)
+    logging.debug("Write and save changes.")
+    f_out.close()
+
 def find_match(regex, source):
     """Process regex match to output"""
     logging.debug('Start of find_match({}, {})'.format(regex, source))
@@ -60,25 +84,25 @@ def find_match(regex, source):
     lines = search_list(source)
     str_regex = ("Regex patterns to match: " + str(args.REGEX) + "\n")
     str_source = ("Match results for \'" + source + "\':\n")
-    print(str_regex + str_source)
+    if not args.quiet:
+        print(str_regex + str_source)
     if args.output:
-        results = args.output
-        o = open("{}".format(results), "a")
+        o = open("{}".format(args.output), "a")
         o.write(str_regex)
         o.write(str_source)
         o.close
+    if args.sub:
+        switcheroo(findObj, source)
     for match in lines:
         if findObj.search(match) == None:
             pass
         else:
             mo = findObj.search(match)
             if args.output:
-                o = open("{}".format(results), "a")
+                o = open("{}".format(args.output), "a")
                 o.write(mo.group() + "\n")
                 o.close
-            if args.quiet:
-                pass
-            else:
+            if not args.quiet:
                 print(mo.group())
     logging.debug('End of find_match({}, {})'.format(regex, source))
 
