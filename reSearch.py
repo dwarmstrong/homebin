@@ -4,7 +4,7 @@ from binaryornot.check import is_binary # apt install python3-binaryornot
 
 logging.basicConfig(level=logging.DEBUG, 
         format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -12,11 +12,17 @@ msg = '''
 (/)_
 '''
 
+example0 = ("reSearch.py -q -o ~/log/dateAndWeight.txt '^201[4-9]-\d\d-\d\d' " 
+    "'^#weight\s\d\d...?' ~/log/daily.log")
 use_example = '''
-example: reSearch.py -q -o dates.txt '^201[4-9]' ~/daily.log
-            Search file ~/daily.log for all lines that start with
-            2014 to 2019 and output results to dates.txt
-'''
+EXAMPLES
+    Here are some examples of how I use reSearch.py ...
+
+    To retrieve a list of weight measurements and dates from my personal logfile
+    and save to an output file:
+
+        {}
+'''.format(example0)
 
 parser = argparse.ArgumentParser(description=msg, epilog=use_example, 
         formatter_class=argparse.RawTextHelpFormatter)
@@ -25,7 +31,7 @@ parser.add_argument("SOURCE", help="file(s) to search")
 parser.add_argument("-o", "--output", help="save results to file OUTPUT")
 parser.add_argument("-q", "--quiet", help="no output to console", 
         action="store_true")
-parser.add_argument("-s", "--sub", help="substitute")
+parser.add_argument("-s", "--sub", help="replace regex match with SUB")
 args = parser.parse_args()
 
 def compile_regex(items):
@@ -43,37 +49,39 @@ def search_list(source):
     """Create list of items to search"""
     logging.debug('Start of search_list({})'.format(source))
     if os.path.exists(source):
-        f = open("{}".format(source), "r")
-        lines = []
-        for line in f:
-            lines.append(line)
+        f = open(source, 'r')
+        f_clone = f.readlines()
         f.close()
-        logging.debug('End of search_list({})'.format(source))
-        return lines
+        return f_clone
     else:
         logging.debug('End of search_list({})'.format(source))
         return None
 
+def convert_to_metric():
+    """Convert measurements to metric equivalent"""
+    logging.debug('Start of convert_to_metric({}, {})'.format(regex, source))
+
 def switcheroo(pattern, source):
     """Replace pattern with new_pattern"""
-    # Create backup
     t = datetime.datetime.today()
     bak = (source + '.' + t.strftime("%Y-%m-%dT%H.%M.%S.%f") + '.bak')
     shutil.copyfile(source, bak)
     logging.debug("Backup " + source + " to " + bak)
-    # Open and read source file
-    f = open(source, 'r')
-    subject = f.read()
-    logging.debug('Load and read ' + source)
+    f = open(bak, 'r')
+    f_clone = f.readlines() # returns a list, as opposed to read() which returns
+                            # file as string (not useful for position regex)
+    logging.debug('Load and read ' + bak)
     f.close()
-    # Make changes
     replace = (r'{}'.format(args.sub))
-    result = pattern.sub(replace, subject)
     logging.debug("Replace '{}' with '{}' in "
             .format(args.REGEX, args.sub) + source)
-    # Write file
     f_out = open(source, 'w')
-    f_out.write(result)
+    for i in f_clone:
+        if pattern.search(i) == None:
+            f_out.write(i)
+        else:
+            f_string = (pattern.sub(replace, i))
+            f_out.write(f_string)
     logging.debug("Write and save changes.")
     f_out.close()
 
@@ -87,10 +95,10 @@ def find_match(regex, source):
     if not args.quiet:
         print(str_regex + str_source)
     if args.output:
-        o = open("{}".format(args.output), "a")
-        o.write(str_regex)
-        o.write(str_source)
-        o.close
+        f_out = open("{}".format(args.output), "a")
+        f_out.write(str_regex)
+        f_out.write(str_source)
+        f_out.close()
     if args.sub:
         switcheroo(findObj, source)
     for match in lines:
@@ -99,9 +107,9 @@ def find_match(regex, source):
         else:
             mo = findObj.search(match)
             if args.output:
-                o = open("{}".format(args.output), "a")
-                o.write(mo.group() + "\n")
-                o.close
+                f_out = open("{}".format(args.output), "a")
+                f_out.write(mo.group() + "\n")
+                f_out.close
             if not args.quiet:
                 print(mo.group())
     logging.debug('End of find_match({}, {})'.format(regex, source))
