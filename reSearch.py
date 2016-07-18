@@ -4,7 +4,7 @@ from binaryornot.check import is_binary # apt install python3-binaryornot
 
 logging.basicConfig(level=logging.DEBUG, 
         format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -56,10 +56,6 @@ def search_list(source):
     else:
         logging.debug('End of search_list({})'.format(source))
         return None
-
-def convert_to_metric():
-    """Convert measurements to metric equivalent"""
-    logging.debug('Start of convert_to_metric({}, {})'.format(regex, source))
 
 def switcheroo(pattern, source):
     """Replace pattern with new_pattern"""
