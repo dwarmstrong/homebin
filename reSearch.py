@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG,
 logging.debug('Start of program')
 
 msg = '''
-(O< .: Find matches for REGEX(s) in SOURCE
+(O< .: Find (and, optionally, replace) regular expression matches in text files.
 (/)_
 '''
 
@@ -118,6 +118,7 @@ def regex_space(search_here, things_of_interest):
     t = things_of_interest
     if os.path.exists(s):
         if os.path.isdir(s):
+            '''
             directory = s
             files = os.listdir(s)
             for i in files:
@@ -125,6 +126,14 @@ def regex_space(search_here, things_of_interest):
                     f = os.path.abspath(os.path.join(directory, i))
                     if not is_binary(f):
                         find_match(t, f)
+            '''
+            for dirpath, dirs, files in os.walk(s):
+                logging.debug('dirpath: {}\n\tdirs: {}\n\tfiles: {}'
+                        .format(dirpath, dirs, files))
+                for f in files:
+                    f_path = os.path.join(dirpath, f)
+                    if not is_binary(f_path):
+                        find_match(t, f_path)
         else:
             f = os.path.abspath(s)
             if not is_binary(f):
