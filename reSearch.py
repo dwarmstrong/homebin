@@ -12,13 +12,13 @@ msg = '''
 (/)_
 '''
 
-example0 = ("reSearch.py -q -o ~/log/dateAndWeight.txt '^201[4-9]-\d\d-\d\d' " 
-    "'^#weight\s\d\d...?' ~/log/daily.log")
+example0 = ("reSearch.py -q -o dateWeight.txt '^201[4-6]-\d\d-\d\d' " 
+    "'^#weight\s\d\d...?' daily.log")
 use_example = '''
 EXAMPLES
     Here are some examples of how I use reSearch.py ...
 
-    To retrieve a list of weight measurements and dates from my personal logfile
+    To retrieve a list of weight measurements and dates from my daily logfile
     and save to an output file:
 
         {}
@@ -28,6 +28,8 @@ parser = argparse.ArgumentParser(description=msg, epilog=use_example,
         formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("REGEX", nargs="+", help="search for REGEX pattern")
 parser.add_argument("SOURCE", help="file(s) to search")
+parser.add_argument("-n", "--no-walk", 
+        help="limit search to current directory", action="store_true")
 parser.add_argument("-o", "--output", help="save results to file OUTPUT")
 parser.add_argument("-q", "--quiet", help="no output to console", 
         action="store_true")
@@ -118,22 +120,23 @@ def regex_space(search_here, things_of_interest):
     t = things_of_interest
     if os.path.exists(s):
         if os.path.isdir(s):
-            '''
-            directory = s
-            files = os.listdir(s)
-            for i in files:
-                if os.path.isfile(i):
-                    f = os.path.abspath(os.path.join(directory, i))
-                    if not is_binary(f):
-                        find_match(t, f)
-            '''
-            for dirpath, dirs, files in os.walk(s):
-                logging.debug('dirpath: {}\n\tdirs: {}\n\tfiles: {}'
-                        .format(dirpath, dirs, files))
-                for f in files:
-                    f_path = os.path.join(dirpath, f)
-                    if not is_binary(f_path):
-                        find_match(t, f_path)
+            if not args.no_walk:
+                for dirpath, dirs, files in os.walk(s):
+                    logging.debug('dirpath: {}\n\tdirs: {}\n\tfiles: {}'
+                            .format(dirpath, dirs, files))
+                    for f in files:
+                        f_path = os.path.join(dirpath, f)
+                        if not is_binary(f_path):
+                            find_match(t, f_path)
+            else:
+                directory = s
+                files = os.listdir(s)
+                for i in files:
+                    if os.path.isfile(i):
+                        f = os.path.abspath(os.path.join(directory, i))
+                        if not is_binary(f):
+                            find_match(t, f)
+                
         else:
             f = os.path.abspath(s)
             if not is_binary(f):
