@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import argparse, re, os, logging, shutil, datetime
+import argparse, datetime, filecmp, logging, os, re, shutil
 from binaryornot.check import is_binary # apt install python3-binaryornot
 
 logging.basicConfig(level=logging.DEBUG, 
         format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -63,8 +63,10 @@ def switcheroo(pattern, source):
     """Replace pattern with new_pattern"""
     t = datetime.datetime.today()
     bak = (source + '.' + t.strftime("%Y-%m-%dT%H.%M.%S.%f") + '.bak')
-    shutil.copyfile(source, bak)
     logging.debug("Backup " + source + " to " + bak)
+    shutil.copyfile(source, bak)
+    if not filecmp.cmp(source, bak) == True:
+        raise Exception("Backup failed: source and backup do not match.")
     f = open(bak, 'r')
     f_clone = f.readlines() # returns a list, as opposed to read() which returns
                             # file as string (not useful for position regex)
@@ -136,7 +138,6 @@ def regex_space(search_here, things_of_interest):
                         f = os.path.abspath(os.path.join(directory, i))
                         if not is_binary(f):
                             find_match(t, f)
-                
         else:
             f = os.path.abspath(s)
             if not is_binary(f):
