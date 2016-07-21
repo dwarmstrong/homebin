@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import argparse, datetime, filecmp, logging, os, re, shutil
+import argparse, datetime, filecmp, fnmatch, logging, os, re, shutil
 from binaryornot.check import is_binary # apt install python3-binaryornot
 
 logging.basicConfig(level=logging.DEBUG, 
         format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -28,6 +28,8 @@ parser = argparse.ArgumentParser(description=msg, epilog=use_example,
         formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("REGEX", nargs="+", help="search for REGEX pattern")
 parser.add_argument("SOURCE", help="file(s) to search")
+parser.add_argument("-f", "--filetype", 
+        help="limit search to files of FILETYPE")
 parser.add_argument("-n", "--no-walk", 
         help="limit search to current directory", action="store_true")
 parser.add_argument("-o", "--output", help="save results to file OUTPUT")
@@ -127,17 +129,27 @@ def regex_space(search_here, things_of_interest):
                     logging.debug('dirpath: {}\n\tdirs: {}\n\tfiles: {}'
                             .format(dirpath, dirs, files))
                     for f in files:
+                        logging.debug('File: {}'.format(f))
+                        if args.filetype:
+                            if not fnmatch.fnmatch(f, args.filetype):
+                                logging.debug('**break**')
+                                continue
                         f_path = os.path.join(dirpath, f)
                         if not is_binary(f_path):
                             find_match(t, f_path)
             else:
                 directory = s
                 files = os.listdir(s)
-                for i in files:
-                    if os.path.isfile(i):
-                        f = os.path.abspath(os.path.join(directory, i))
-                        if not is_binary(f):
-                            find_match(t, f)
+                for f in files:
+                    if os.path.isfile(f):
+                        logging.debug('File: {}'.format(f))
+                        if args.filetype:
+                            if not fnmatch.fnmatch(f, args.filetype):
+                                logging.debug('**break**')
+                                continue
+                        f_path = os.path.abspath(os.path.join(directory, f))
+                        if not is_binary(f_path):
+                            find_match(t, f_path)
         else:
             f = os.path.abspath(s)
             if not is_binary(f):
