@@ -14,15 +14,21 @@ msg = '''
 
 example0 = ("reSearch.py -q -o dateWeight.txt '^201[4-6]-\d\d-\d\d' " 
     "'^#weight\s\d\d...?' daily.log")
+example1 = ("reSearch.py -q -f '*.txt' '^#temp\s\d.*' ~/log")
 use_example = '''
 EXAMPLES
     Here are some examples of how I use reSearch.py ...
 
-    To retrieve a list of weight measurements and dates from my daily logfile
-    and save to an output file:
+    To retrieve a list of measurements and dates from my daily logfile and save
+    to an output file:
 
         {}
-'''.format(example0)
+
+    Search through my ~/log directory and any sub-directories for any *.txt
+    files containing temperature measurements:
+
+        {}
+'''.format(example0, example1)
 
 parser = argparse.ArgumentParser(description=msg, epilog=use_example, 
         formatter_class=argparse.RawTextHelpFormatter)
@@ -53,9 +59,13 @@ def search_list(source):
     """Create list of items to search"""
     logging.debug('Start of search_list({})'.format(source))
     if os.path.exists(source):
+        '''
         f = open(source, 'r')
         f_clone = f.readlines()
         f.close()
+        '''
+        with open(source) as f:
+            f_clone = list(f)
         return f_clone
     else:
         logging.debug('End of search_list({})'.format(source))
