@@ -8,6 +8,10 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
+bBook.py
+    get book information from command line arguments or clipboard and open web browser and search Amazon and the Toronto Public Library
+bMap.py
+    get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 collatz.py
     explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 daysUntil.py
