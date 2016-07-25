@@ -16,5 +16,8 @@ def gen_date_and_y(logfile, savefile, regex_date, regex_y):
             searchLines = f.readlines()
             for i in searchLines:
                 if dateObj.search(i) != None or yObj.search(i) != None:
-                    f_out.write(i)
-
+                    if dateObj.search(i) != None:
+                        mo = dateObj.search(i)
+                    else:
+                        mo = yObj.search(i)
+                    f_out.write(mo.group() + '\n')
