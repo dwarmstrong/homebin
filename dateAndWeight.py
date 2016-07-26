@@ -33,6 +33,11 @@ def weight_cleanup(logfile):
                 f.write(line)
 
 if __name__ == '__main__':
-    gen_date_and_y(dailyLog, weightLog, '^201[4-9]-\d\d-\d\d', '^#weight\s\d\d...?')
+    # Search for dates and weight measurements and output to weightLog
+    gen_date_and_y(dailyLog, weightLog, '^201[4-9]-\d\d-\d\d', 
+            '^#weight\s\d\d...?')
     weight_cleanup(weightLog)
+    # Match date with corresponding weight or remove dates with no matches
     match_date_and_y(weightLog, '^201[4-9]-\d\d-\d\d', '^\d\d\.\d')
+    #TODO: generate x_axis and y_axis lists
+    #TODO: generate graph
