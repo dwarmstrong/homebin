@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import logging, re
-from dateAndY import gen_date_and_y
+from dateAndY import gen_date_and_y, match_date_and_y
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding weight measurements (y_axis)
@@ -10,7 +10,8 @@ msg = '''
 dailyLog = "/home/dwa/share/log/daily.log"
 weightLog = "/home/dwa/share/log/dateAndWeight.log"
 
-def weight_sub(logfile):
+def weight_cleanup(logfile):
+    '''Run any metric conversions and remove tags'''
     with open(logfile, 'r') as f:
         searchLines = f.readlines()
     with open(logfile, 'w') as f:
@@ -33,4 +34,5 @@ def weight_sub(logfile):
 
 if __name__ == '__main__':
     gen_date_and_y(dailyLog, weightLog, '^201[4-9]-\d\d-\d\d', '^#weight\s\d\d...?')
-    weight_sub(weightLog)
+    weight_cleanup(weightLog)
+    match_date_and_y(weightLog, '^201[4-9]-\d\d-\d\d', '^\d\d\.\d')

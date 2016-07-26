@@ -6,7 +6,7 @@ msg = '''
 '''
 
 def gen_date_and_y(logfile, savefile, regex_date, regex_y):
-    """Search for date and y"""
+    '''Search for date and y'''
     f = logfile
     f_out = savefile
     dateObj = re.compile(r'{}'.format(regex_date))
@@ -21,3 +21,17 @@ def gen_date_and_y(logfile, savefile, regex_date, regex_y):
                     else:
                         mo = yObj.search(i)
                     f_out.write(mo.group() + '\n')
+
+def match_date_and_y(logfile, regex_date, regex_y):
+    '''Match date(x) with corresponding y or remove dates with no matches'''
+    with open(logfile, 'r') as f:
+        searchLines = f.readlines()
+    with open(logfile, 'w') as f:
+        dateObj = re.compile(r'{}'.format(regex_date))
+        yObj = re.compile(r'{}'.format(regex_y))
+        for index, line in enumerate(searchLines):
+            if yObj.search(line) != None:
+                f.write(line) 
+            elif yObj.search(searchLines[index+1]) != None:
+                f.write(line) # So long as the next line matches regex_y ... go ahead and write regex_date
+                # note ... this will generate an error when it hits end-of-list
