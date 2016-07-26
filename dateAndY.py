@@ -31,7 +31,8 @@ def match_date_and_y(logfile, regex_date, regex_y):
         yObj = re.compile(r'{}'.format(regex_y))
         for index, line in enumerate(searchLines):
             if yObj.search(line) != None:
-                f.write(line) 
+                f.write(line) # regex_y match
+            elif searchLines[index] == searchLines[-1]:
+                break # prevent 'IndexError: list index out of range' 
             elif yObj.search(searchLines[index+1]) != None:
-                f.write(line) # So long as the next line matches regex_y ... go ahead and write regex_date
-                # note ... this will generate an error when it hits end-of-list
+                f.write(line) # regex_date ... if next line matches regex_y
