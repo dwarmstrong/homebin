@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 import logging, re
-from dateAndY import gen_date_and_y, match_date_and_y
+from dateAndY import gen_date_and_y, match_date_and_y, gen_list, str_to_float_list, gen_graph
+
+logging.basicConfig(level=logging.DEBUG, 
+                format=' %(asctime)s - %(levelname)s - %(message)s')
+logging.disable(logging.CRITICAL)
+logging.debug('Start of program')
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding weight measurements (y_axis)
@@ -9,6 +14,8 @@ msg = '''
 '''
 dailyLog = "/home/dwa/share/log/daily.log"
 weightLog = "/home/dwa/share/log/dateAndWeight.log"
+date_regex = "^201[4-9]-\d\d-\d\d"
+weight_regex = "^\d\d\.\d"
 
 def weight_cleanup(logfile):
     '''Run any metric conversions and remove tags'''
@@ -34,10 +41,19 @@ def weight_cleanup(logfile):
 
 if __name__ == '__main__':
     # Search for dates and weight measurements and output to weightLog
-    gen_date_and_y(dailyLog, weightLog, '^201[4-9]-\d\d-\d\d', 
-            '^#weight\s\d\d...?')
+    gen_date_and_y(dailyLog, weightLog, date_regex, '^#weight\s\d\d...?')
     weight_cleanup(weightLog)
     # Match date with corresponding weight or remove dates with no matches
-    match_date_and_y(weightLog, '^201[4-9]-\d\d-\d\d', '^\d\d\.\d')
-    #TODO: generate x_axis and y_axis lists
-    #TODO: generate graph
+    match_date_and_y(weightLog, date_regex, weight_regex)
+    # List of dates
+    dates = gen_list(weightLog, date_regex)
+    logging.debug(dates)
+    # List of weights
+    weights = str_to_float_list(gen_list(weightLog, weight_regex))
+    logging.debug(weights)
+    logging.debug('Dates: ' + str(len(dates)))
+    logging.debug('Weights: ' + str(len(weights)))
+    # Generate graph
+    gen_graph('Dates and Weights', 
+            'Date', weights, 'Weight (kg)', 'o', 'dateAndWeight.pdf')
+    logging.debug('End of program')
