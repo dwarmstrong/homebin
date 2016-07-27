@@ -1,4 +1,5 @@
 import os, re
+from pylab import plot, show
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding y measurements (y_axis)
@@ -36,3 +37,15 @@ def match_date_and_y(logfile, regex_date, regex_y):
                 break # prevent 'IndexError: list index out of range' 
             elif yObj.search(searchLines[index+1]) != None:
                 f.write(line) # regex_date ... if next line matches regex_y
+
+def gen_axis(logfile, regex):
+    '''Create an xy axis list'''
+    with open(logfile, 'r') as f:
+        searchLines = f.readlines()
+        xy_axis = []
+        reObj = re.compile(r'{}'.format(regex))
+        for line in searchLines:
+            if reObj.search(line) != None:
+                mo = reObj.search(line)
+                xy_axis.append(mo.group())
+        return xy_axis
