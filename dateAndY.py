@@ -38,14 +38,25 @@ def match_date_and_y(logfile, regex_date, regex_y):
             elif yObj.search(searchLines[index+1]) != None:
                 f.write(line) # regex_date ... if next line matches regex_y
 
-def gen_axis(logfile, regex):
-    '''Create an xy axis list'''
+def gen_list(logfile, regex):
+    '''Create lists'''
     with open(logfile, 'r') as f:
         searchLines = f.readlines()
-        xy_axis = []
+        xy_list = []
         reObj = re.compile(r'{}'.format(regex))
         for line in searchLines:
             if reObj.search(line) != None:
                 mo = reObj.search(line)
-                xy_axis.append(mo.group())
-        return xy_axis
+                xy_list.append(mo.group())
+        return xy_list
+
+def str_to_float_list(str_list):
+    '''Convert list of strings to floating point items - in reverse order'''
+    float_list = []
+    for i in reversed(str_list):
+        float_list.append(float(i))
+    return float_list
+
+def gen_graph(y_axis):
+    plot(y_axis)
+    show()
