@@ -2,15 +2,14 @@ import logging, os, re
 import datetime as dt
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import numpy as np
 
 logging.basicConfig(level=logging.DEBUG,
         format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 
 msg = '''
-(O< .: Collect dates (x_axis) and corresponding y measurements (y_axis)
-(/)_   from logfile.
+(O< .: Collect dates (x_axis) and corresponding y measurements (y_axis) from
+(/)_   logfile and generate a graph using matplotlib.
 '''
 
 def date_and_y(logfile, savefile, regex_date, regex_y):
@@ -69,11 +68,13 @@ def last_day_of_month():
     lday = nmonth.replace(day=1) - dt.timedelta(1)
     return lday
 
-def gen_date_y_graph(graph_title, date_axis, startdate, y_axis, y_label, y_marker, savefile):
-    '''Generate a graph using a list of dates as x_axis'''
+def gen_date_y_graph(graph_title, 
+        date_axis, startdate, 
+        y_axis, y_label, y_marker, 
+        savefile):
+    '''Graph using a list of dates - beginning at YYYY-M(M)-D(D) - as x_axis'''
     x = [dt.datetime.strptime(d,'%Y-%m-%d').date() for d in date_axis]
     y = y_axis
-    plt.xticks(rotation=70)
     plt.plot(x, y, y_marker)
     ymd = startdate.split('-') # startdate as 'YYYY-M(M)-D(D)'
     start_date = dt.datetime(int(ymd[0]),int(ymd[1]),int(ymd[2]))
@@ -84,14 +85,14 @@ def gen_date_y_graph(graph_title, date_axis, startdate, y_axis, y_label, y_marke
     plt.xlim(start_date, end_date)    
     plt.title(graph_title)
     plt.ylabel(y_label)
-    #
+    plt.grid(True, which='both')
     plt.gca().xaxis.set_major_locator(mdates.YearLocator())
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
     plt.gca().xaxis.set_minor_locator(mdates.MonthLocator())
     plt.gca().xaxis.set_minor_formatter(mdates.DateFormatter('%m'))
     plt.gca().format_xdata = mdates.DateFormatter('%Y-%m-%d')
+    plt.gca().get_xaxis().set_tick_params(which='major', pad=15)
     plt.gcf().autofmt_xdate()
-    #
-    plt.grid(True)
+    labels = plt.gca().get_xticklabels()
+    plt.setp(labels, rotation=0, ha='center', fontsize=15)
     plt.show()
-    #plt.savefig(savefile)
