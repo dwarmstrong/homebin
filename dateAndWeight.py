@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 
 import logging, re
-from dateAndY import date_and_y, match_date_and_y, gen_list, str_to_float_list, gen_date_y_graph
+from dateAndY import (date_and_y, match_date_and_y, gen_list, 
+        str_to_float_list, gen_date_y_graph)
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding weight measurements (y_axis)
-(/)_   from my daily logfile.
+(/)_   from my daily logfile and generate a graph using matplotlib.
 '''
 dailyLog = "/home/dwa/share/log/daily.log"
 weightLog = "/home/dwa/share/log/dateAndWeight.log"
@@ -57,5 +58,5 @@ if __name__ == '__main__':
     gen_date_y_graph('Dates and Weights',           # Title
                     dates, '2014-1-1',              # x_axis 
                     weights, 'Weight (kg)', 'o',    # y_axis
-                    'dateAndWeight.pdf')            # Save to...
+                    'dateAndWeight.png')            # Save to...
     logging.debug('End of program')
