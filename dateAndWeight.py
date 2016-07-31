@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import logging, re
-from dateAndY import gen_date_and_y, match_date_and_y, gen_list, str_to_float_list, gen_graph
+from dateAndY import date_and_y, match_date_and_y, gen_list, str_to_float_list, gen_date_y_graph
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -41,12 +41,12 @@ def weight_cleanup(logfile):
 
 if __name__ == '__main__':
     # Search for dates and weight measurements and output to weightLog
-    gen_date_and_y(dailyLog, weightLog, date_regex, '^#weight\s\d\d...?')
+    date_and_y(dailyLog, weightLog, date_regex, '^#weight\s\d\d...?')
     weight_cleanup(weightLog)
     # Match date with corresponding weight or remove dates with no matches
     match_date_and_y(weightLog, date_regex, weight_regex)
     # List of dates
-    dates = gen_list(weightLog, date_regex)
+    dates = str_to_float_list(gen_list(weightLog, date_regex))
     logging.debug(dates)
     # List of weights
     weights = str_to_float_list(gen_list(weightLog, weight_regex))
@@ -54,6 +54,8 @@ if __name__ == '__main__':
     logging.debug('Dates: ' + str(len(dates)))
     logging.debug('Weights: ' + str(len(weights)))
     # Generate graph
-    gen_graph('Dates and Weights', 
-            'Date', weights, 'Weight (kg)', 'o', 'dateAndWeight.pdf')
+    gen_date_y_graph('Dates and Weights',           # Title
+                    dates, '2014-1-1',              # x_axis 
+                    weights, 'Weight (kg)', 'o',    # y_axis
+                    'dateAndWeight.pdf')            # Save to...
     logging.debug('End of program')
