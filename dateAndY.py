@@ -5,7 +5,7 @@ import matplotlib.dates as mdates
 
 logging.basicConfig(level=logging.DEBUG,
         format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding y measurements (y_axis) from a
