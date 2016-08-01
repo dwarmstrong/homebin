@@ -15,9 +15,9 @@ bMap.py
 collatz.py
     explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 dateAndWeight.py
-    collect dates (x_axis) and weight measurements (y_axis) from my daily logfile and generate a graph using matplotlib
+    collect dates (x_axis) and corresponding weight measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph using matplotlib
 dateAndY.py
-    collect dates (x_axis) and corresponding y measurements (y_axis) from a logfile and generate a graph using matplotlib
+    collect dates (x_axis) and corresponding y measurements (y_axis) from a logfile and write to a new logfile + generate a graph using matplotlib
 daysUntil.py
     how many days until: yyyy mm dd
 debtBuster.py

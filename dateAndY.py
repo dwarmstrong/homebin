@@ -8,8 +8,8 @@ logging.basicConfig(level=logging.DEBUG,
 logging.disable(logging.CRITICAL)
 
 msg = '''
-(O< .: Collect dates (x_axis) and corresponding y measurements (y_axis) from
-(/)_   logfile and generate a graph using matplotlib.
+(O< .: Collect dates (x_axis) and corresponding y measurements (y_axis) from a
+(/)_   logfile and write to a new logfile + generate a graph using matplotlib.
 '''
 
 def date_and_y(logfile, savefile, regex_date, regex_y):
