@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import logging, re
+import argparse, logging, re
 from dateAndY import (date_and_y, match_date_and_y, gen_list, 
         str_to_float_list, gen_date_y_graph)
 
@@ -11,12 +11,19 @@ logging.debug('Start of program')
 
 msg = '''
 (O< .: Collect dates (x_axis) and corresponding weight measurements (y_axis)
-(/)_   from my daily logfile and generate a graph using matplotlib.
+(/)_   from my daily logfile and write to a new logfile + generate a graph.
 '''
+
 dailyLog = "/home/dwa/share/log/daily.log"
 weightLog = "/home/dwa/share/log/dateAndWeight.log"
 date_regex = "^201[4-9]-\d\d-\d\d"
 weight_regex = "^\d\d\.\d"
+
+parser = argparse.ArgumentParser(description=msg, 
+        formatter_class=argparse.RawTextHelpFormatter)
+parser.add_argument("-n", "--nograph", 
+        help="create logfile but skip the graph", action="store_true")
+args = parser.parse_args()
 
 def weight_cleanup(logfile):
     '''Run any metric conversions and remove tags'''
@@ -55,8 +62,9 @@ if __name__ == '__main__':
     logging.debug('Dates: ' + str(len(dates)))
     logging.debug('Weights: ' + str(len(weights)))
     # Generate graph
-    gen_date_y_graph('Dates and Weights',           # Title
-                    dates, '2014-1-1',              # x_axis 
-                    weights, 'Weight (kg)', 'o',    # y_axis
-                    'dateAndWeight.png')            # Save to...
+    if not args.nograph:
+        gen_date_y_graph('Dates and Weights',           # Title
+                        dates, '2014-1-1',              # x_axis 
+                        weights, 'Weight (kg)', 'o',    # y_axis
+                        'dateAndWeight.png')            # Save to...
     logging.debug('End of program')
