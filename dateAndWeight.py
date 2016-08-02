@@ -16,7 +16,7 @@ msg = '''
 
 dailyLog = "/home/dwa/share/log/daily.log"
 weightLog = "/home/dwa/share/log/dateAndWeight.log"
-date_regex = "^201[4-9]-\d\d-\d\d"
+date_regex = "^20[0-9][0-9]-\d\d-\d\d"
 weight_regex = "^\d\d\.\d"
 
 parser = argparse.ArgumentParser(description=msg, 
