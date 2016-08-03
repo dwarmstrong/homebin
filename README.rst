@@ -14,6 +14,8 @@ bMap.py
     get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 collatz.py
     explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
+dateAndBook.py
+    collect books I have read and the dates I finished reading them from my daily logfile and write to a new logfile
 dateAndStep.py
     collect dates (x_axis) and corresponding pedometer measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
 dateAndWeight.py
