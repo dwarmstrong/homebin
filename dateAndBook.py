@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse, logging, re
+from os.path import expanduser
 from dateAndY import (date_and_y, match_date_and_y, gen_list, 
         str_to_float_list, gen_date_y_graph)
 
@@ -14,8 +15,9 @@ msg = '''
 (/)_   daily logfile and write to a new logfile.
 '''
 
-dailyLog = "/home/dwa/share/log/daily.log"
-bookLog = "/home/dwa/share/log/dateAndBook.log"
+home = expanduser("~")
+dailyLog = home + "/share/log/daily.log"
+bookLog = home + "/share/log/dateAndBook.log"
 date_regex = "^20[0-9][0-9]-\d\d-\d\d"
 book_regex = "^[A-Z]"
 

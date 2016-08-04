@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse, logging, re
+from os.path import expanduser
 from dateAndY import (date_and_y, match_date_and_y, gen_list, 
         str_to_float_list, gen_date_y_graph)
 
@@ -14,8 +15,9 @@ msg = '''
 (/)_   from my daily logfile and write to a new logfile + generate a graph.
 '''
 
-dailyLog = "/home/dwa/share/log/daily.log"
-stepLog = "/home/dwa/share/log/dateAndStep.log"
+home = expanduser("~")
+dailyLog = home + "/share/log/daily.log"
+stepLog = home + "/share/log/dateAndStep.log"
 date_regex = "^20[0-9][0-9]-\d\d-\d\d"
 step_regex = "^\d+$"
 
