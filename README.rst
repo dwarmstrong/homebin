@@ -44,6 +44,8 @@ teleportHomeTo
     sync $HOME to DESTINATION
 timeToCount.py
     measure clock time for a device to count from 0 to *x* in increments of 1
+tplWatch.py
+    check to see if Toronto Public Library has added an item to catalogue
 vboxshot
     capture screenshot of a virtualbox session
 yt-audio
