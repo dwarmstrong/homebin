@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import logging, bs4, requests
+import logging, bs4, requests, smtplib
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
 #logging.disable(logging.CRITICAL)
-logging.debug('Start of program')
 
 msg = '''
 (O< .: Functions to support web scraping.
@@ -36,4 +35,29 @@ def watch_for(checklist, element, save_results_to):
                     else:
                         f.write('No match.\n')
 
-logging.debug('End of program')
+def keep_me_posted(smtp, port, username, password, send_addr, receive_addr, 
+        subject, message):
+    '''Email to me any items of interest.'''
+    # Connect to host
+    try:
+        server = smtplib.SMTP(smtp, port)
+    except smtplib.socket.gaierror:
+        return false
+    server.ehlo()
+    server.starttls()
+    # Login
+    try:
+        server.login(username, password)
+    except SMTPAuthenticationError:
+        server.quit()
+        return False
+    # Send message
+    msg = "Subject: " + subject + "\n" + message
+    try:
+        server.sendmail(send_addr, receive_addr, msg)
+        return True
+    except Exception:
+        return False
+    finally:
+        server.quit()
+
