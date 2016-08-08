@@ -2,7 +2,7 @@
 **homebin**
 ===========
 
-Some helper scripts and programming experiments I create and store in **$HOME/bin**.
+Collection of working scripts and experiments in my home directory. Programming right now in **Python**.
 
 Scripts
 =======
