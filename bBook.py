@@ -18,6 +18,11 @@ else:
     # Get book info from clipboard
     book = pyperclip.paste()
 
-webbrowser.open(library + book)
-webbrowser.open(amazonCa + amzSearch + book)
-webbrowser.open(amazonCom + amzSearch + book)
+if 'firefox' in webbrowser._browsers:
+    www = webbrowser.get('firefox').open
+else:
+    www = webbrowser.open
+
+www(library + book)
+www(amazonCa + amzSearch + book)
+www(amazonCom + amzSearch + book)

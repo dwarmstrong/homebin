@@ -14,4 +14,9 @@ else:
     # Get address from clipboard
     address = pyperclip.paste()
 
-webbrowser.open('https://www.google.com/maps/place/' + address)
+if 'firefox' in webbrowser._browsers:
+    www = webbrowser.get('firefox').open
+else:
+    www = webbrowser.open
+
+www('https://www.google.com/maps/place/' + address)
