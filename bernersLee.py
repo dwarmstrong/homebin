@@ -1,26 +1,12 @@
-"""A set of classes to support my web script hacks."""
+"""A set of classes to support my web hacks."""
 
-import bs4, pyperclip, requests, smtplib, sys, webbrowser
-"""
-#!/usr/bin/env python3
-# File: Legobox.py
-# Modules to support my scripts in $HOME/bin.
-
-import logging, bs4, requests, smtplib
-
-#!/usr/bin/env python3
-
-import logging, bs4, requests, smtplib
-
-logging.basicConfig(level=logging.DEBUG, 
-                format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
-"""
+import logging, bs4, pyperclip, requests, smtplib, sys, webbrowser
 
 class Browser():
     """Super browser powers"""
 
     def __init__(self):
+        """Initialize attributes."""
         self.browser = 'firefox'
 
     def open_search_tab(self, web_address):
@@ -40,16 +26,18 @@ class Browser():
 
         www(web_address + search_item)
 
-"""
-class Watch():
+
+class CheckList():
+    """Check a website for a matching element from a checklist"""
 
     def __init__(self, checklist, match_element, save_results_to):
+        """Initialize attributes."""
         self.checklist = checklist
         self.match_element = match_element
         self.save_results_to = save_results_to
 
-    def watch_for(self):
-        '''Check a website for a matching ELEMENT from CHECKLIST''' 
+    def check_for(self):
+        """Web scrape a site for a matching element"""
         with open(self.save_results_to, 'w') as f:
             f.write('# Items found\n')
             with open(self.checklist, 'r') as f_search:
@@ -70,5 +58,5 @@ class Watch():
                             logging.debug('{}'.format(elems[0]))
                             f.write('{}\n'.format(elems[0]))
                         else:
-                            f.write('No match.\n')"""
+                            f.write('No match.\n')
 

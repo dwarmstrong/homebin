@@ -8,6 +8,8 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
+bernersLee.py
+    a set of classes to support my web hacks
 bookTab.py
     get book information from command line arguments or clipboard and open web browser and search Amazon and the Toronto Public Library
 collatz.py
@@ -36,6 +38,8 @@ mapTab.py
     get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
+raiseRedLantern.py
+    a set of classes to add notification capabilities to scripts
 rePhoneAndEmail.py
     find and extract phone numbers and email addresses on the clipboard
 reSearch.py
@@ -48,8 +52,6 @@ tplWatch.py
     check to see if Toronto Public Library has added an item to catalogue
 vboxshot
     capture screenshot of a virtualbox session
-webWatch.py
-    functions to support web scraping
 yt-audio
     download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 xtra
