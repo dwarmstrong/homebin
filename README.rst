@@ -8,10 +8,8 @@ Scripts
 =======
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
-bBook.py
+bookTab.py
     get book information from command line arguments or clipboard and open web browser and search Amazon and the Toronto Public Library
-bMap.py
-    get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 collatz.py
     explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 dateAndBook.py
@@ -34,6 +32,8 @@ dmenu-run.sh
     ``dmenu`` configuration
 magic8ball.py
     Magic 8 Ball peers into the future and retrieves the answer to your questions
+mapTab.py
+    get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 paVolume
     pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
 rePhoneAndEmail.py
