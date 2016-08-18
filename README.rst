@@ -52,10 +52,10 @@ tplWatch.py
     check to see if Toronto Public Library has added an item to catalogue
 vboxshot
     capture screenshot of a virtualbox session
-yt-audio
-    download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 xtra
     ``xinit`` extra config
+yt-audio
+    download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 
 Author
 ======
