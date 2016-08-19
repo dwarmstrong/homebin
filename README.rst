@@ -46,6 +46,8 @@ reSearch.py
     find matches for regex patterns in file(s)
 teleportHomeTo
     sync $HOME to DESTINATION
+teleportHomeToSSH
+    sync $HOME to remote DESTINATION using SSH keys
 timeToCount.py
     measure clock time for a device to count from 0 to *x* in increments of 1
 tplWatch.py
