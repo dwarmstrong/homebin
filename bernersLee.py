@@ -6,7 +6,7 @@ class Browser():
     """Super browser powers"""
 
     def __init__(self):
-        """Initialize attributes."""
+        """Set a default browser."""
         self.browser = 'firefox'
 
     def open_search_tab(self, web_address):
@@ -31,7 +31,7 @@ class CheckList():
     """Check a website for a matching element from a checklist"""
 
     def __init__(self, checklist, match_element, save_results_to):
-        """Initialize attributes."""
+        """Work from a checklist, search for matches, save results to file."""
         self.checklist = checklist
         self.match_element = match_element
         self.save_results_to = save_results_to
