@@ -17,11 +17,11 @@ collatz.py
 dateAndBook.py
     collect books I have read and the dates I finished reading them from my daily logfile and write to a new logfile
 dateAndStep.py
-    collect dates (x_axis) and corresponding pedometer measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
+    collect dates (x_axis) and pedometer measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
 dateAndWeight.py
-    collect dates (x_axis) and corresponding weight measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
+    collect dates (x_axis) and weight measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
 dateAndY.py
-    collect dates (x_axis) and corresponding y measurements (y_axis) from a logfile and write to a new logfile + generate a graph using matplotlib
+    a set of classes to support collecting dates (x_axis) and measurements (y_axis) from a logfile and write to a new logfile and generate a graph
 daysUntil.py
     how many days until: yyyy mm dd
 debtBuster.py
