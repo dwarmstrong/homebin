@@ -2,18 +2,21 @@
 
 import argparse, logging, re
 from os.path import expanduser
-from dateAndY import (date_and_y, match_date_and_y, gen_list, 
-        str_to_float_list, gen_date_y_graph)
+from dateAndY import Logfile
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
 logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
-msg = '''
+msg = """
 (O< .: Collect books I have read and the dates I finished reading them from my
 (/)_   daily logfile and write to a new logfile.
-'''
+"""
+
+parser = argparse.ArgumentParser(description=msg, 
+        formatter_class=argparse.RawTextHelpFormatter)
+args = parser.parse_args()
 
 home = expanduser("~")
 dailyLog = home + "/share/log/daily.log"
@@ -21,12 +24,8 @@ bookLog = home + "/share/log/dateAndBook.log"
 date_regex = "^20[0-9][0-9]-\d\d-\d\d"
 book_regex = "^[A-Z]"
 
-parser = argparse.ArgumentParser(description=msg, 
-        formatter_class=argparse.RawTextHelpFormatter)
-args = parser.parse_args()
-
 def book_cleanup(logfile):
-    '''Remove tags'''
+    """Remove tags."""
     with open(logfile, 'r') as f:
         searchLines = f.readlines()
     with open(logfile, 'w') as f:
@@ -41,9 +40,13 @@ def book_cleanup(logfile):
                 f.write(line)
 
 if __name__ == '__main__':
-    # Search for dates and books and output to bookLog
-    date_and_y(dailyLog, bookLog, date_regex, '^#book.*')
+    ## Logfile
+    log = Logfile(dailyLog, bookLog, date_regex)
+
+    ## Search for dates and books and output to bookLog
+    log.date_and_y('^#book.*')
     book_cleanup(bookLog)
-    # Match date with corresponding book or remove dates with no matches
-    match_date_and_y(bookLog, date_regex, book_regex)
+    ## Match date with corresponding book or remove dates with no matches
+    log.match_date_and_y(book_regex)
+
     logging.debug('End of program')

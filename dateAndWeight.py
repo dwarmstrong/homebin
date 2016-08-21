@@ -2,24 +2,17 @@
 
 import argparse, logging, re
 from os.path import expanduser
-from dateAndY import (date_and_y, match_date_and_y, gen_list, 
-        str_to_float_list, gen_date_y_graph)
+from dateAndY import Logfile, GenerateGraph
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
 logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
-msg = '''
-(O< .: Collect dates (x_axis) and corresponding weight measurements (y_axis)
-(/)_   from my daily logfile and write to a new logfile + generate a graph.
-'''
-
-home = expanduser("~")
-dailyLog = home + "/share/log/daily.log"
-weightLog = home + "/share/log/dateAndWeight.log"
-date_regex = "^20[0-9][0-9]-\d\d-\d\d"
-weight_regex = "^\d\d\.\d"
+msg = """
+(O< .: Collect dates (x_axis) and weight measurements (y_axis) from my
+(/)_   daily logfile and write to a new logfile + generate a graph.
+"""
 
 parser = argparse.ArgumentParser(description=msg, 
         formatter_class=argparse.RawTextHelpFormatter)
@@ -27,10 +20,17 @@ parser.add_argument("-n", "--nograph",
         help="create logfile but skip the graph", action="store_true")
 args = parser.parse_args()
 
+home = expanduser("~")
+dailyLog = home + "/share/log/daily.log"
+weightLog = home + "/share/log/dateAndWeight.log"
+date_regex = "^20[0-9][0-9]-\d\d-\d\d"
+weight_regex = "^\d\d\.\d"
+
 def weight_cleanup(logfile):
-    '''Run any metric conversions and remove tags'''
+    """Run any metric conversions and remove tags."""
     with open(logfile, 'r') as f:
         searchLines = f.readlines()
+    
     with open(logfile, 'w') as f:
         lbs = re.compile(r'^(#weight\s)(\d\d\d\.\d)')
         kg = re.compile(r'^(#weight\s)(\d\d\.\d)')
@@ -50,23 +50,29 @@ def weight_cleanup(logfile):
                 f.write(line)
 
 if __name__ == '__main__':
-    # Search for dates and weight measurements and output to weightLog
-    date_and_y(dailyLog, weightLog, date_regex, '^#weight\s\d\d...?')
+    ## Logfile
+    log = Logfile(dailyLog, weightLog, date_regex)
+    
+    ## Search for dates and weight measurements and output to weightLog
+    log.date_and_y('^#weight\s\d\d...?')
     weight_cleanup(weightLog)
-    # Match date with corresponding weight or remove dates with no matches
-    match_date_and_y(weightLog, date_regex, weight_regex)
-    # List of dates
-    dates = str_to_float_list(gen_list(weightLog, date_regex))
+    ## Match date with corresponding weight or remove dates with no matches
+    log.match_date_and_y(weight_regex)
+    ## Generate list of dates
+    dates = log.str_to_float_list(log.gen_list(date_regex))
     logging.debug(dates)
-    # List of weights
-    weights = str_to_float_list(gen_list(weightLog, weight_regex))
+    ## Generate list of weights
+    weights = log.str_to_float_list(log.gen_list(weight_regex))
     logging.debug(weights)
     logging.debug('Dates: ' + str(len(dates)))
     logging.debug('Weights: ' + str(len(weights)))
-    # Generate graph
+
+    ## GenerateGraph
+    graph = GenerateGraph('Dates and Weights',  # Title
+            dates, '2014-1-1',                  # x_axis
+            weights, 'Weight (kg)')             # y_axis
+    
     if not args.nograph:
-        gen_date_y_graph('Dates and Weights',           # Title
-                        dates, '2014-1-1',              # x_axis 
-                        weights, 'Weight (kg)', 'o',    # y_axis
-                        'dateAndWeight.png')            # Save to...
+        graph.gen_date_y_graph('o') # 'o' y_marker
+    
     logging.debug('End of program')
