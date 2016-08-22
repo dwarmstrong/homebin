@@ -88,16 +88,19 @@ class GenerateGraph():
         x = [dt.datetime.strptime(d,'%Y-%m-%d').date() for d in self.date_axis]
         y = self.y_axis
         plt.plot(x, y, y_marker)
+
+        ## Chart title and label axes
+        plt.title(self.graph_title)
+        #plt.xlabel()   # omit ... date ticks are understood
+        plt.ylabel(self.y_label)
+
+        ## Range of x_axis (and allow y_axis to be auto-configured)
         ymd = self.startdate.split('-') # startdate as 'YYYY-M(M)-D(D)'
         start_date = dt.datetime(int(ymd[0]),int(ymd[1]),int(ymd[2]))
         end_date = self.last_day_of_month()
-        logging.debug('Current axis: {}'.format(plt.axis()))
-        logging.debug('Start date: {}'.format(start_date))
-        logging.debug('End date: {}'.format(end_date)) 
-        plt.xlim(start_date, end_date)    
-        plt.title(self.graph_title)
-        plt.ylabel(self.y_label)
-        plt.grid(True, which='both')
+        plt.xlim(start_date, end_date)
+
+        ## Grid
         plt.gca().xaxis.set_major_locator(mdates.YearLocator())
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
         plt.gca().xaxis.set_minor_locator(mdates.MonthLocator())
@@ -105,6 +108,9 @@ class GenerateGraph():
         plt.gca().format_xdata = mdates.DateFormatter('%Y-%m-%d')
         plt.gca().get_xaxis().set_tick_params(which='major', pad=15)
         plt.gcf().autofmt_xdate()
+        plt.grid(True, which='both')
+
         labels = plt.gca().get_xticklabels()
         plt.setp(labels, rotation=0, ha='center', fontsize=15)
+        
         plt.show()
