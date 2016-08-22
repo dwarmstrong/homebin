@@ -39,7 +39,8 @@ def book_cleanup(logfile):
             else:
                 f.write(line)
 
-if __name__ == '__main__':
+
+def main():
     ## Logfile
     log = Logfile(dailyLog, bookLog, date_regex)
 
@@ -49,4 +50,7 @@ if __name__ == '__main__':
     ## Match date with corresponding book or remove dates with no matches
     log.match_date_and_y(book_regex)
 
+
+if __name__ == '__main__':
+    main()
     logging.debug('End of program')

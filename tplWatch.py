@@ -8,7 +8,7 @@ from raiseRedLantern import EmailAlert, MakeMessage
 
 logging.basicConfig(level=logging.DEBUG, 
                 format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 logging.debug('Start of program')
 
 msg = '''
@@ -29,7 +29,7 @@ watchlist = home + "/share/log/tplWatch"
 searchfor = "total-results"
 results = home + "/share/log/tplMatch" 
 
-if __name__ == '__main__':
+def main():
     ## Checklist
     tpl = CheckList(watchlist, searchfor, results)
     tpl.check_for()
@@ -53,5 +53,8 @@ if __name__ == '__main__':
             tpl_alert = EmailAlert(server, port, username, passwd, send, 
                     receive, subject, post)
             tpl_alert.notify_by_mail()
-    
+
+
+if __name__ == '__main__':
+    main()
     logging.debug('End of program')

@@ -49,7 +49,7 @@ def weight_cleanup(logfile):
             else:
                 f.write(line)
 
-if __name__ == '__main__':
+def main():
     ## Logfile
     log = Logfile(dailyLog, weightLog, date_regex)
     
@@ -75,4 +75,7 @@ if __name__ == '__main__':
     if not args.nograph:
         graph.gen_date_y_graph('o') # 'o' y_marker
     
+
+if __name__ == '__main__':
+    main()
     logging.debug('End of program')
