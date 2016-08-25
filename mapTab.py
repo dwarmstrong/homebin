@@ -7,5 +7,8 @@ msg = '''
 (/)_   web browser to the Google Maps page for the address.
 '''
 
-browser = Browser()
-browser.open_search_tab('https://www.google.com/maps/place/')
+def main():
+    browser = Browser()
+    browser.open_search_tab('https://www.google.com/maps/place/')
+
+main()
