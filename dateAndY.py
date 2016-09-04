@@ -1,5 +1,7 @@
-"""A set of classes to support collecting dates (x_axis) and measurements
-(y_axis) from a logfile and write to a new logfile and generate a graph."""
+"""
+A set of classes to support collecting dates (x_axis) and measurements
+(y_axis) from a logfile and write to a new logfile and generate a graph.
+"""
 
 import logging, os, re
 import datetime as dt
@@ -91,7 +93,6 @@ class GenerateGraph():
 
         ## Chart title and label axes
         plt.title(self.graph_title)
-        #plt.xlabel()   # omit ... date ticks are understood
         plt.ylabel(self.y_label)
 
         ## Range of x_axis (and allow y_axis to be auto-configured)
