@@ -11,7 +11,7 @@ Library.sh
 bernersLee.py
     a set of classes to support my web hacks
 bookTab.py
-    get book information from command line arguments or clipboard and open web browser and search Amazon and the Toronto Public Library
+    get book information from command line arguments or clipboard, open web browser, and search Amazon and the Toronto Public Library (more: `"Search for a book using Python and Firefox" <http://www.circuidipity.com/booktab.html>`_)
 collatz.py
     explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 dateAndBook.py
