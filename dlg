@@ -11,4 +11,4 @@ if [[ $(git -C $LOG_D status --porcelain -- $LOG) ]]; then
     git -C $LOG_D add $LOG && git -C $LOG_D commit -m 'save'
 fi
     
-vim ${LOG_D}/${LOG}
+nvim ${LOG_D}/${LOG}
