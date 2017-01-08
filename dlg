@@ -1,14 +1,14 @@
 #!/bin/bash
+
+# Name: dlg - personal wiki with auto-backup
+# Requires: neovim, vimwiki, git
+# Link: https://github.com/vonbrownie/homebin/
+
 set -eu
 
-NAME="dlg"
-BLURB="daily log + git"
-GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/dlg"
-LOG_D="$HOME/share/log"
-LOG="daily.log"
+WIKI="$HOME/doc/wiki"
 
-if [[ $(git -C $LOG_D status --porcelain -- $LOG) ]]; then
-    git -C $LOG_D add $LOG && git -C $LOG_D commit -m 'save'
+if [[ -n $(git -C $WIKI status --porcelain) ]]; then
+    git -C $WIKI add --all && git -C $WIKI commit -m 'save'
 fi
-    
-nvim ${LOG_D}/${LOG}
+nvim -c VimwikiIndex
