@@ -2,7 +2,7 @@
 **homebin**
 ===========
 
-Collection of working scripts and experiments in my home directory. Programming right now in **Python**.
+Collection of working scripts and experiments in my home directory.
 
 Scripts
 =======
@@ -29,7 +29,7 @@ debtBuster.py
 dldsply
     enable|disable extended desktop using XRandR
 dlg
-    daily activity log + git commits
+    personal wiki + auto-backups
 dmenu-run.sh
     ``dmenu`` configuration
 magic8ball.py
