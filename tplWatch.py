@@ -27,9 +27,9 @@ parser.add_argument("-p", "--passwd", help="SMTP password")
 args = parser.parse_args()
 
 home = expanduser("~")
-watchlist = home + "/share/log/tplWatch"
+watchlist = home + "/doc/log/tplWatch"
 searchfor = "total-results"
-results = home + "/share/log/tplMatch" 
+results = home + "/doc/log/tplMatch" 
 mail_id = home + "/.mail_id"
 
 def main():
