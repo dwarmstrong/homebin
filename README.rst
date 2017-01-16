@@ -9,53 +9,55 @@ Scripts
 Library.sh
     library of functions for bash shell scripts (more: `"A library for shell scripts" <http://www.circuidipity.com/shell-script-library.html>`_)
 bernersLee.py
-    a set of classes to support my web hacks
+    A set of classes to support my web hacks
 bookTab.py
-    get book information from command line arguments or clipboard, open web browser, and search Amazon and the Toronto Public Library (more: `"Search for a book using Python and Firefox" <http://www.circuidipity.com/booktab.html>`_)
+    Get book information from command line arguments or clipboard, open web browser, and search Amazon and the Toronto Public Library (more: `"Search for a book using Python and Firefox" <http://www.circuidipity.com/booktab.html>`_)
+chaos.py
+    A simple program illustrating chaotic behaviour
 collatz.py
-    explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
+    Explore the *Collatz sequence*, sometimes called "the simplest impossible math problem"
 dateAndBook.py
-    collect books I have read and the dates I finished reading them from my daily logfile and write to a new logfile
+    Collect books I have read and the dates I finished reading them from my daily logfile and write to a new logfile
 dateAndStep.py
-    collect dates (x_axis) and pedometer measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
+    Collect dates (x_axis) and pedometer measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
 dateAndWeight.py
-    collect dates (x_axis) and weight measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
+    Collect dates (x_axis) and weight measurements (y_axis) from my daily logfile and write to a new logfile + generate a graph
 dateAndY.py
-    a set of classes to support collecting dates (x_axis) and measurements (y_axis) from a logfile and write to a new logfile and generate a graph
+    A set of classes to support collecting dates (x_axis) and measurements (y_axis) from a logfile and write to a new logfile and generate a graph
 daysUntil.py
-    how many days until: yyyy mm dd
+    How many days until: yyyy mm dd
 debtBuster.py
-    find the smallest monthly payment to the cent such that we can pay off a debt within *n* months
+    Find the smallest monthly payment to the cent such that we can pay off a debt within *n* months
 dldsply
-    enable|disable extended desktop using XRandR
+    Enable|disable extended desktop using XRandR
 dlg
-    personal wiki + auto-backups
+    Personal wiki + auto-backups
 dmenu-run.sh
-    ``dmenu`` configuration
+    Dynamic menu configuration
 magic8ball.py
     Magic 8 Ball peers into the future and retrieves the answer to your questions
 mapTab.py
-    get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
+    Get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 paVolume
-    pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
+    Pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
 raiseRedLantern.py
-    a set of classes to add notification capabilities to scripts
+    A set of classes to add notification capabilities to scripts
 rePhoneAndEmail.py
-    find and extract phone numbers and email addresses on the clipboard
+    Find and extract phone numbers and email addresses on the clipboard
 reSearch.py
-    find matches for regex patterns in file(s)
+    Find matches for regex patterns in file(s)
 teleportHomeTo
-    sync $HOME to DESTINATION
+    Sync $HOME to DESTINATION
 teleportHomeToSSH
-    sync $HOME to remote DESTINATION using SSH keys
+    Sync $HOME to remote DESTINATION using SSH keys
 timeToCount.py
-    measure clock time for a device to count from 0 to *x* in increments of 1
+    Measure clock time for a device to count from 0 to *x* in increments of 1
 tplWatch.py
-    check to see if Toronto Public Library has added an item to catalogue
+    Check to see if Toronto Public Library has added an item to catalogue
 vboxshot
-    capture screenshot of a virtualbox session
+    Capture screenshot of a virtualbox session
 xtra
-    ``xinit`` extra config
+    Xinit configuration
 yt-audio
     download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 
