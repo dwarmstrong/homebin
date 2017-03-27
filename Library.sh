@@ -1,16 +1,14 @@
 #!/bin/bash
-# (O< 
-# (/)_ .: Library.sh -- a library of functions for bash shell scripts :.
-# SOURCE
-#     https://github.com/vonbrownie/homebin/blob/master/Library.sh
-#
-# To use these functions in shell scripts ... place this script in $HOME/bin
-# and call its functions by adding:
+# NAME="Library.sh"
+# BLURB="A library of functions for bash shell scripts"
+# SOURCE="https://github.com/vonbrownie/homebin"
+
+# Place in $HOME/bin and call its functions by adding to script:
 #
 # . Library.sh
 #
-# "A library for shell scripts"
-#    http://www.circuidipity.com/shell-script-library.html
+# SEE: "A library for shell scripts"
+#       http://www.circuidipity.com/shell-script-library.html
 
 echoRed() {
 echo -e "\E[1;31m$1"
@@ -50,25 +48,16 @@ cat << _EOF_
 _EOF_
 }
 
-header() {
-echoCyan "$( penguinista ) .: $top ..."                                            
-}                                                                                  
-                                                                                   
-footer() {
-echoGreen "\n\nOK ... $bottom ..."
-sleep 4                                                                            
-}                                                                                  
-                                                                                   
 exitOK() {
 echoGreen "\n$( penguinista ) .: Exiting ... Have a good day!"
 exit                                                                               
 }                                                                                  
                                                                                    
-badRep() {
+badReply() {
 echoRed "\n'$REPLY' is invalid input ...\n"                                        
 }                                                                                  
                                                                                    
-badRepYN() {
+badReplyYN() {
 echoRed "\n'$REPLY' is invalid input. Please select 'Y(es)' or 'N(o)' ...\n"       
 }
 
@@ -86,7 +75,7 @@ do
         penguinista
         exit
     else
-        badRepYN
+        badReplyYN
     fi
 done
 }
