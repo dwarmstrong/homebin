@@ -1,9 +1,8 @@
 #!/bin/bash
-
-# Name: dlg - personal wiki with auto-backup
-# Requires: neovim, vimwiki, git
-# Link: https://github.com/vonbrownie/homebin/
-
+# NAME="dlg"
+# BLURB="Personal wiki with auto-backup"
+# SOURCE="https://github.com/vonbrownie/homebin"
+# REQUIRES="neovim, vimwiki, git"
 set -eu
 
 WIKI="$HOME/doc/wiki"

@@ -1,18 +1,16 @@
 #!/bin/bash
-scriptName="paVolume"
-scriptBlurb="pulseaudio volume control"
-scriptProject="https://github.com/vonbrownie/homebin"
-scriptSrc="${scriptProject}/blob/master/${scriptName}"
-
+NAME="paVolume"
+BLURB="Pulseaudio volume control"
+SOURCE="https://github.com/vonbrownie/homebin"
 sinkMute="pactl set-sink-mute @DEFAULT_SINK@"
 sinkVol="pactl set-sink-volume @DEFAULT_SINK@"
 showVol="volnoti-show $(pamixer --get-volume)"
 
 scriptDetails() {
 echo "NAME"
-echo -e "\t$scriptName - $scriptBlurb"
+echo -e "\t$NAME - $BLURB"
 echo "USAGE"
-echo -e "\t$scriptName [OPTION]"
+echo -e "\t$NAME [OPTION]"
 echo "OPTIONS"
 echo -e "\t-h\tscript details"
 echo -e "\t-m\ttoggle volume mute"
@@ -23,7 +21,7 @@ echo -e "\tpactl - control a running pulseaudio server"
 echo -e "\tpamixer - pulseaudio command line mixer"
 echo -e "\tvolnoti - lightweight sound notification"
 echo "SOURCE"
-echo -e "\t<${scriptSrc}>\n"
+echo -e "\t<${SOURCE}>\n"
 }
 
 testPath() {
@@ -87,6 +85,6 @@ do
 done
 }
 
-#: START
+# START
 testPath
 runOptions "$@"

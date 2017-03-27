@@ -1,9 +1,9 @@
 #!/bin/bash
+# NAME="teleportHomeTo"
+# BLURB="Sync $HOME to DESTINATION:$HOME"
+# SOURCE="https://github.com/vonbrownie/homebin"
 set -eu
 
-NAME="teleportHomeTo"
-BLURB="sync $HOME to DESTINATION:$HOME"
-GIT_SRC="https://github.com/vonbrownie/homebin/blob/master/teleportHomeTo"
 SYNC_OPT="--archive --verbose --delete"
 INCLUDE_ALL="0"
 LIST="$HOME/.teleportHomeTo" # list of items to include (and exclude) from sync
@@ -12,7 +12,7 @@ DESTINATION="${!#}"
 testLib() {                                                                    
 # A library of functions for shell scripts
 local libName="Library.sh"
-local libSrc="https://github.com/vonbrownie/homebin/blob/master/${libName}"
+local libSrc="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
 local lib="$HOME/bin/${libName}"
 if [[ -e $lib ]]; then
     . $lib
@@ -52,7 +52,7 @@ else
 fi
 }
 
-#: START
+# START
 testLib
 testConnect
 runOpt "$@"

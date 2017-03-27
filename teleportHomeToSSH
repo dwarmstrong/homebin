@@ -1,5 +1,7 @@
 #!/bin/bash
-# Sync $HOME to remote storage using SSH keys
+# NAME="teleportHomeToSSH"
+# BLURB="Sync $HOME to remote storage using SSH keys"
+# SOURCE="https://github.com/vonbrownie/homebin"
 set -eu
 
 . ${HOME}/.keychain/${HOSTNAME}-sh

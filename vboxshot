@@ -1,9 +1,7 @@
 #!/bin/bash
-
-scriptName="vboxshot"
-scriptBlurb="capture screenshot of a virtualbox session"
-scriptProject="https://github.com/vonbrownie/homebin"
-scriptSrc="${scriptProject}/blob/master/scripts/${scriptName}"
+# NAME="vboxshot"
+# BLURB="Capture screenshot of a virtualbox session"
+# SOURCE="https://github.com/vonbrownie/homebin"
 
 vboxBin="/usr/bin/VBoxManage"
 vboxSave="$HOME/Downloads"
