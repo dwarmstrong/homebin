@@ -5,12 +5,14 @@ SOURCE="https://github.com/vonbrownie/homebin"
 set -eu
 
 HOMEBIN="$HOME/bin"
-HOMEBIN_LIB="Library.sh" # A library of functions for shell scripts
+HOMEBIN_LIB="Library.sh"    # A library of functions for shell scripts
 SYNC_OPT="--archive --verbose --delete"
 EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ --exclude=local/ \
 --exclude=*[Tt]humbnail*/"
 DESTINATION="${*: -1}"
-DEST_EXIST=1  # DESTINATION exists ... 0=True, 1=False
+DEST_EXIST=1    # DESTINATION exists ... 0=True, 1=False
+INCLUDE_OPT=1   # Include (and exclude) items from a config file
+INCLUDE_CONFIG="$HOME/.teleportHomeInc"
 
 if [ -e $HOMEBIN/$HOMEBIN_LIB ]; then
     . $HOMEBIN/$HOMEBIN_LIB
@@ -21,9 +23,17 @@ else
     exit 1
 fi
 
-while getopts ":n" OPT
+while getopts ":in" OPT
 do
     case $OPT in
+        i)
+            if [ -e "$INCLUDE_CONFIG" ]; then
+                INCLUDE_OPT=0
+            else
+                L_echo_red "$(L_penguin) .: ERROR: '$INCLUDE_CONFIG' not found."
+                exit 1
+            fi
+            ;;
         n)
             SYNC_OPT="$SYNC_OPT --dry-run"
             ;;
@@ -55,10 +65,14 @@ else
     fi
 fi
 if [[ $DEST_EXIST -ne 0 ]]; then
-    L_echo_red "$(L_penguin) .: ERROR: '$DESTINATION' does not exist."
+    L_echo_red "$(L_penguin) .: ERROR: '$DESTINATION' not found."
     exit 1
 fi
 
 # Sync $HOME to DESTINATION
-rsync $SYNC_OPT $EXCLUDE_OPT ${HOME}/ ${DESTINATION}/
+if [[ $INCLUDE_OPT -eq 0 ]]; then
+    rsync $SYNC_OPT --include-from=$INCLUDE_CONFIG ${HOME}/ ${DESTINATION}/
+else
+    rsync $SYNC_OPT $EXCLUDE_OPT ${HOME}/ ${DESTINATION}/
+fi
 L_echo_green "$(L_penguin)"
