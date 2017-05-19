@@ -46,10 +46,8 @@ rePhoneAndEmail.py
     Find and extract phone numbers and email addresses on the clipboard
 reSearch.py
     Find matches for regex patterns in file(s)
-teleportHomeTo
-    Sync $HOME to DESTINATION
-teleportHomeToSSH
-    Sync $HOME to remote DESTINATION using SSH keys
+teleportHome.sh
+    sync $HOME to remote DESTINATION using SSH keys (more: `"Automatic backups over the LAN" <http://www.circuidipity.com/backup-over-lan.html>`_)
 timeToCount.py
     Measure clock time for a device to count from 0 to *x* in increments of 1
 tplWatch.py
