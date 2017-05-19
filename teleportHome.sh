@@ -12,7 +12,7 @@ EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ --exclude=local/ \
 DESTINATION="${*: -1}"
 DEST_EXIST=1    # DESTINATION exists ... 0=True, 1=False
 INCLUDE_OPT=1   # Include (and exclude) items from a config file
-INCLUDE_CONFIG="$HOME/.teleportHomeInc"
+INCLUDE_CONFIG="$HOME/.teleportHomeInclude"
 
 if [ -e $HOMEBIN/$HOMEBIN_LIB ]; then
     . $HOMEBIN/$HOMEBIN_LIB
