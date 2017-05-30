@@ -5,8 +5,9 @@
 set -eu
 
 # Place script in $HOME/bin and call its functions by adding to a script ...
-# . $HOME/bin/Library.sh
+#   . $HOME/bin/Library.sh
 
+OPT_HELP="Run with '-h' for details."
 # ANSI escape codes
 RED="\033[1;31m"
 GREEN="\033[1;32m"
@@ -29,11 +30,23 @@ echo -e "${YELLOW}$1${NC}"
 }
 
 
-L_penguin() {
-cat << _EOF_
-(O<
-(/)_
-_EOF_
+L_banner_begin() {
+L_echo_yellow "\n--------[  $1  ]--------\n"
+}
+
+
+L_banner_end() {
+L_echo_green "\n--------[  $1 END  ]--------\n"
+}
+
+
+L_sig_ok() {
+L_echo_green "--> [ OK ]"
+}
+
+
+L_sig_fail() {
+L_echo_red "--> [ FAIL ]"
 }
 
 
@@ -45,6 +58,15 @@ L_echo_red "\n'${REPLY}' is invalid input..."
 L_invalid_reply_yn() {
 L_echo_red "\n'${REPLY}' is invalid input. Please select 'Y(es)' or 'N(o)'..."
 }
+
+
+L_penguin() {
+cat << _EOF_
+(O<
+(/)_
+_EOF_
+}
+
 
 
 L_run_script() {
@@ -68,23 +90,140 @@ done
 }
 
 
-L_banner_begin() {
-L_echo_yellow "\n\t\t*** $1 BEGIN ***\n"
+L_test_root() {
+local ERR="ERROR: script must be run with root privileges. $OPT_HELP"
+if (( EUID != 0 )); then
+    L_echo_red "\n$( L_penguin ) .: $ERR"
+    exit 1
+fi
 }
 
 
-L_banner_end() {
-L_echo_green "\n\t\t*** $1 END ***\n"
+L_test_homedir() {
+# $1 is $USER
+local ERR="ERROR: no USERNAME provided. $OPT_HELP"
+if [[ "$#" -eq 0 ]]; then
+    L_echo_red "\n$( L_penguin ) .: $ERR"
+    exit 1
+elif [[ ! -d "/home/$1" ]]; then
+    local ERR1="ERROR: a home directory for '$1' not found. $OPT_HELP"
+    L_echo_red "\n$( L_penguin ) .: $ERR1"
+    exit 1
+fi
 }
 
 
-L_sig_ok() {
-L_echo_green "--> [ OK ]"
+L_test_internet() {
+local ERR="ERROR: script requires internet access to do its job. $OPT_HELP"
+local UP
+export UP
+UP=$( nc -z 8.8.8.8 53; echo $? ) # Google DNS is listening?
+if [[ $UP -ne 0 ]]; then
+    L_echo_red "\n$( L_penguin ) .: $ERR"
+    exit 1
+fi
 }
 
 
-L_sig_fail() {
-L_echo_red "--> [ FAIL ]"
+L_test_datetime() {
+clear
+L_banner_begin "Confirm date + timezone"
+local LINK="<https://wiki.archlinux.org/index.php/time>"
+if [[ -x "/usr/bin/timedatectl" ]]; then
+    timedatectl
+else
+    echo -e "Current date is $( date -I'minutes' )"
+fi
+while :
+do
+    read -n 1 -p "Modify? [yN] > "
+    if [[ $REPLY == [yY] ]]; then
+        echo -e "\n\n$( L_penguin ) .: Check out datetime in Arch Wiki $LINK" 
+        echo "plus 'dpkg-reconfigure tzdata' for setting default timezone."
+        exit
+    elif [[ $REPLY == [nN] || $REPLY == "" ]]; then
+        clear
+        break
+    else
+        L_invalid_reply_yn
+    fi
+done
+}
+
+
+L_test_systemd_fail() {
+clear
+L_banner_begin "List 'systemctl --failed' units"
+systemctl --failed
+while :
+do
+    read -n 1 -p "Continue script? [yN] > "
+    if [[ $REPLY == [yY] ]]; then
+        clear
+        break
+    elif [[ $REPLY == [nN] || $REPLY == "" ]]; then
+         echo ""
+         L_penguin
+         exit
+     else
+         L_invalid_reply_yn
+     fi
+ done
+}
+
+
+L_test_priority_err() {
+clear
+L_banner_begin "Identify high priority errors with 'journalctl -p 0..3 -xn'"
+journalctl -p 0..3 -xn
+while :
+do
+    read -n 1 -p "Continue script? [yN] > "
+    if [[ $REPLY == [yY] ]]; then
+        clear
+        break
+    elif [[ $REPLY == [nN] || $REPLY == "" ]]; then
+        echo ""
+        L_penguin
+        exit
+    else
+        L_invalid_reply_yn
+    fi
+done
+}
+
+
+L_bak_file() {
+for f in "$@"; do cp "$f" "$f.$(date +%FT%H%M%S).bak"; done
+}
+
+
+L_apt_update_upgrade() {
+L_echo_yellow "\nUpdate packages and upgrade $HOSTNAME ..."
+apt update && apt -y full-upgrade
+L_sig_ok
+}
+
+
+L_conf_apt_src_stable() {
+# $1 is debian RELEASE
+local FILE="/etc/apt/sources.list"
+local MIRROR="http://deb.debian.org/debian/"
+local MIRROR1="http://security.debian.org/debian-security"
+local COMP="main contrib non-free"
+L_echo_yellow "\nBackup $FILE ..."
+L_bak_file $FILE
+L_sig_ok
+L_echo_yellow "\nConfigure sources.list for '$1' ..."
+cat << _EOL_ > $FILE
+deb $MIRROR $1 $COMP
+deb-src $MIRROR $1 $COMP
+
+deb $MIRROR1 $1/updates $COMP
+deb-src $MIRROR1 $1/updates $COMP
+_EOL_
+L_sig_ok
+L_apt_update_upgrade
 }
 
 
@@ -98,23 +237,6 @@ if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
     exit 1
 fi
 echo "$WORK_DIR"
-}
-
-
-L_mnt_mount_vfat() {
-# $1 is sd[a-z][0-9] and $2 is MOUNTPOINT
-local _UID
-    _UID="1000"
-local _GID
-    _GID="1000"
-# Helpful! https://help.ubuntu.com/community/Mount/USB#Mount_the_Drive
-# Extra MNT_OPTS allow read and write on drive with regular username
-local MNT_OPTS
-    MNT_OPTS="uid=$_UID,gid=$_GID,utf8,dmask=027,fmask=137"
-sudo mount -t vfat /dev/"$1" "$2" -o $MNT_OPTS
-if [[ ! $( L_mnt_detect "$1" ) ]]; then
-    exit 1
-fi
 }
 
 
@@ -144,16 +266,10 @@ fi
 }
 
 
-L_bak_file() {
-for f in "$@"; do cp "$f" "$f.$(date +%FT%H%M%S).bak"; done
-}
-
-
 L_all_done() {
-local AU_REVOIR
-    AU_REVOIR="All done!"
+local AU_REVOIR="All done!"
 if [[ -x "/usr/games/cowsay" ]]; then
-    /usr/games/cowsay "$AU_REVOIR"
+    L_echo_green "$( /usr/games/cowsay $AU_REVOIR )"
 else
     echo -e "$( L_penguin ) .: $AU_REVOIR"
 fi
