@@ -3,7 +3,7 @@
 # BLURB="xinit extra config"
 # SOURCE="https://github.com/vonbrownie/homebin"
 
-confDP() {
+Conf_dp() {
     # Standby/Suspend/Off
     #xset dpms 1800 1800 1800
     xset -dpms
@@ -11,7 +11,7 @@ confDP() {
     xset s off
 }
 
-confKB() {
+Conf_kb() {
     #
     # TP keyboard + TrackPoint: "Device Accel Constant Deceleration" configures
     # the sensitivity of the trackpoint. Find <id> with ...
@@ -28,13 +28,13 @@ confKB() {
     #xset r 66
 }
 
-confHost() {
+Conf_host() {
     if [[ $HOSTNAME = ull* ]]; then
         nm-applet
     fi
 }
 
 # START
-confDP
-confKB
-confHost
+Conf_dp
+Conf_kb
+Conf_host
