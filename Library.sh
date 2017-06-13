@@ -90,6 +90,21 @@ done
 }
 
 
+L_test_announce() {
+    echo -e "\n$( L_penguin ) .: Let's run a few tests before we begin ..."
+}
+
+
+L_test_required_file() {
+local FILE=$1
+local ERR="ERROR: file '$FILE' required but not found."
+if [[ ! -f "$FILE" ]]; then
+    L_echo_red "\n$( L_penguin ) .: $ERR"
+    exit 1
+fi
+}
+
+
 L_test_root() {
 local ERR="ERROR: script must be run with root privileges. $OPT_HELP"
 if (( EUID != 0 )); then
