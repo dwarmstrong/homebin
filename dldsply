@@ -1,65 +1,106 @@
 #!/bin/bash
-# NAME="dldsply"
-# BLURB="Enable|disable extended desktop using XRandR"
-# SOURCE="https://github.com/vonbrownie/homebin"
+NAME="dldsply"
+BLURB="Enable|disable extended desktop using XRandR"
+SOURCE="https://github.com/vonbrownie/homebin"
+set -eu
 
-dsply1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
-dsply2=$(xrandr | grep " connected" | awk 'FNR == 2 {print $1}')
-confDsply="xrandr --output $dsply1 --auto --output $dsply2 --primary"
+FOO=${1:-}  # Script requires an option to be specified.
+LAYOUT="--off"
 
-testLib() {
-# A library of functions for shell scripts
-local libName="Library.sh"
-local libSrc="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
-local lib="$HOME/bin/${libName}"
-if [[ -e $lib ]]
-then
-    . $lib
+
+Conf_homebin_lib() {
+local HOMEBIN="$HOME/bin"
+local HOMEBIN_LIB="Library.sh" # A library of functions for shell scripts
+if [ -e $HOMEBIN/$HOMEBIN_LIB ]; then
+    . $HOMEBIN/$HOMEBIN_LIB
 else
-    echo -e "\nI require '$libName' to do my magic."
-    echo "SOURCE"
-    echo -e "\t$libSrc"
-    echo -e "Download script from above link and place in $HOME/bin.\n"
+    echo -e "\nERROR:I require '$HOMEBIN_LIB' to do my magic."
+    echo "SOURCE: $SOURCE"
+    echo -e "Download script from above link and place in $HOMEBIN.\n"
     exit 1
 fi
 }
 
-shDetails() {
-echo "$( penguinista ) .: $NAME -- $BLURB :."
-echo "USAGE"
-echo -e "\t$NAME [OPTION]"
-echo "OPTIONS"
-echo -e "\t-h\tdescription and options"
-echo -e "\t-q\tdisable extended desktop"
-echo "SOURCE"
-echo -e "\t<${GIT_SRC}>\n"
+
+Hello_you() {
+L_echo_yellow "\n$( L_penguin ) .: Howdy!"
+cat << _EOF_
+NAME
+    $NAME
+SYNOPSIS
+    $NAME [ options ]
+OPTIONS
+    -h  print details
+    -l  display layout is LEFT->RIGHT
+    -r  display layout is RIGHT->LEFT
+    -q  disable extended desktop
+EXAMPLE
+    $BLURB.
+    
+    Scenario: A large display on the LEFT connected to a laptop on the RIGHT.
+    The external display is the primary desktop, and when the cursor moves
+    past the right edge of the primary screen it emerges from the left edge 
+    of the (secondary) laptop screen ...
+        $ ./$NAME -l
+DEPENDS
+    bash, xrandr
+SOURCE
+    $SOURCE
+
+_EOF_
 }
 
-runOpt() {
-while getopts ":hq" OPT
+
+Conf_desktop() {
+local DISPLAY1
+    DISPLAY1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
+local DISPLAY2
+    DISPLAY2=$(xrandr | grep " connected" | awk 'FNR == 2 {print $1}')
+local DESKTOP="--output $DISPLAY1 --auto --output $DISPLAY2 --primary"
+if [[ -n $DISPLAY2 ]]; then
+    if [[ $LAYOUT == "--off" ]]; then
+        /usr/bin/xrandr $DESKTOP $LAYOUT
+    else
+        /usr/bin/xrandr $DESKTOP --auto $LAYOUT $DISPLAY1
+    fi
+fi
+}
+
+Run_options() {
+# Verify an option has been specified.
+if [[ -z $FOO ]]; then
+    L_echo_red "\n$( L_penguin ) .: ERROR: No option specified."
+    exit 1
+fi
+#
+while getopts ":hlrq" OPT
 do
     case $OPT in
         h)
-            shDetails
+            Hello_you
             exit
+            ;;
+        l)
+            LAYOUT="--left-of"
+            ;;
+        r)
+            LAYOUT="--right-of"
             ;;
         q)
-            $confDsply --off
-            exit
+            LAYOUT="--off"
             ;;
-        *)
-            echoRed "$( penguinista ) .: Invalid option '-$OPTARG'."
+        ?)
+            L_echo_red "\n$( L_penguin ) .: ERROR: Invalid option '-$OPTARG'"
             exit 1
             ;;
     esac
 done
 }
 
-confDesk() {
-if [[ -n $dsply2 ]]; then $confDsply --auto --right-of $dsply1; fi
-}
 
-#: START
-testLib
-runOpt "$@"
-confDesk
+# (O< .: Start
+# (/)_
+Conf_homebin_lib
+Run_options "$@"
+Conf_desktop
+#L_all_done
