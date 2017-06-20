@@ -1,0 +1,21 @@
+#!/bin/bash
+# NAME="trackpointconf"
+# BLURB="Configure my ThinkPad USB Keyboard TrackPoint"
+# SOURCE="https://github.com/vonbrownie/homebin"
+set -eu
+
+# Xorg is now (2017-06-18) using libinput library and driver to handle
+# input devices.
+
+# Find the DEVICE ID
+DEVICE=$( xinput list | grep "TrackPoint" | grep "pointer" )
+DEVICE_ID=$( echo "$DEVICE" | grep -o 'id=[[:digit:]]*' | cut -d'=' -f2 )
+
+# Adjust pointer speed by modifying the "Coordinate Transformation Matrix",
+# a transformation matrix used to calculate a pointer movement.
+MATRIX="2.600000, 0.000000, 0.000000, 0.000000, 2.600000, 0.000000, \
+0.000000, 0.000000, 1.000000"
+
+if [[ -n $DEVICE_ID ]]; then
+    xinput set-prop $DEVICE_ID "Coordinate Transformation Matrix" $MATRIX
+fi
