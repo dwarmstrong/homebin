@@ -1,7 +1,7 @@
 #!/bin/bash
 NAME="dldsply"
 BLURB="Enable|disable extended desktop using XRandR"
-SOURCE="https://github.com/vonbrownie/homebin"
+SOURCE="https://github.com/vonbrownie/homebin/blob/master/dldsply"
 set -eu
 
 FOO=${1:-}  # Script requires an option to be specified.
@@ -9,14 +9,17 @@ LAYOUT="--off"
 
 
 Conf_homebin_lib() {
+local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
 local HOMEBIN="$HOME/bin"
-local HOMEBIN_LIB="Library.sh" # A library of functions for shell scripts
-if [ -e $HOMEBIN/$HOMEBIN_LIB ]; then
-    . $HOMEBIN/$HOMEBIN_LIB
+# A library of functions for shell scripts
+local HOMEBIN_LIB="$HOMEBIN/Library.sh"
+if [ -x "$HOMEBIN_LIB" ]; then
+    # shellcheck source=/dev/null
+    . $HOMEBIN_LIB
 else
-    echo -e "\nERROR:I require '$HOMEBIN_LIB' to do my magic."
-    echo "SOURCE: $SOURCE"
-    echo -e "Download script from above link and place in $HOMEBIN.\n"
+    echo -e "\n(O<"
+    echo "(/)_ .: ERROR: I require '$HOMEBIN_LIB' to do my magic."
+    echo "Download script from $LIB and place in $HOMEBIN."
     exit 1
 fi
 }
