@@ -1,11 +1,13 @@
 #!/bin/bash
 # NAME="teleportHome.sh"
 # BLURB="Sync $HOME to DESTINATION"
-SOURCE="https://github.com/vonbrownie/homebin"
+# SOURCE="https://github.com/vonbrownie/homebin/blob/master/teleportHome.sh"
 set -eu
 
+LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
 HOMEBIN="$HOME/bin"
-HOMEBIN_LIB="Library.sh"    # A library of functions for shell scripts
+# A library of functions for shell scripts
+HOMEBIN_LIB="$HOMEBIN/Library.sh"
 SYNC_OPT="--archive --verbose --delete"
 EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ --exclude=local/ \
 --exclude=*[Tt]humbnail*/"
@@ -14,12 +16,13 @@ DEST_EXIST=1    # DESTINATION exists ... 0=True, 1=False
 INCLUDE_OPT=1   # Include (and exclude) items from a config file
 INCLUDE_CONFIG="$HOME/.teleportHomeInclude"
 
-if [ -e $HOMEBIN/$HOMEBIN_LIB ]; then
-    . $HOMEBIN/$HOMEBIN_LIB
+if [ -x "$HOMEBIN_LIB" ]; then
+    # shellcheck source=/dev/null
+    . $HOMEBIN_LIB
 else
-    echo -e "\nERROR:I require '$HOMEBIN_LIB' to do my magic."
-    echo "SOURCE: $SOURCE"
-    echo -e "Download script from above link and place in $HOMEBIN.\n"
+    echo -e "\n(O<"
+    echo "(/)_ .: ERROR: I require '$HOMEBIN_LIB' to do my magic."
+    echo "Download script from $LIB and place in $HOMEBIN."
     exit 1
 fi
 
@@ -47,6 +50,7 @@ done
 # Use the ``keychain`` utility to manage SSH keys for password-less logins
 # to servers.
 # See http://www.circuidipity.com/secure-remote-access-using-ssh-keys.html
+# shellcheck source=/dev/null
 . ${HOME}/.keychain/${HOSTNAME}-sh
 
 # Test that specified DESTINATION exists.
