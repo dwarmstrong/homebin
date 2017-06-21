@@ -1,7 +1,7 @@
 #!/bin/bash
 # NAME="Library.sh"
 # BLURB="A library of functions for bash shell scripts"
-# SOURCE="https://github.com/vonbrownie/homebin"
+# SOURCE="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
 set -eu
 
 # Place script in $HOME/bin and call its functions by adding to a script ...
