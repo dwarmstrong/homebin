@@ -34,6 +34,8 @@ dlg
     Personal wiki + auto-backups
 dmenu-run.sh
     Dynamic menu configuration
+flashManUpdate
+    Installs libflashplayer.so
 magic8ball.py
     Magic 8 Ball peers into the future and retrieves the answer to your questions
 mapTab.py
@@ -52,10 +54,10 @@ timeToCount.py
     Measure clock time for a device to count from 0 to *x* in increments of 1
 tplWatch.py
     Check to see if Toronto Public Library has added an item to catalogue
+trackpointconf
+    Configure my ThinkPad USB Keyboard TrackPoint
 vboxshot
     Capture screenshot of a virtualbox session
-xtra
-    Xinit configuration
 yt-audio
     download online video and convert to audio (more: `"Download videos using youtube-dl" <http://www.circuidipity.com/youtube-dl.html>`_)
 
