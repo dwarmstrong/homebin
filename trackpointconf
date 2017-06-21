@@ -1,7 +1,7 @@
 #!/bin/bash
 # NAME="trackpointconf"
 # BLURB="Configure my ThinkPad USB Keyboard TrackPoint"
-# SOURCE="https://github.com/vonbrownie/homebin"
+# SOURCE="https://github.com/vonbrownie/homebin/blob/master/trackpointconf"
 set -eu
 
 # Xorg is now (2017-06-18) using libinput library and driver to handle
