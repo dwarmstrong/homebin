@@ -1,0 +1,97 @@
+#!/bin/bash
+NAME="flashManUpdate"
+BLURB="Installs libflashplayer.so"
+SOURCE="https://github.com/vonbrownie/homebin/blob/master/flashManUpdate"
+set -eu
+
+FLASH_PLAYER=$1
+
+
+Conf_homebin_lib() {
+local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
+local HOMEBIN="$HOME/bin"
+# A library of functions for shell scripts
+local HOMEBIN_LIB="$HOMEBIN/Library.sh"
+if [[ -x "$HOMEBIN_LIB" ]]; then
+    # shellcheck source=/dev/null
+    . $HOMEBIN_LIB
+else
+    echo -e "\n(O<"
+    echo "(/)_ .: ERROR: I require '$HOMEBIN_LIB' to do my magic."
+    echo "Download script from $LIB and place in $HOMEBIN."
+    exit 1
+fi
+}
+
+
+Hello_you() {
+L_echo_yellow "\n$( L_penguin ) .: Howdy!"
+cat << _EOF_
+NAME
+    $NAME
+SYNOPSIS
+    $NAME [ options ] FILE
+OPTIONS
+    -h  print details
+EXAMPLE
+    $BLURB ...
+        $ ./$NAME libflashplayer.so
+DESCRIPTION
+    Download the latest release of the plugin in tar.gz format
+    from https://get.adobe.com/flashplayer/ and extract the
+    tar.gz package. Install 'libflashplayer.so'.
+DEPENDS
+    bash
+SOURCE
+    $SOURCE
+
+_EOF_
+}
+
+
+Test_player() {
+local PLAYER="libflashplayer.so"
+local FILE
+	FILE=$( echo "$FLASH_PLAYER" | rev | cut -d/ -f1 | rev )
+#echo "FILE=$FLASH_PLAYER" #test
+if [[ ! "$FILE" == "$PLAYER" ]]; then
+	L_echo_red "\n$( L_penguin ) .: ERROR: '$PLAYER' required."
+    exit 1
+fi
+}
+
+
+Inst_flash() {
+local DEST="/usr/lib/flashplugin-nonfree"
+local PLAYER="$DEST/libflashplayer.so"
+mv "$FLASH_PLAYER" $DEST
+chmod 644 $PLAYER
+chown root:root $PLAYER
+}
+
+
+Run_options() {
+while getopts ":h" OPT
+do
+    case $OPT in
+        h)
+            Hello_you
+            exit
+            ;;
+        ?)
+            L_echo_red "\n$( L_penguin ) .: ERROR: Invalid option '-$OPTARG'"
+            exit 1
+            ;;
+    esac
+done
+}
+
+
+# (O< .: Start
+# (/)_
+Conf_homebin_lib
+Run_options "$@"
+L_test_root
+Test_player
+Inst_flash
+L_all_done
