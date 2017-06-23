@@ -43,7 +43,7 @@ magic8ball.py
 mapTab.py
     Get a street address from command line arguments or clipboard and open web browser to the Google Maps page for the address
 paVolume
-    Pulseaudio volume control (more: `"Shell script: paVolume" <http://www.circuidipity.com/pavolume.html>`_)
+    Pulseaudio volume control (more: `"Volume control and notification" <http://www.circuidipity.com/pavolume.html>`_)
 raiseRedLantern.py
     A set of classes to add notification capabilities to scripts
 rePhoneAndEmail.py
