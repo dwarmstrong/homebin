@@ -36,6 +36,8 @@ dmenu-run.sh
     Dynamic menu configuration
 flashManUpdate
     Installs libflashplayer.so
+keyboardconf
+    Detect and configure keyboards
 magic8ball.py
     Magic 8 Ball peers into the future and retrieves the answer to your questions
 mapTab.py
