@@ -7,21 +7,26 @@ sinkVol="pactl set-sink-volume @DEFAULT_SINK@"
 showVol="volnoti-show $(pamixer --get-volume)"
 
 scriptDetails() {
-echo "NAME"
-echo -e "\t$NAME - $BLURB"
-echo "USAGE"
-echo -e "\t$NAME [OPTION]"
-echo "OPTIONS"
-echo -e "\t-h\tscript details"
-echo -e "\t-m\ttoggle volume mute"
-echo -e "\t-u\tincrease volume +10%"
-echo -e "\t-d\tdecrease volume -10%"
-echo "REQUIRES"
-echo -e "\tpactl - control a running pulseaudio server"
-echo -e "\tpamixer - pulseaudio command line mixer"
-echo -e "\tvolnoti - lightweight sound notification"
-echo "SOURCE"
-echo -e "\t<${SOURCE}>\n"
+cat << _EOF_
+NAME
+    $NAME
+SYNOPSIS
+    $NAME [ options ]
+OPTIONS
+    -h  script details
+    -m  toggle volume mute
+    -u  increase volume +10%
+    -d  decrease volume -10%
+DESCRIPTION
+    $BLURB
+DEPENDS
+    pactl - control a running pulseaudio server
+    pamixer - pulseaudio command line mixer
+    volnoti - lightweight sound notification
+SOURCE
+    $SOURCE
+
+_EOF_
 }
 
 testPath() {
@@ -37,7 +42,6 @@ done
 notExceed() {
 # Max volume not to exceed 100%
 # ('volnoti-show' breaks if <volume> not range 0-100)
-#if (("$(pamixer --get-volume)" > "100")); then $sinkVol -- 100%; fi
 if (("$(pamixer --get-volume)" > "100")); then $sinkVol 100%; fi
 }
 
@@ -47,13 +51,10 @@ $sinkMute toggle; [[ $(pamixer --get-mute) = true ]] \
 }
 
 volUp() {
-# '--' no longer used in recent versions
-#$sinkVol -- +10%; notExceed; $showVol
 $sinkVol +10%; notExceed; $showVol
 }
 
 volDown() {
-#$sinkVol -- -10%; $showVol
 $sinkVol -10%; $showVol
 }
 
