@@ -1,0 +1,70 @@
+#!/bin/bash
+# NAME="keyboardconf"
+# BLURB="Detect and configure keyboards"
+# SOURCE="https://github.com/vonbrownie/homebin/blob/master/keyboardconf"
+set -eu
+
+DOTDIR="$HOME/.dot"
+XBIND="foo" # .xbindkeysrc.*
+XMODM="foo" # .xmodmap.*
+TRKPT=$( xinput list | grep "TrackPoint" | grep "pointer" )
+
+# Xorg is now (2017-06-18) using libinput library and driver to handle
+# input devices.
+
+
+Test_keyboard() {
+# Keyboards
+## ThinkPad USB Keyboard+TrackPoint
+local TP_KB
+    TP_KB=$( lsusb | grep "ThinkPad Keyboard" )
+local TP_XBIND="$DOTDIR/.xbindkeysrc.thinkpad_usb"
+local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
+## C720 Chromebook keyboard
+if [[ -n $TP_KB ]]; then
+    XBIND="$TP_XBIND"
+    XMODM="$TP_XMODM"
+fi
+}
+
+
+Conf_xbindkeysrc() {
+# Bind commands to certain keys or key combos
+if [[ ! $XBIND == "foo" ]]; then
+    xbindkeys --file $XBIND
+fi
+}
+
+
+Conf_xmodmap() {
+# Modify key mappings
+if [[ ! $XMODM == "foo" ]]; then
+    xmodmap $XMODM
+fi
+}
+
+
+Conf_trackpoint() {
+# Detect if keyboard has a TrackPoint and configure if True.
+
+# Find the DEVICE ID
+#DEVICE=$( xinput list | grep "TrackPoint" | grep "pointer" )
+DEVICE_ID=$( echo "$TRKPT" | grep -o 'id=[[:digit:]]*' | cut -d'=' -f2 )
+
+# Adjust pointer speed by modifying the "Coordinate Transformation Matrix",
+# a transformation matrix used to calculate a pointer movement.
+MATRIX="2.600000, 0.000000, 0.000000, 0.000000, 2.600000, 0.000000, \
+0.000000, 0.000000, 1.000000"
+
+if [[ -n $DEVICE_ID ]]; then
+    xinput set-prop $DEVICE_ID "Coordinate Transformation Matrix" $MATRIX
+fi
+}
+
+
+# (O< .: Start
+# (/)_
+Test_keyboard
+Conf_xbindkeysrc
+Conf_xmodmap
+Conf_trackpoint
