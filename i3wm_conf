@@ -1,0 +1,37 @@
+#!/bin/bash
+# NAME="i3wm_conf"
+# BLURB="Conditionals for building i3 window manager config at runtime"
+# SOURCE="https://github.com/vonbrownie/homebin/blob/master/i3wm_conf"
+set -eu
+DIR_i3="$HOME/.config/i3"
+CONF_i3="$DIR_i3/config"
+
+
+Conf_base() {
+local CONF="$DIR_i3/config.base"
+cat $CONF > $CONF_i3
+}
+
+
+Conf_display() {
+# Setup for primary and - if present - secondary displays
+local DSPLY1
+    DSPLY1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
+local DSPLY2
+    DSPLY2=$(xrandr | grep " connected" | awk 'FNR == 2 {print $1}')
+local D_DSPLY="$DIR_i3/config.dual_display"
+local S_DSPLY="$DIR_i3/config.single_display"
+local PRI_DSPLY="$DSPLY2"
+local SEC_DSPLY="$DSPLY1"
+if [[ -n $DSPLY2 ]]; then
+    sed "s/PRIMARY/$PRI_DSPLY/g; s/SECOND/$SEC_DSPLY/g" $D_DSPLY >> $CONF_i3
+else
+    cat $S_DSPLY >> $CONF_i3
+fi
+}
+
+
+# (O< .: Start
+# (/)_
+Conf_base
+Conf_display
