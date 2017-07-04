@@ -25,7 +25,7 @@ local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
 local C720_KB
     C720_KB=$( grep "Acer" /sys/devices/virtual/dmi/id/modalias | grep "Peppy" )
 local C720_XBIND="$DOTDIR/.xbindkeysrc.chromebook"
-local C720_XMODM="$DOTDIR/.xmodmap.chromebook"
+local C720_XMODM="$DOTDIR/.xmodmap.chromebook && xset r 133"
 
 ## Detect if keyboard has a TrackPoint.
 local KB_TRKPT
