@@ -7,6 +7,7 @@ set -eu
 DOTDIR="$HOME/.dot"
 XBIND="foo"  # .xbindkeysrc.*
 XMODM="foo"  # .xmodmap.*
+XSET="foo"   # xset COMMAND KEYCODE
 TP_ID="foo"  # trackpoint device ID
 
 # Xorg is now (2017-06-18) using libinput library and driver to handle
@@ -25,22 +26,21 @@ local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
 local C720_KB
     C720_KB=$( grep "Acer" /sys/devices/virtual/dmi/id/modalias | grep "Peppy" )
 local C720_XBIND="$DOTDIR/.xbindkeysrc.chromebook"
-local C720_XMODM="$DOTDIR/.xmodmap.chromebook && xset r 133"
+local C720_XMODM="$DOTDIR/.xmodmap.chromebook"
+local C720_XSET="r 133"
 
 ## Detect if keyboard has a TrackPoint.
 local KB_TRKPT
     KB_TRKPT=$( xinput list | grep "TrackPoint" | grep "pointer" )
 
 ## Determine which keyboard
-#echo "$TP_KB" #test
-#echo "$C720_KB" #test
-#echo "$KB_TRKPT" #test
 if [[ -n $TP_KB ]]; then
     XBIND="$TP_XBIND"
     XMODM="$TP_XMODM"
 elif [[ -n $C720_KB ]]; then
     XBIND="$C720_XBIND"
     XMODM="$C720_XMODM"
+    XSET="$C720_XSET"
 fi
 if [[ -n $KB_TRKPT ]]; then
     # Find the DEVICE ID
@@ -65,6 +65,9 @@ Conf_xmodmap() {
 # Modify key mappings
 if [[ ! $XMODM == "foo" ]]; then
     xmodmap $XMODM
+fi
+if [[ ! $XSET == "foo" ]]; then
+    xset $XSET
 fi
 }
 
