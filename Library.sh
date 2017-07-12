@@ -281,6 +281,11 @@ fi
 }
 
 
+L_debian_codename() {
+lsb_release -c | awk -F: {' print $2'} | sed 's/[[:blank:]]//g'
+}
+
+
 L_all_done() {
 local AU_REVOIR="All done!"
 if [[ -x "/usr/games/cowsay" ]]; then
