@@ -97,7 +97,7 @@ L_test_announce() {
 
 L_test_required_file() {
 local FILE=$1
-local ERR="ERROR: file '$FILE' required but not found."
+local ERR="File '$FILE' required but not found."
 if [[ ! -f "$FILE" ]]; then
     L_echo_red "\n$( L_penguin ) .: $ERR"
     exit 1
@@ -106,7 +106,7 @@ fi
 
 
 L_test_root() {
-local ERR="ERROR: script must be run with root privileges. $OPT_HELP"
+local ERR="Script must be run with root privileges. $OPT_HELP"
 if (( EUID != 0 )); then
     L_echo_red "\n$( L_penguin ) .: $ERR"
     exit 1
@@ -116,12 +116,12 @@ fi
 
 L_test_homedir() {
 # $1 is $USER
-local ERR="ERROR: no USERNAME provided. $OPT_HELP"
+local ERR="No USERNAME provided. $OPT_HELP"
 if [[ "$#" -eq 0 ]]; then
     L_echo_red "\n$( L_penguin ) .: $ERR"
     exit 1
 elif [[ ! -d "/home/$1" ]]; then
-    local ERR1="ERROR: a home directory for '$1' not found. $OPT_HELP"
+    local ERR1="A home directory for '$1' not found. $OPT_HELP"
     L_echo_red "\n$( L_penguin ) .: $ERR1"
     exit 1
 fi
@@ -129,7 +129,7 @@ fi
 
 
 L_test_internet() {
-local ERR="ERROR: script requires internet access to do its job. $OPT_HELP"
+local ERR="Script requires internet access to do its job. $OPT_HELP"
 local UP
 export UP
 UP=$( nc -z 8.8.8.8 53; echo $? ) # Google DNS is listening?
