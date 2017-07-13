@@ -35,7 +35,7 @@ OPTIONS
     -h  print details
 EXAMPLE
     $BLURB ...
-        $ ./$NAME libflashplayer.so
+        $ sudo ./$NAME libflashplayer.so
 DESCRIPTION
     Download the latest release of the plugin in tar.gz format
     from https://get.adobe.com/flashplayer/ and extract the
@@ -64,7 +64,7 @@ fi
 Inst_flash() {
 local DEST="/usr/lib/flashplugin-nonfree"
 local PLAYER="$DEST/libflashplayer.so"
-mv "$FLASH_PLAYER" $DEST
+mv "$FLASH_PLAYER" ${DEST}/
 chmod 644 $PLAYER
 chown root:root $PLAYER
 }
