@@ -28,6 +28,15 @@ if [[ -n $DSPLY2 ]]; then
 else
     cat $S_DSPLY >> $CONF_i3
 fi
+# Setup a laptop- or desktop-specific statusbar
+local BAT="/sys/class/power_supply/BAT0/capacity_level"
+local DESK_STAT="i3status.conf.desktop"
+local LAP_STAT="i3status.conf.laptop"
+if [[ -f $BAT ]]; then
+    sed -i "s/STATUS_CONF/$LAP_STAT/g" $CONF_i3
+else
+    sed -i "s/STATUS_CONF/$DESK_STAT/g" $CONF_i3
+fi
 }
 
 
