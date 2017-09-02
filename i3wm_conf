@@ -5,6 +5,7 @@
 set -eu
 DIR_i3="$HOME/.config/i3"
 CONF_i3="$DIR_i3/config"
+MOD_ID="$HOME/.computer_model"
 
 
 Conf_base() {
@@ -28,15 +29,25 @@ if [[ -n $DSPLY2 ]]; then
 else
     cat $S_DSPLY >> $CONF_i3
 fi
-# Setup a laptop- or desktop-specific statusbar
-local BAT="/sys/class/power_supply/BAT0/capacity_level"
+# Setup a device-specific statusbar
+local C720_STAT="i3status.conf.chromebook_c720"
+local E520_STAT="i3status.conf.thinkpad_e520"
 local DESK_STAT="i3status.conf.desktop"
-local LAP_STAT="i3status.conf.laptop"
-if [[ -f $BAT ]]; then
-    sed -i "s/STATUS_CONF/$LAP_STAT/g" $CONF_i3
+set +eu
+local MOD_C720
+    MOD_C720=$( grep "c720" $MOD_ID )
+local MOD_E520
+    MOD_E520=$( grep "e520" $MOD_ID )
+local MOD_DESK
+    MOD_DESK=$( grep "desktop" $MOD_ID )
+if [[ -n $MOD_C720 ]]; then
+    sed -i "s/STATUS_CONF/$C720_STAT/g" $CONF_i3
+elif [[ -n $MOD_E520 ]]; then
+    sed -i "s/STATUS_CONF/$E520_STAT/g" $CONF_i3
 else
     sed -i "s/STATUS_CONF/$DESK_STAT/g" $CONF_i3
 fi
+set -eu
 }
 
 
