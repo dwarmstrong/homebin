@@ -22,6 +22,12 @@ local TP_KB
 local TP_XBIND="$DOTDIR/.xbindkeysrc.thinkpad_usb"
 local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
 
+## ThinkPad E520 Keyboard+TrackPoint
+local TP_KB_E520
+    TP_KB_E520=$( grep "e520" $HOME/.computer_model )
+local TP_XBIND_E520="$DOTDIR/.xbindkeysrc.thinkpad_e520"
+local TP_XMODM_E520="$DOTDIR/.xmodmap.thinkpad_e520"
+
 ## C720 Chromebook keyboard
 local C720_KB
     C720_KB=$( grep "Acer" /sys/devices/virtual/dmi/id/modalias | grep "Peppy" )
@@ -37,6 +43,9 @@ local KB_TRKPT
 if [[ -n $TP_KB ]]; then
     XBIND="$TP_XBIND"
     XMODM="$TP_XMODM"
+elif [[ -n $TP_KB_E520 ]]; then
+    XBIND="$TP_XBIND_E520"
+    XMODM="$TP_XMODM_E520"
 elif [[ -n $C720_KB ]]; then
     XBIND="$C720_XBIND"
     XMODM="$C720_XMODM"
