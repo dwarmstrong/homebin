@@ -1,9 +1,10 @@
 #!/bin/bash
 NAME="generatePkgList"
-BLURB="Output list of installed Debian packages on $HOSTNAME"
+BLURB="Generate a list of installed Debian/Ubuntu packages on $HOSTNAME"
 SOURCE="https://github.com/vonbrownie/homebin/blob/master/generatePkgList"
 set -eu
 
+DESTINATION="."
 
 Conf_homebin_lib() {
 local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
@@ -30,6 +31,7 @@ NAME
 SYNOPSIS
     $NAME [ options ]
 OPTIONS
+    -d  save to DESTINATION
     -h  print details
 DESCRIPTION
     $BLURB.
@@ -38,6 +40,8 @@ DEPENDS
 SOURCE
     $SOURCE
 
+More: ""Install (almost) the same list of Debian packages on multiple machines"
+        https://www.circuidipity.com/debian-package-list/
 _EOF_
 }
 
@@ -47,7 +51,7 @@ local CODENAME
     CODENAME=$( L_debian_codename )
 local APT_SHOW="/usr/bin/apt-show-versions"
 local PKG_LIST
-    PKG_LIST="${HOSTNAME}_pkg_list.${CODENAME}.$(date +%F)"
+    PKG_LIST="${DESTINATION}/${HOSTNAME}_pkg_list.${CODENAME}.$(date +%F)"
 touch "$PKG_LIST"
 # Generate list of installed packages
 dpkg --get-selections > "$PKG_LIST"
@@ -67,12 +71,15 @@ fi
 
 
 Run_options() {
-while getopts ":h" OPT
+while getopts ":hd:" OPT
 do
     case $OPT in
         h)
             Hello_you
             exit
+            ;;
+        d)
+            DESTINATION=$2
             ;;
         ?)
             L_echo_red "\n$( L_penguin ) .: ERROR: Invalid option '-$OPTARG'"
