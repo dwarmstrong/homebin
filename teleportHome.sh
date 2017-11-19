@@ -9,7 +9,7 @@ HOMEBIN="$HOME/bin"
 # A library of functions for shell scripts
 HOMEBIN_LIB="$HOMEBIN/Library.sh"
 SYNC_OPT="--archive --verbose --delete"
-EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ --exclude=local/ \
+EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ \
 --exclude=*[Tt]humbnail*/"
 DESTINATION="${*: -1}"
 DEST_EXIST=1    # DESTINATION exists ... 0=True, 1=False

@@ -49,7 +49,7 @@ _EOF_
 Generate_list() {
 local CODENAME
     CODENAME=$( L_debian_codename )
-local APT_SHOW="/usr/bin/apt-show-versions"
+#local APT_SHOW="/usr/bin/apt-show-versions"
 local PKG_LIST
     PKG_LIST="${DESTINATION}/${HOSTNAME}_pkg_list.${CODENAME}.$(date +%F)"
 touch "$PKG_LIST"
@@ -57,16 +57,16 @@ touch "$PKG_LIST"
 dpkg --get-selections > "$PKG_LIST"
 sed -i '/deinstall/d' "$PKG_LIST"
 # Remove packages not found in the Debian archives
-if [[ -x $APT_SHOW ]]; then
-    local ARRAY_PNF
-        ARRAY_PNF=( $($APT_SHOW | grep -v "$CODENAME" | awk -F: '{print $1}') )
-    for package in "${ARRAY_PNF[@]}"
-    do
-        sed -i "/$package/d" "$PKG_LIST"
-    done
-else
-    L_echo_red "\n$( L_penguin ) .: ERROR: Command '$APT_SHOW' not found."
-fi
+#if [[ -x $APT_SHOW ]]; then
+#    local ARRAY_PNF
+#        ARRAY_PNF=( $($APT_SHOW | grep -v "$CODENAME" | awk -F: '{print $1}') )
+#    for package in "${ARRAY_PNF[@]}"
+#    do
+#        sed -i "/$package/d" "$PKG_LIST"
+#    done
+#else
+#    L_echo_red "\n$( L_penguin ) .: ERROR: Command '$APT_SHOW' not found."
+#fi
 }
 
 
