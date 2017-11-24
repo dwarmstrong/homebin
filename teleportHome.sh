@@ -8,7 +8,7 @@ LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
 HOMEBIN="$HOME/bin"
 # A library of functions for shell scripts
 HOMEBIN_LIB="$HOMEBIN/Library.sh"
-SYNC_OPT="--archive --verbose --delete"
+SYNC_OPT="--archive --verbose --delete --sparse"
 EXCLUDE_OPT="--exclude=*[Cc]ache*/ --exclude=*[Tt]rash*/ \
 --exclude=*[Tt]humbnail*/"
 DESTINATION="${*: -1}"
