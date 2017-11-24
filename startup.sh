@@ -7,7 +7,7 @@
 # https://ubuntu-mate.community/t/better-control-for-startup-applications/11484
 
 # Play the Ubuntu login sound
-paplay --volume=75000 /usr/share/sounds/ubuntu/stereo/desktop-login.ogg &
+paplay --volume=50000 /usr/share/sounds/ubuntu/stereo/desktop-login.ogg &
 
 sleep 2
 
