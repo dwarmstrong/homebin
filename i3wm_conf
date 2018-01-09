@@ -32,18 +32,23 @@ fi
 # Setup a device-specific statusbar
 local C720_STAT="i3status.conf.chromebook_c720"
 local E520_STAT="i3status.conf.thinkpad_e520"
+local T430S_STAT="i3status.conf.thinkpad_t430s"
 local DESK_STAT="i3status.conf.desktop"
 set +eu
 local MOD_C720
     MOD_C720=$( grep "c720" $MOD_ID )
 local MOD_E520
     MOD_E520=$( grep "e520" $MOD_ID )
+local MOD_T430S
+    MOD_T430S=$( grep "t430s" $MOD_ID )
 local MOD_DESK
     MOD_DESK=$( grep "desktop" $MOD_ID )
 if [[ -n $MOD_C720 ]]; then
     sed -i "s/STATUS_CONF/$C720_STAT/g" $CONF_i3
 elif [[ -n $MOD_E520 ]]; then
     sed -i "s/STATUS_CONF/$E520_STAT/g" $CONF_i3
+elif [[ -n $MOD_T430S ]]; then
+    sed -i "s/STATUS_CONF/$T430S_STAT/g" $CONF_i3
 else
     sed -i "s/STATUS_CONF/$DESK_STAT/g" $CONF_i3
 fi
