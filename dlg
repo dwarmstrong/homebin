@@ -7,7 +7,7 @@ set -eu
 
 WIKI="$HOME/doc/wiki"
 
-if [[ -n $(git -C $WIKI status --porcelain) ]]; then
-    git -C $WIKI add --all && git -C $WIKI commit -m 'save'
+if [[ -n $(git -C "$WIKI" status --porcelain) ]]; then
+    git -C "$WIKI" add --all && git -C "$WIKI" commit -m 'save'
 fi
 nvim -c VimwikiIndex

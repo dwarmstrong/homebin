@@ -17,5 +17,8 @@ sleep 2
 # Clipboard manager
 parcellite &
 
+# Terminal
+urxvt &
+
 # Janitor                 
 [ -d ~/.local/share/Trash ] && rm -rf ~/.local/share/Trash/*

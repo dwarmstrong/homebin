@@ -72,7 +72,7 @@ _EOF_
 L_run_script() {
 while :
 do
-    read -n 1 -p "Run script now? [yN] > "
+    read -r -n 1 -p "Run script now? [yN] > "
     if [[ $REPLY == [yY] ]]; then
         echo -e "\nLet's roll then ..."
         sleep 2
@@ -151,7 +151,7 @@ else
 fi
 while :
 do
-    read -n 1 -p "Modify? [yN] > "
+    read -r -n 1 -p "Modify? [yN] > "
     if [[ $REPLY == [yY] ]]; then
         echo -e "\n\n$( L_penguin ) .: Check out datetime in Arch Wiki $LINK" 
         echo "plus 'dpkg-reconfigure tzdata' for setting default timezone."
@@ -172,7 +172,7 @@ L_banner_begin "List 'systemctl --failed' units"
 systemctl --failed
 while :
 do
-    read -n 1 -p "Continue script? [yN] > "
+    read -r -n 1 -p "Continue script? [yN] > "
     if [[ $REPLY == [yY] ]]; then
         clear
         break
@@ -193,7 +193,7 @@ L_banner_begin "Identify high priority errors with 'journalctl -p 0..3 -xn'"
 journalctl -p 0..3 -xn
 while :
 do
-    read -n 1 -p "Continue script? [yN] > "
+    read -r -n 1 -p "Continue script? [yN] > "
     if [[ $REPLY == [yY] ]]; then
         clear
         break
