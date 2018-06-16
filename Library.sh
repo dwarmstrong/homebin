@@ -289,6 +289,7 @@ lsb_release -c | awk -F: {' print $2'} | sed 's/[[:blank:]]//g'
 L_all_done() {
 local AU_REVOIR="All done!"
 if [[ -x "/usr/games/cowsay" ]]; then
+    # shellcheck disable=SC2086
     L_echo_green "$( /usr/games/cowsay $AU_REVOIR )"
 else
     echo -e "$( L_penguin ) .: $AU_REVOIR"
