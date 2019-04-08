@@ -4,7 +4,7 @@ Collection of working scripts and experiments in my `$HOME/bin`.
 
 #### Scripts
 
-`Library.sh` - Library of functions for bash shell scripts (more: [A library for shell scripts](http://www.circuidipity.com/shell-script-library.html)
+`Library.sh` - Library of functions for bash shell scripts (more: [A library for shell scripts](http://www.circuidipity.com/shell-script-library.html))
 
 `batt_stat` - Display battery state, time|percentage remaining until empty|full
 
@@ -20,11 +20,11 @@ Collection of working scripts and experiments in my `$HOME/bin`.
 
 `move-to-next-monitor` - Move the current window to the next monitor
 
-`paVolume` - Pulseaudio volume control (more: [Volume control and notification](http://www.circuidipity.com/pavolume.html)
+`paVolume` - Pulseaudio volume control (more: [Volume control and notification](http://www.circuidipity.com/pavolume.html))
 
 `startup.sh` - Personal startup script
 
-`teleportHome.sh` - Sync $HOME to remote DESTINATION using SSH keys (more: [Automatic backups over the LAN](http://www.circuidipity.com/backup-over-lan.html)
+`teleportHome.sh` - Sync $HOME to remote DESTINATION using SSH keys (more: [Automatic backups over the LAN](http://www.circuidipity.com/backup-over-lan.html))
 
 `trackpointconf` - Configure my ThinkPad USB Keyboard TrackPoint
 
