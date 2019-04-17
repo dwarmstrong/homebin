@@ -1,0 +1,22 @@
+#!/bin/bash
+# ~/bin/buddhaBreak
+#
+# Source: https://github.com/vonbrownie/homebin/blob/master/buddhaBreak
+
+# Invite the bell sound every hour on the hour for a mini "buddha break". Run
+# `crontab -e` and - to play sound from a non-interactive shell (cron) - set
+# `XDG_RUNTIME_DIR=/run/user/user_id` before the command and replace `user_id`
+# with the numeric ID of the user running PulseAudio.
+#
+# Example: my user_id is `1000` and the full path to `buddhaBreak` is ...
+#
+# m h  dom mon dow   command
+# 0 * * * * XDG_RUNTIME_DIR=/run/user/1000 /home/dwa/bin/buddhaBreak
+
+# `mpg321` is a commmand line mp3 player
+PLAYER="mpg321"
+# SND courtesy of "Three Mindfulness Bells - Mini-Meditation"
+#   https://www.youtube.com/watch?v=H1zy9KipXwM
+SND="/home/dwa/jukebox/three_mindfulness_bells.mp3"  # location of sound file
+
+$PLAYER $SND
