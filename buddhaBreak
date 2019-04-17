@@ -11,7 +11,7 @@
 # Example: my user_id is `1000` and the full path to `buddhaBreak` is ...
 #
 # m h  dom mon dow   command
-# 0 * * * * XDG_RUNTIME_DIR=/run/user/1000 /home/dwa/bin/buddhaBreak
+# 0 * * * * XDG_RUNTIME_DIR=/run/user/1000 /home/dwa/bin/buddhaBreak >/dev/null 2>&1
 
 # `mpg321` is a commmand line mp3 player
 PLAYER="mpg321"
