@@ -1,0 +1,58 @@
+#!/bin/bash
+# ~/bin/rsyncCamera
+#
+# Source: https://github.com/vonbrownie/homebin/blob/master/rsyncCamera
+set -eu
+
+# Rsync photos from camera to computer
+MNTDIR="${HOME}/local/mnt/phone/Internal storage/DCIM/Camera"
+PHOTODIR="${HOME}/image/photo"
+
+Conf_homebin_lib() {
+# A library of functions for shell scripts
+local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
+local BINLIB="${HOME}/bin/Library.sh"
+if [ -x "$BINLIB" ]; then
+    # shellcheck source=/dev/null
+    . "$BINLIB"
+else
+    echo -e "\\n(O<"
+    echo "(/)_ .: ERROR: I require '$BINLIB' to do my magic!"
+    echo -e "\\nDownload $LIB and save as '$BINLIB'."
+    exit 1
+fi
+}
+
+Test_dir() {
+local 
+if [[ -d "$MNTDIR" ]]; then
+    L_echo_green "$MNTDIR\\tOK"
+else
+    L_echo_red "$MNTDIR does not exist."
+    exit 1
+fi
+if [[ -d "$PHOTODIR" ]]; then
+    L_echo_green "$PHOTODIR\\tOK"
+else
+    L_echo_red "$PHOTODIR does not exist."
+    exit 1
+fi
+}
+
+Rsync_photo() {
+cd "$MNTDIR"
+for i in *; do
+    YEAR=${i:4:4}
+    if [[ -d "${PHOTODIR}/${YEAR}" ]]; then
+        rsync -av "$i" "${PHOTODIR}/${YEAR}"
+    else
+        L_echo_red "${PHOTODIR}/${YEAR} does not exist."
+        exit 1
+    fi
+done
+}
+
+Conf_homebin_lib
+Test_dir
+Rsync_photo
+L_penguin
