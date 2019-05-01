@@ -1,4 +1,5 @@
 #!/bin/bash
+# ~/bin/dldsply
 NAME="dldsply"
 BLURB="Enable|disable extended desktop using XRandR"
 SOURCE="https://github.com/vonbrownie/homebin/blob/master/dldsply"
@@ -7,26 +8,23 @@ set -eu
 FOO=${1:-}  # Script requires an option to be specified.
 LAYOUT="--off"
 
-
 Conf_homebin_lib() {
-local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
-local HOMEBIN="$HOME/bin"
 # A library of functions for shell scripts
-local HOMEBIN_LIB="$HOMEBIN/Library.sh"
-if [ -x "$HOMEBIN_LIB" ]; then
+local LIB="https://github.com/vonbrownie/homebin/blob/master/Library.sh"
+local BINLIB="${HOME}/bin/Library.sh"
+if [ -x "$BINLIB" ]; then
     # shellcheck source=/dev/null
-    . $HOMEBIN_LIB
+    . "$BINLIB"
 else
-    echo -e "\n(O<"
-    echo "(/)_ .: ERROR: I require '$HOMEBIN_LIB' to do my magic."
-    echo "Download script from $LIB and place in $HOMEBIN."
+    echo -e "\\n(O<"
+    echo "(/)_ .: ERROR: I require '$BINLIB' to do my magic!"
+    echo -e "\\nDownload $LIB and save as '$BINLIB'."
     exit 1
 fi
 }
 
-
 Hello_you() {
-L_echo_yellow "\n$( L_penguin ) .: Howdy!"
+L_echo_yellow "\\n$( L_penguin ) .: Howdy!"
 cat << _EOF_
 NAME
     $NAME
@@ -53,7 +51,6 @@ SOURCE
 _EOF_
 }
 
-
 Conf_desktop() {
 local DISPLAY1
     DISPLAY1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
@@ -72,7 +69,7 @@ fi
 Run_options() {
 # Verify an option has been specified.
 if [[ -z $FOO ]]; then
-    L_echo_red "\n$( L_penguin ) .: ERROR: No option specified."
+    L_echo_red "\\n$( L_penguin ) .: ERROR: No option specified."
     exit 1
 fi
 #
@@ -93,17 +90,13 @@ do
             LAYOUT="--off"
             ;;
         ?)
-            L_echo_red "\n$( L_penguin ) .: ERROR: Invalid option '-$OPTARG'"
+            L_echo_red "\\n$( L_penguin ) .: ERROR: Invalid option '-$OPTARG'"
             exit 1
             ;;
     esac
 done
 }
 
-
-# (O< .: Start
-# (/)_
 Conf_homebin_lib
 Run_options "$@"
 Conf_desktop
-#L_all_done
