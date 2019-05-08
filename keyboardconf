@@ -1,10 +1,11 @@
 #!/bin/bash
-# NAME="keyboardconf"
-# BLURB="Detect and configure keyboards"
-# SOURCE="https://github.com/vonbrownie/homebin/blob/master/keyboardconf"
+# ~/binkeyboardconf
+#
+# Source: https://github.com/vonbrownie/homebin/blob/master/keyboardconf
 set -eu
 
-DOTDIR="$HOME/.dot"
+# Detect and configure keyboards
+DOTDIR="${HOME}/.dot"
 XBIND="foo"  # .xbindkeysrc.*
 XMODM="foo"  # .xmodmap.*
 XSET="foo"   # xset COMMAND KEYCODE
@@ -24,13 +25,13 @@ local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
 
 ## ThinkPad E520 Keyboard+TrackPoint
 local TP_KB_E520
-    TP_KB_E520=$( grep "e520" $HOME/.computer_model )
+    TP_KB_E520=$( grep "e520" "${HOME}/.computer_model" )
 local TP_XBIND_E520="$DOTDIR/.xbindkeysrc.thinkpad_e520"
 local TP_XMODM_E520="$DOTDIR/.xmodmap.thinkpad_e520"
 
 ## ThinkPad T430s Keyboard+TrackPoint
 local TP_KB_T430S
-    TP_KB_T430S=$( grep "t430s" $HOME/.computer_model )
+    TP_KB_T430S=$( grep "t430s" "${HOME}/.computer_model" )
 local TP_XBIND_T430S="$DOTDIR/.xbindkeysrc.thinkpad_t430s"
 local TP_XMODM_T430S="$DOTDIR/.xmodmap.thinkpad_t430s"
 
