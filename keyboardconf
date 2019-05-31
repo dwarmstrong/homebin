@@ -92,13 +92,9 @@ fi
 
 
 Conf_trackpoint() {
-# Adjust pointer speed by modifying the "Coordinate Transformation Matrix",
-# a transformation matrix used to calculate a pointer movement.
-MATRIX="2.600000, 0.000000, 0.000000, 0.000000, 2.600000, 0.000000, \
-0.000000, 0.000000, 1.000000"
-
 if [[ ! $TP_ID == "foo" ]]; then
-    xinput set-prop $TP_ID "Coordinate Transformation Matrix" $MATRIX
+    xinput --set-prop $TP_ID "libinput Accel Speed" 0.50
+    xinput --set-prop $TP_ID "libinput Accel Profile Enabled" 0 1
 fi
 }
 
