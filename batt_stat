@@ -1,8 +1,29 @@
 #!/bin/bash
 # ~/bin/batt_stat
 #
-#SOURCE: https://github.com/vonbrownie/homebin/blob/master/batt_stat
+# Source: https://github.com/vonbrownie/homebin/blob/master/batt_stat
+set -eu
 
-# Display battery state, time|percentage remaining until empty|full
-upower -i "$(upower -e | grep BAT)" | \
+INFO=0
+BAT="$(upower -e | grep BAT)"
+
+while getopts ":f" OPT
+do
+    case $OPT in
+        f)
+            INFO=1
+            ;;
+        *)
+            echo "'-$OPTARG' is an invalid option."
+            exit 1
+            ;;
+    esac
+done
+
+if [[ $INFO -eq 1 ]]; then
+    upower -i "$BAT"
+else
+    # Display battery state, time|percentage remaining until empty|full
+    upower -i "$BAT" | \
     grep --color=never -E 'state|to\ full|to\ empty|percentage'
+fi
