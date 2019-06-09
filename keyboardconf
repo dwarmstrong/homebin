@@ -1,107 +1,24 @@
 #!/bin/bash
-# ~/binkeyboardconf
+# ~/bin/keyboardconf
 #
 # Source: https://github.com/vonbrownie/homebin/blob/master/keyboardconf
 set -eu
 
-# Detect and configure keyboards
-DOTDIR="${HOME}/.dot"
-XBIND="foo"  # .xbindkeysrc.*
-XMODM="foo"  # .xmodmap.*
-XSET="foo"   # xset COMMAND KEYCODE
-TP_ID="foo"  # trackpoint device ID
+XBIND="${HOME}/.xbindkeysrc"
+XINPUT="${HOME}/.xinput.conf"
+XMOD="${HOME}/.xmodmap"
 
-# Xorg is now (2017-06-18) using libinput library and driver to handle
-# input devices.
-
-
-Test_keyboard() {
-set +eu
-## ThinkPad USB Keyboard+TrackPoint
-local TP_KB
-    TP_KB=$( lsusb | grep "ThinkPad Keyboard" )
-local TP_XBIND="$DOTDIR/.xbindkeysrc.thinkpad_usb"
-local TP_XMODM="$DOTDIR/.xmodmap.thinkpad_usb"
-
-## ThinkPad E520 Keyboard+TrackPoint
-local TP_KB_E520
-    TP_KB_E520=$( grep "e520" "${HOME}/.computer_model" )
-local TP_XBIND_E520="$DOTDIR/.xbindkeysrc.thinkpad_e520"
-local TP_XMODM_E520="$DOTDIR/.xmodmap.thinkpad_e520"
-
-## ThinkPad T430s Keyboard+TrackPoint
-local TP_KB_T430S
-    TP_KB_T430S=$( grep "t430s" "${HOME}/.computer_model" )
-local TP_XBIND_T430S="$DOTDIR/.xbindkeysrc.thinkpad_t430s"
-local TP_XMODM_T430S="$DOTDIR/.xmodmap.thinkpad_t430s"
-
-## C720 Chromebook keyboard
-local C720_KB
-    C720_KB=$( grep "Acer" /sys/devices/virtual/dmi/id/modalias | grep "Peppy" )
-local C720_XBIND="$DOTDIR/.xbindkeysrc.chromebook"
-local C720_XMODM="$DOTDIR/.xmodmap.chromebook"
-local C720_XSET="r 133"
-
-## Detect if keyboard has a TrackPoint.
-local KB_TRKPT
-    KB_TRKPT=$( xinput list | grep "TrackPoint" | grep "pointer" )
-
-## Determine which keyboard
-if [[ -n $TP_KB ]]; then
-    XBIND="$TP_XBIND"
-    XMODM="$TP_XMODM"
-elif [[ -n $TP_KB_T430S ]]; then
-    XBIND="$TP_XBIND_T430S"
-    XMODM="$TP_XMODM_T430S"
-elif [[ -n $TP_KB_E520 ]]; then
-    XBIND="$TP_XBIND_E520"
-    XMODM="$TP_XMODM_E520"
-elif [[ -n $C720_KB ]]; then
-    XBIND="$C720_XBIND"
-    XMODM="$C720_XMODM"
-    XSET="$C720_XSET"
-fi
-if [[ -n $KB_TRKPT ]]; then
-    # Find the DEVICE ID
-    local DEV_ID
-        DEV_ID=$( echo "$KB_TRKPT" | grep -o 'id=[[:digit:]]*' | cut -d'=' -f2 )
-    #echo "$DEV_ID" #test
-    TP_ID="$DEV_ID"
-fi
-set -eu
-}
-
-
-Conf_xbindkeysrc() {
 # Bind commands to certain keys or key combos
-if [[ ! $XBIND == "foo" ]]; then
-    xbindkeys --file $XBIND
+if [[ -f $XBIND ]]; then
+    xbindkeys --file "$XBIND"
 fi
-}
 
+# Xorg uses libinput library and driver to handle input devices
+if [[ -f $XINPUT ]]; then
+    $XINPUT
+fi
 
-Conf_xmodmap() {
 # Modify key mappings
-if [[ ! $XMODM == "foo" ]]; then
-    xmodmap $XMODM
+if [[ -f $XMOD ]]; then
+    xmodmap "$XMOD"
 fi
-if [[ ! $XSET == "foo" ]]; then
-    xset $XSET
-fi
-}
-
-
-Conf_trackpoint() {
-if [[ ! $TP_ID == "foo" ]]; then
-    xinput --set-prop $TP_ID "libinput Accel Speed" 0.50
-    xinput --set-prop $TP_ID "libinput Accel Profile Enabled" 0 1
-fi
-}
-
-
-# (O< .: Start
-# (/)_
-Test_keyboard
-Conf_xbindkeysrc
-Conf_xmodmap
-Conf_trackpoint
