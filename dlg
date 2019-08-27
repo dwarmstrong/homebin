@@ -1,10 +1,9 @@
-#!/bin/bash
-# ~/bin/dlg
+#!/usr/bin/env bash
+# Personal wiki with auto-backup. Requires: neovim, vimwiki, git
 #
 # Source: https://github.com/vonbrownie/homebin/blob/master/dlg
 set -eu
 
-# Personal wiki with auto-backup. Requires: neovim, vimwiki, git
 WIKI="$HOME/doc/wiki"
 
 if [[ -n $(git -C "$WIKI" status --porcelain) ]]; then
