@@ -1,25 +1,34 @@
 #!/usr/bin/env python3
 #
-# NAME
-#       datenumtrack.py - retrieve dates and corresponding numbers
-#
-# SYNOPSIS
-#       datenumtrack.py [OPTION] FILE
-#
-# DESCRIPTION
-#       FILE contains settings that establish a range of dates along
-#       with their correponding numbers to be retrieved from a
-#       specified file.
-#
-#       Output displays two columns: first column for dates and second
-#       column for the numbers. A bottom line displays starting value,
-#       end value, and average daily change for the calendar period.
-#
-#       Options
-#       -h, --help      this description
-#       -d, --dates     interactive prompt for dates range
-#
-# Source: https://github.com/vonbrownie/homebin/blob/master/datenumtrack.py
+# datenumtrack.py - retrieve dates and corresponding numbers
+
+import argparse
+import os
+import sys
+
+def show_description():
+    git = "https://github.com/vonbrownie"
+    message = ("\nNAME"
+                "\n  datenumtrack.py - retrieve dates and "
+                "corresponding numbers"
+                "\n\nSYNOPSIS"
+                "\n  datenumtrack.py [OPTION] FILE"
+                "\n\nDESCRIPTION"
+                "\n  FILE contains settings that establish a range of dates "
+                "along with their\n  correponding numbers to be retrieved "
+                "from a specified file."
+                "\n\n  Output displays two columns: first column for dates "
+                "and second column for\n  the numbers. A bottom line displays "
+                "the starting value, end value, and\n  average daily change "
+                "for the calendar period."
+                "\n\nOPTIONS"
+                "\n  -h, --help\t\tthis description"
+                "\n  -d, --dates\t\tinteractive prompt for dates range"
+                "\n  -f, --file FILE\t/path/to/settings/FILE"
+                f"\n\n(O< Source: {git}/homebin/blob/master/datenumtrack.py"
+                "\n(/)_")
+    print(message)
+
 
 # TODO
 
@@ -35,4 +44,4 @@
 
 # Display bottom line values.
 
-print("Hello!")
+show_description()
