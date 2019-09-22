@@ -6,3 +6,4 @@ streamlink
 youtube-dl
 _*
 *.bak
+*.conf
