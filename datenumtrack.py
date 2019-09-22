@@ -6,7 +6,11 @@ import argparse
 import os
 import sys
 
-def show_description():
+START_DATE = "2019-09-19"
+dates = ()
+dates_numbers = {'2019-09-19': 68.0, '2019-09-20': 67.13, '2019-09-21': 67.5}
+
+def description():
     git = "https://github.com/vonbrownie"
     message = ("\nNAME"
                 "\n  datenumtrack.py - retrieve dates and "
@@ -23,25 +27,31 @@ def show_description():
                 "for the calendar period."
                 "\n\nOPTIONS"
                 "\n  -h, --help\t\tthis description"
+                "\n  -c, --config FILE\t/path/to/configuration"
                 "\n  -d, --dates\t\tinteractive prompt for dates range"
-                "\n  -f, --file FILE\t/path/to/settings/FILE"
                 f"\n\n(O< Source: {git}/homebin/blob/master/datenumtrack.py"
                 "\n(/)_")
     print(message)
 
+def dates_numbers_diff():
+    prev_number = dates_numbers[START_DATE]
+    print("\nDate\t\tNumber\t\tDiff")
+    for date, number in dates_numbers.items():
+        diff = number - prev_number
+        prev_number = number
+        print(f"{date}\t{number}\t\t{round(diff, 2)}")
 
 # TODO
 
-# Read FILE argument
+# read in arguments
 
-# Detect if any options specified.
+# set options from conf file
 
-# Set any settings specified by file.
+# calculate range of dates
 
-# Use regex patterns to retrieve dates and numbers from source file.
+# construct a regex pattern to retrieve dates and numbers from source file
 
-# Display columns of data.
+# build the dictionary
 
-# Display bottom line values.
-
-show_description()
+description()
+dates_numbers_diff()
