@@ -1,16 +1,28 @@
 #!/bin/bash
-# ~/bin/batt_stat
-#
-# Source: https://github.com/vonbrownie/homebin/blob/master/batt_stat
+# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+
 set -eu
 
+DESC="Display battery state, time|percent remaining until empty|full"
 INFO=0
 BAT="$(upower -e | grep BAT)"
 
-while getopts ":f" OPT
+while getopts ":ha" OPT
 do
     case $OPT in
-        f)
+        h)
+            printf 'DESCRIPTION\n'
+            printf '\t%s\n' "${DESC}"
+            printf 'USAGE\n'
+            printf '\tbatt_stat [OPTION]\n'
+            printf 'OPTIONS\n'
+            printf '\t-a\n'
+            printf '\t\tdisplay all information\n'
+            printf '\t-h\n'
+            printf '\t\thelp message\n'
+            exit 0
+            ;;
+        a)
             INFO=1
             ;;
         *)
@@ -23,7 +35,6 @@ done
 if [[ $INFO -eq 1 ]]; then
     upower -i "$BAT"
 else
-    # Display battery state, time|percentage remaining until empty|full
     upower -i "$BAT" | \
     grep --color=never -E 'state|to\ full|to\ empty|percentage'
 fi
