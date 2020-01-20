@@ -1,6 +1,6 @@
 # homebin
 
-Collection of working scripts and experiments in my `$HOME/bin`. See [HOME slash bin](https://www.circuidipity.com/homebin/) for details.
+Collection of working scripts and experiments in my `$HOME/bin`.
 
 #### AUTHOR
 
