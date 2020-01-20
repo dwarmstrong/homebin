@@ -3,38 +3,46 @@
 
 set -eu
 
+PROG="batt_stat"
 DESC="Display battery state, time|percent remaining until empty|full"
 INFO=0
 BAT="$(upower -e | grep BAT)"
 
+Run_options() {
 while getopts ":ha" OPT
 do
     case $OPT in
         h)
             printf 'DESCRIPTION\n'
-            printf '\t%s\n' "${DESC}"
+            printf '\t%s\n' "$PROG - ${DESC}"
             printf 'USAGE\n'
             printf '\tbatt_stat [OPTION]\n'
             printf 'OPTIONS\n'
             printf '\t-a\n'
             printf '\t\tdisplay all information\n'
             printf '\t-h\n'
-            printf '\t\thelp message\n'
+            printf '\t\tthis help message\n'
             exit 0
             ;;
         a)
             INFO=1
             ;;
         *)
-            echo "'-$OPTARG' is an invalid option."
+            printf '%s\n' "'-${OPTARG}' is an invalid option."
             exit 1
             ;;
     esac
 done
+}
 
+Batt_stat() {
 if [[ $INFO -eq 1 ]]; then
     upower -i "$BAT"
 else
     upower -i "$BAT" | \
     grep --color=never -E 'state|to\ full|to\ empty|percentage'
 fi
+}
+
+Run_options "$@"
+Batt_stat
