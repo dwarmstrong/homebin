@@ -1,12 +1,10 @@
 #!/bin/bash
-# ~/bin/Library.sh
-#
-# Source: https://github.com/vonbrownie/homebin/blob/master/Library.sh
-set -eu
-
-# A library of functions for bash shell scripts. Place script in ~/bin and call
-# its functions by adding to a script ...
+# Description: A library of functions for bash shell scripts. Place script
+# in ~/bin and call its functions by adding to a script ...
 #   . $HOME/bin/Library.sh
+# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+
+set -eu
 
 # ANSI escape codes
 RED="\\033[1;31m"
