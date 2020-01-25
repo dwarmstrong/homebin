@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
-# Personal wiki with auto-backup. Requires: neovim, vimwiki, git
-#
-# Source: https://github.com/vonbrownie/homebin/blob/master/dlg
+#!/bin/bash
+# Description: personal wiki with auto-backup.
+# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+
 set -eu
 
 WIKI="$HOME/doc/wiki"
