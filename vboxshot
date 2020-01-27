@@ -1,7 +1,6 @@
 #!/bin/bash
-# NAME="vboxshot"
-# BLURB="Capture screenshot of a virtualbox session"
-# SOURCE="https://github.com/vonbrownie/homebin/blob/master/vboxshot"
+# Description: capture screenshot of a virtualbox session
+# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
 
 vboxBin="/usr/bin/VBoxManage"
 vboxSave="$HOME/Downloads"
