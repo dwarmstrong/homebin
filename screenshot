@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+
+# Capture + view screenshots.
+set -eu
+
+CAPTURE="gnome-screenshot"
+VIEW="eog"
+FILENAME="${HOME}/image/screenshot/screenshot-$(date +%FT%H%M%S).png"
+
+if [ $# -eq 0 ]; then
+    $CAPTURE -f "$FILENAME"
+elif [ $# -eq 1 ]; then
+    # $1 = '-w' (window) or '-a' (select area)
+    $CAPTURE "$1" -f "$FILENAME"
+fi
+$VIEW "$FILENAME"
