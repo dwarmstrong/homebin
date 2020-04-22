@@ -1,16 +1,15 @@
 #!/bin/bash
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+PROG="synchome"
+DESC="sync $HOME to DESTINATION"
 
 set -eu
 
-PROG="synchome"
-DESC="sync $HOME to DESTINATION"
 ARGS="$#"
 DESTINATION="${*: -1}"
 RSYNC_OPTS="--archive --verbose --delete --exclude=*[Cc]ache*/ \
 --exclude=*[Tt]rash*/"
 
-Run_options() {
+run_options() {
 while getopts ":hn" OPT
 do
     case $OPT in
@@ -40,7 +39,7 @@ do
 done
 }
 
-Sync_home() {
+sync_home() {
     # Test that DESTINATION has been specified
     if [[ "$ARGS" -eq 0 ]]; then
         printf 'ERROR: No DESTINATION specified.\n'
@@ -56,5 +55,5 @@ Sync_home() {
     fi
 }
 
-Run_options "$@"
-Sync_home
+run_options "$@"
+sync_home

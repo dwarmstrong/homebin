@@ -1,6 +1,6 @@
 #!/bin/bash
-# Description: personal wiki with auto-backup.
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+# DESCRIPTION="Personal wiki with auto-backup."
 
 set -eu
 

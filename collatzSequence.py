@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+# DESCRIPTION="Simplest impossible math problem"
 
 def description():
     name = 'Collatz Sequence'

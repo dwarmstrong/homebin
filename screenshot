@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#!/bin/bash
+#
+# DESCRIPTION="Capture + view screenshots."
 
-# Capture + view screenshots.
 set -eu
 
 CAPTURE="gnome-screenshot"

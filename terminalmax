@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# NAME="terminalmax"
 # DESCRIPTION="Open a terminal with the window maximized."
 
 # Add to GNOME startup applications to auto-launch at login.

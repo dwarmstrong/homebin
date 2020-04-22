@@ -1,20 +1,20 @@
 #!/bin/bash
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+DESCRIPTION="Display battery state, time|percent remaining until empty|full."
 
 set -eu
 
 PROG="batt_stat"
-DESC="Display battery state, time|percent remaining until empty|full"
 INFO=0
 BAT="$(upower -e | grep BAT)"
 
-Run_options() {
+run_options() {
 while getopts ":ha" OPT
 do
     case $OPT in
         h)
             printf 'DESCRIPTION\n'
-            printf '\t%s\n' "$PROG - ${DESC}"
+            printf '\t%s\n' "$PROG - ${DESCRIPTION}"
             printf 'USAGE\n'
             printf '\tbatt_stat [OPTION]\n'
             printf 'OPTIONS\n'
@@ -35,7 +35,7 @@ do
 done
 }
 
-Batt_stat() {
+batt_stat() {
 if [[ $INFO -eq 1 ]]; then
     upower -i "$BAT"
 else
@@ -44,5 +44,5 @@ else
 fi
 }
 
-Run_options "$@"
-Batt_stat
+run_options "$@"
+batt_stat

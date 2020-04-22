@@ -1,14 +1,14 @@
 #!/bin/bash
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+DESC="Enable|disable extended desktop using XRandR"
 
 set -eu
 
 PROG="dldsply"
-DESC="Enable|disable extended desktop using XRandR"
 FOO=${1:-}  # Script requires an option to be specified.
 LAYOUT="--off"
 
-Run_options() {
+run_options() {
 # If required, verify at least one option has been specified.
 if [[ -z $FOO ]]; then
     printf 'ERROR: No option specified.\n'
@@ -58,7 +58,7 @@ do
 done
 }
 
-Conf_desktop() {
+conf_desktop() {
 local DISPLAY1
     DISPLAY1=$(xrandr | grep " connected" | awk 'FNR == 1 {print $1}')
 local DISPLAY2
@@ -73,5 +73,5 @@ if [[ -n $DISPLAY2 ]]; then
 fi
 }
 
-Run_options "$@"
-Conf_desktop
+run_options "$@"
+conf_desktop

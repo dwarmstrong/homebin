@@ -1,13 +1,13 @@
 #!/bin/bash
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+PROG="genpkglst"
+DESC="generate a list of installed Debian packages on $HOSTNAME"
 
 set -eu
 
-PROG="genpkglst"
-DESC="generate a list of installed Debian packages on $HOSTNAME"
 DESTINATION="."
 
-Run_options() {
+run_options() {
 while getopts ":hd:" OPT
 do
     case $OPT in
@@ -37,13 +37,13 @@ do
 done
 }
 
-Debian_codename() {
+debian_codename() {
 lsb_release -c | awk -F: '{print $NF}' | sed 's/[[:blank:]]//g'
 }
 
-Generate_list() {
+generate_list() {
 local CODENAME
-    CODENAME=$( Debian_codename )
+    CODENAME=$( debian_codename )
 local PKG_LIST
     PKG_LIST="${DESTINATION}/${HOSTNAME}_pkg_list.${CODENAME}.$(date +%F)"
 touch "$PKG_LIST"
@@ -63,5 +63,5 @@ sed -i '/deinstall/d' "$PKG_LIST"
 #fi
 }
 
-Run_options "$@"
-Generate_list
+run_options "$@"
+generate_list

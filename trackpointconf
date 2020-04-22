@@ -1,6 +1,6 @@
 #!/bin/bash
-# Description: configure my ThinkPad USB Keyboard TrackPoint
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+# Description="Configure my ThinkPad USB Keyboard TrackPoint."
 
 set -eu
 

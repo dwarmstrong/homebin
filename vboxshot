@@ -1,10 +1,11 @@
 #!/bin/bash
-# Description: capture screenshot of a virtualbox session
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
+#
+# DESCRIPTION="Capture screenshot of a virtualbox session."
 
 vboxBin="/usr/bin/VBoxManage"
 vboxSave="$HOME/Downloads"
 vboxDate="vbox.$(date +%FT%H:%M:%S.png)"
+
 # Find out the unique identifier (UUID) of the running VM; this assumes that
 # only a single VM is running
 vboxName="$($vboxBin \

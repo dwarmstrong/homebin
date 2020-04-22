@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# NAME="Library.sh"
 # DESCRIPTION="A library of functions for bash shell scripts."
 
 # ANSI escape codes
