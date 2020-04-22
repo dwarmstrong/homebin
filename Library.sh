@@ -1,10 +1,7 @@
 #!/bin/bash
-# Description: A library of functions for bash shell scripts. Place script
-# in ~/bin and call its functions by adding to a script ...
-#   . $HOME/bin/Library.sh
-# Written by: Daniel Wayne Armstrong - https://www.circuidipity.com
-
-set -eu
+#
+# NAME="Library.sh"
+# DESCRIPTION="A library of functions for bash shell scripts."
 
 # ANSI escape codes
 RED="\\033[1;31m"
@@ -46,11 +43,11 @@ L_echo_red "\\n--> [ FAIL ]"
 }
 
 L_invalid_reply() {
-L_echo_red "\\n'${REPLY}' is invalid input..."
+L_echo_red "\\n$1 is invalid input..."
 }
 
 L_invalid_reply_yn() {
-L_echo_red "\\n'${REPLY}' is invalid input. Please select 'Y(es)' or 'N(o)'..."
+L_echo_red "\\n$1 is invalid input. Please select 'Y(es)' or 'N(o)'..."
 }
 
 L_penguin() {

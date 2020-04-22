@@ -1,9 +1,2 @@
-arduino
-hugo
-move-to-next-monitor
-rsync*
-streamlink
 youtube-dl
 _*
-*.bak
-*.conf
