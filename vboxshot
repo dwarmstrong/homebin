@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# DESCRIPTION="Capture screenshot of a virtualbox session."
+# DESCRIPTION="capture screenshot of a virtualbox session"
 
 vboxBin="/usr/bin/VBoxManage"
-vboxSave="$HOME/Downloads"
+vboxSave="$HOME/tmp"
 vboxDate="vbox.$(date +%FT%H:%M:%S.png)"
 
 # Find out the unique identifier (UUID) of the running VM; this assumes that
