@@ -40,7 +40,7 @@ while principal > 0:
     if principal < 0:
         total_paid = total_paid - abs(principal)
         principal = 0
-    print(total_payments, round(total_paid, 2), round(principal, 2))
+    print(f'{total_payments}  {total_paid:0.2f}  {principal:0.2f}')
 
-print('Total paid =', round(total_paid, 2))
-print('Total payments =', total_payments)
+print(f'\nTotal paid = {total_paid:0.2f}')
+print(f'Total payments = {total_payments}')
