@@ -1,6 +1,10 @@
 #!/bin/bash
 #
-# DESCRIPTION="Personal wiki with auto-backup."
+#> Daniel Wayne Armstrong
+#> https://github.com/dwarmstrong/homebin
+#> https://www.dwarmstrong.org
+#
+# Personal wiki with auto-backup.
 
 set -eu
 
