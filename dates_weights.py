@@ -87,9 +87,6 @@ if not args.quiet:
     # * average weight
     print(f"Average weight: {avg_v}kg")
     #
-    # * latest weight
-    print(f"Latest weight: {new_vd[0]}kg recorded on {new_vd[1]}.")
-    #
     # * maximum weight and date(s) recorded
     max_v = [v for v in max_vd.values()]
     print(f"Maximum weight: {max_v[0]}kg recorded on", end="")
