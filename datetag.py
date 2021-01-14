@@ -120,6 +120,8 @@ class DateTag:
         df = pd.DataFrame(list(my_dict.items()),columns = [col_1,col_2])
         # Create date objects in the syntax `datetime.date(Y, M, D)`
         df[col_1] = df[col_1].apply(lambda x: dt.datetime.strptime(x,d))
+        # Reverse order of dataframe
+        df = df[::-1]
         return df
 
     def make_scatter(self, data_frame, title, xlabel, ylabel):
