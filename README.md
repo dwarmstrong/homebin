@@ -1,4 +1,4 @@
-homebin
-=======
+Moved to GitLab!
+================
 
-A "legobox" of scripts and coding experiments in my `$HOME/bin`.
+This repository has moved to GitLab. You can find it at [homebin](https://gitlab.com/dwarmstrong/homebin).
